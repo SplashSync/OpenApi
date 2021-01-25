@@ -1,0 +1,51 @@
+{
+    "name":                 "splash/openapi",
+    "description":          "A Collection of tools for OpenAPI Connectors",
+
+    "type":                 "symfony-bundle",
+    "license":              "MIT",
+    "minimum-stability":    "dev",
+    "prefer-stable":        true,
+
+    "authors": [
+        {
+            "name":"Splash Sync",
+            "email":"contact@splashsync.com"
+        },
+        {
+            "name": "BadPixxel",
+            "email": "eshop.bpaquier@gmail.com"
+        }
+    ],
+
+    "autoload": {
+        "psr-4": { 
+            "Splash\\OpenApi\\":     "src/"
+        }
+    },
+    
+    "autoload-dev": {
+        "classmap": [ "tests/Kernel.php" ],
+        "files":    [ 
+            "vendor/splash/phpcore/inc/Splash.Inc.php",
+            "vendor/splash/php-bundle/src/Tests/KernelTestCase.php"
+        ],
+        "psr-4": { 
+            "Splash\\OpenApi\\Test\\":     "tests/"
+        }        
+    },
+
+    "require": {
+        "php":                                          "^7.2",
+        "splash/php-bundle":                            "dev-master",
+        "nategood/httpful":                             "^0.2|^0.3"
+    },
+    
+    "require-dev": {
+        "badpixxel/php-sdk":                            "dev-main",
+
+        "symfony/symfony":                              "^3.4|^4.4",
+        "symfony/monolog-bundle":                       "*",
+        "symfony/phpunit-bridge":                       "*",
+    }
+}
