@@ -25,7 +25,7 @@
     },
     
     "autoload-dev": {
-        "classmap": [ "tests/Kernel.php" ],
+        "classmap": [],
         "files":    [ 
             "vendor/splash/phpcore/inc/Splash.Inc.php",
             "vendor/splash/php-bundle/src/Tests/KernelTestCase.php"
