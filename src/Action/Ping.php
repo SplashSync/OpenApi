@@ -22,24 +22,26 @@ use Splash\OpenApi\Models\Connexion\ConnexionInterface;
 /**
  * Ensure Remote Server Respond to Requests
  */
-class Ping extends AbstractAction
+class Ping
 {
     /**
      * Execute Ping Action.
      *
      * @param ConnexionInterface $connexion
-     * @param null|string        $path
+     * @param null|string $path
+     * @return bool
      */
-    public function __construct(ConnexionInterface $connexion, string $path = null)
+    public static function execute(ConnexionInterface $connexion, string $path = null): bool
     {
         //====================================================================//
         // If Test Failed
         if (null === $connexion->get($path)) {
-            return;
+            return false;
         }
         //====================================================================//
         // User Log message
-        Splash::log()->msg("Ping Succeeded on ".$connexion->getEndPoint());
-        $this->setSuccessful();
+        Splash::log()->msg("Ping Succeeded on ".$connexion->getEndPoint().$path);
+
+        return true;
     }
 }

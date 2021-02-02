@@ -177,6 +177,20 @@ class Descriptor
     }
 
     /**
+     * Detect Model Class Short Name.
+     *
+     * @param string $model
+     *
+     * @throws Exception
+     *
+     * @return string
+     */
+    public static function getShortName(string $model): string
+    {
+        return (new \ReflectionClass($model))->getShortName();
+    }
+
+    /**
      * Detect if Field is Required.
      *
      * @param string           $model

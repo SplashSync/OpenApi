@@ -16,29 +16,12 @@
 namespace Splash\OpenApi\Action\JsonHal;
 
 use Splash\Core\SplashCore as Splash;
-use Splash\OpenApi\Models\Action\AbstractAction;
 
 /**
  * Read Objects List form Remote Server
  */
-abstract class AbstractJsonHalAction extends AbstractAction
+trait JsonHalOptionsTrait
 {
-    /**
-     * Index of Response Data
-     *
-     * @var string
-     */
-    public static $embeddedIndex = "_embedded";
-
-    /**
-     * Possible indexes for Collection Totals
-     *
-     * @var string[]
-     */
-    public static $totalIndexes = array(
-        "total", "totalItems", "total_items"
-    );
-
     /**
      * Extract First Item from Raw Json Hal Data.
      *
@@ -50,14 +33,14 @@ abstract class AbstractJsonHalAction extends AbstractAction
     {
         //====================================================================//
         // Safety Check => Data is at Expected Index
-        if (!isset($rawResponse[self::$embeddedIndex])) {
+        if (!isset($rawResponse[$this->options["embedded"]])) {
             Splash::log()->errTrace("Malformed or Empty Json Hal Response");
 
             return array();
         }
         //====================================================================//
         // Extract Data at Expected Index
-        $embeddedData = $rawResponse[self::$embeddedIndex];
+        $embeddedData = $rawResponse[$this->options["embedded"]];
         if (empty($embeddedData) || !is_array($firstItem = array_shift($embeddedData))) {
             Splash::log()->errTrace("Json Hal Response has no Contents");
 
@@ -65,5 +48,18 @@ abstract class AbstractJsonHalAction extends AbstractAction
         }
 
         return $firstItem;
+    }
+
+    /**
+     * @return array
+     */
+    public function getDefaultOptions(): array
+    {
+        return array(
+            "embedded" => "_embedded",      // Key for Embedded Data
+            "totalKey" => array(            // Key for Lists Total Counter
+                "total", "totalItems", "total_items"
+            ),
+        );
     }
 }

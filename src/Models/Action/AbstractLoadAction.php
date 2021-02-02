@@ -13,38 +13,38 @@
  *  file that was distributed with this source code.
  */
 
-namespace Splash\OpenApi\Action\Json;
+namespace Splash\OpenApi\Models\Action;
 
-use Splash\OpenApi\Models\Action\AbstractAction;
-use Splash\OpenApi\Models\OpenApiAwareInterface;
+use Splash\OpenApi\ApiResponse;
 
 /**
- * Read Objects Data form Remote Server
+ * Base Api Load Action
  */
-class Get extends AbstractAction
+abstract class AbstractLoadAction extends AbstractAction
 {
     /**
-     * Execute Objects List Action.
+     * Execute Objects Load Action.
      *
-     * @param OpenApiAwareInterface $apiAware
-     * @param null|string           $path
+     * @param string $objectId
+     *
+     * @return ApiResponse
      */
-    public function __construct(OpenApiAwareInterface $apiAware, string $path = null)
+    public function execute(string $objectId): ApiResponse
     {
-        $this->api = $apiAware;
         //====================================================================//
-        // Init Empty Results
-        $this->setResults(null);
-        //====================================================================//
-        // Execute Get Request
-        $rawResponse = $this->api->getConnexion()->get($path);
-        if (null === $rawResponse) {
-            return;
+        // Build Target Uri
+        $uri = $this->visitor->getItemUri($objectId);
+        if (!$uri) {
+            return new ApiResponse($this->visitor);
         }
         //====================================================================//
-        // Store Results
-        $this->setResults(self::extractData($rawResponse));
-        $this->setSuccessful();
+        // Execute Get Request
+        $rawResponse = $this->visitor->getConnexion()->get($uri);
+        if (null === $rawResponse) {
+            return new ApiResponse($this->visitor);
+        }
+
+        return new ApiResponse($this->visitor, true, $this->extractData($rawResponse));
     }
 
     /**
@@ -58,6 +58,6 @@ class Get extends AbstractAction
     {
         //====================================================================//
         // Hydrate Results
-        return $this->api->getHydrator()->hydrate($rawResponse, $this->api->getModel());
+        return $this->visitor->getHydrator()->hydrate($rawResponse, $this->visitor->getModel());
     }
 }

@@ -13,8 +13,13 @@
  *  file that was distributed with this source code.
  */
 
-namespace Splash\OpenApi\Models\Action;
+namespace Splash\OpenApi\Visitor;
 
-interface ActionInterface
+/**
+ * OpenApi Object Visitor Interface
+ *
+ * Define standards for all Access to a remote API Model
+ */
+interface VisitorInterface
 {
 }

@@ -18,7 +18,7 @@ namespace Splash\OpenApi\Fields;
 use DateTime;
 use Exception;
 use Splash\Core\SplashCore      as Splash;
-use Splash\OpenApi\Models\OpenApiAwareInterface;
+use Splash\OpenApi\Visitor\AbstractVisitor;
 
 /**
  * Get Data from Generic Open API Class
@@ -26,50 +26,21 @@ use Splash\OpenApi\Models\OpenApiAwareInterface;
 class Getter
 {
     /**
-     * @var OpenApiAwareInterface
+     * @var AbstractVisitor
      */
-    protected $api;
-
-    /**
-     * Collect Required Fields
-     *
-     * @param OpenApiAwareInterface $apiAware
-     * @param object                $inputs
-     *
-     * @throws Exception
-     *
-     * @return null|object
-     */
-    public static function getRequiredFields(OpenApiAwareInterface $apiAware, object $inputs): ?object
-    {
-        $newObject = array();
-        //====================================================================//
-        // Walk on required Field Ids
-        foreach (Descriptor::getRequiredFields($apiAware->getModel()) as $fieldId) {
-            //====================================================================//
-            // Ensure Field is Available
-            if (!self::exists($inputs, $fieldId)) {
-                Splash::log()->err("ErrLocalFieldMissing", __CLASS__, __FUNCTION__, $fieldId);
-
-                return null;
-            }
-            $newObject[$fieldId] = self::get($apiAware, $inputs, $fieldId);
-        }
-
-        return $apiAware->getHydrator()->hydrate($newObject, $apiAware->getModel());
-    }
+    protected $visitor;
 
     /**
      * Check if Field is Defined and Readable
      *
-     * @param OpenApiAwareInterface $apiAware
-     * @param string                $fieldId  Field Identifier / Name
+     * @param AbstractVisitor $visitor
+     * @param string          $fieldId Field Identifier / Name
      *
-     * @throws Exception
+     *@throws Exception
      *
      * @return bool
      */
-    public static function has(OpenApiAwareInterface $apiAware, string $fieldId): bool
+    public static function has(AbstractVisitor $visitor, string $fieldId): bool
     {
         //====================================================================//
         // Detect SubResource Fields Types
@@ -77,8 +48,8 @@ class Getter
         //====================================================================//
         // Override Model
         $model = $prefix
-            ? Descriptor::getSubResourceModel($apiAware->getModel(), $prefix)
-            : $apiAware->getModel();
+            ? Descriptor::getSubResourceModel($visitor->getModel(), $prefix)
+            : $visitor->getModel();
         //====================================================================//
         // Override Field Id
         $fieldId = $prefix
@@ -107,10 +78,10 @@ class Getter
     /**
      * Get an Object Field Data
      *
-     * @param OpenApiAwareInterface $apiAware
-     * @param object                $object   Object to Update
-     * @param string                $fieldId  Field Identifier / Name
-     * @param null|string           $model    Override Model
+     * @param AbstractVisitor $visitor
+     * @param object          $object  Object to Update
+     * @param string          $fieldId Field Identifier / Name
+     * @param null|string     $model   Override Model
      *
      * @throws Exception
      *
@@ -118,9 +89,9 @@ class Getter
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    public static function get(OpenApiAwareInterface $apiAware, object $object, string $fieldId, string $model = null)
+    public static function get(AbstractVisitor $visitor, object $object, string $fieldId, string $model = null)
     {
-        $model = $model ?: $apiAware->getModel();
+        $model = $model ?: $visitor->getModel();
         //====================================================================//
         // Detect SubResource Fields Types
         $prefix = Descriptor::getSubResourcePrefix($fieldId);
@@ -128,10 +99,10 @@ class Getter
             $subResource = self::getRawData($object, $prefix);
 
             return self::get(
-                $apiAware,
+                $visitor,
                 $subResource,
                 (string) Descriptor::getSubResourceField($fieldId),
-                Descriptor::getSubResourceModel($apiAware->getModel(), $prefix),
+                Descriptor::getSubResourceModel($visitor->getModel(), $prefix),
             );
         }
         //====================================================================//
@@ -165,6 +136,35 @@ class Getter
         }
 
         return null;
+    }
+
+    /**
+     * Collect Required Fields
+     *
+     * @param AbstractVisitor $visitor
+     * @param object          $inputs
+     *
+     *@throws Exception
+     *
+     * @return null|object
+     */
+    public static function getRequiredFields(AbstractVisitor $visitor, object $inputs): ?object
+    {
+        $newObject = array();
+        //====================================================================//
+        // Walk on required Field Ids
+        foreach (Descriptor::getRequiredFields($visitor->getModel()) as $fieldId) {
+            //====================================================================//
+            // Ensure Field is Available
+            if (!self::exists($inputs, $fieldId)) {
+                Splash::log()->err("ErrLocalFieldMissing", __CLASS__, __FUNCTION__, $fieldId);
+
+                return null;
+            }
+            $newObject[$fieldId] = self::get($visitor, $inputs, $fieldId);
+        }
+
+        return $visitor->getHydrator()->hydrate($newObject, $visitor->getModel());
     }
 
     /**

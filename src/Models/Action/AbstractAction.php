@@ -15,7 +15,7 @@
 
 namespace Splash\OpenApi\Models\Action;
 
-use Splash\OpenApi\Models\OpenApiAwareInterface;
+use Splash\OpenApi\Visitor\AbstractVisitor;
 
 /**
  * Base Api Action
@@ -23,65 +23,32 @@ use Splash\OpenApi\Models\OpenApiAwareInterface;
 abstract class AbstractAction
 {
     /**
-     * @var OpenApiAwareInterface
+     * @var AbstractVisitor
      */
-    protected $api;
+    protected $visitor;
 
     /**
-     * @var bool
+     * @var array
      */
-    private $isSuccessful = false;
+    protected $options;
 
     /**
-     * @var mixed
-     */
-    private $results;
-
-    /**
-     * @return bool
-     */
-    public function isSuccessful(): bool
-    {
-        return $this->isSuccessful;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getResults()
-    {
-        return $this->results;
-    }
-
-    /**
-     * @return self
-     */
-    protected function setSuccessful(): self
-    {
-        $this->isSuccessful = true;
-
-        return $this;
-    }
-
-    /**
-     * @return self
-     */
-    protected function setErrored(): self
-    {
-        $this->isSuccessful = false;
-
-        return $this;
-    }
-
-    /**
-     * @param mixed $results
+     * Create New Action.
      *
-     * @return self
+     * @param AbstractVisitor $visitor
+     * @param array           $options
      */
-    protected function setResults($results): self
+    public function __construct(AbstractVisitor $visitor, array $options)
     {
-        $this->results = $results;
+        $this->visitor = $visitor;
+        $this->options = array_replace_recursive($this->getDefaultOptions(), $options);
+    }
 
-        return $this;
+    /**
+     * @return array
+     */
+    public function getDefaultOptions(): array
+    {
+        return array();
     }
 }

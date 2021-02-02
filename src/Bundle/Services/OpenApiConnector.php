@@ -24,7 +24,8 @@ use Splash\Bundle\Models\Connectors\GenericWidgetMapperTrait;
 use Splash\Core\SplashCore as Splash;
 use Splash\OpenApi\Action;
 use Splash\OpenApi\Bundle\Form\EditFormType;
-use Splash\OpenApi\Connexion\JsonHalConnexion;
+use Splash\OpenApi\Bundle\Objects;
+use Splash\OpenApi\Connexion\JsonConnexion;
 use Splash\OpenApi\Hydrator\Hydrator;
 use Splash\OpenApi\Models\Connexion\ConnexionInterface;
 
@@ -44,7 +45,7 @@ class OpenApiConnector extends AbstractConnector implements TrackingInterface
      * @var array
      */
     protected static $objectsMap = array(
-        "Order" => "Splash\\Connectors\\ReCommerce\\Objects\\Order",
+        "Simple" => Objects\Simple::class,
     );
 
     /**
@@ -53,7 +54,7 @@ class OpenApiConnector extends AbstractConnector implements TrackingInterface
      * @var array
      */
     protected static $widgetsMap = array(
-        "SelfTest" => "Splash\\Connectors\\ReCommerce\\Widgets\\SelfTest",
+        "SelfTest" => "Splash\\OpenApi\\Bundle\\Widgets\\SelfTest",
     );
 
     /**
@@ -78,7 +79,7 @@ class OpenApiConnector extends AbstractConnector implements TrackingInterface
      */
     public function setMetaDir(string $metaDir) : void
     {
-        $this->metaDir = $metaDir."/metadata/recommerce";
+        $this->metaDir = $metaDir."/metadata/openapi";
     }
 
     /**
@@ -93,9 +94,7 @@ class OpenApiConnector extends AbstractConnector implements TrackingInterface
         }
         //====================================================================//
         // Perform Ping Test
-        $ping = new Action\Ping($this->getConnexion(), "/product-code-type");
-
-        return $ping->isSuccessful();
+        return Action\Ping::execute($this->getConnexion(), "");
     }
 
     /**
@@ -110,9 +109,7 @@ class OpenApiConnector extends AbstractConnector implements TrackingInterface
         }
         //====================================================================//
         // Perform Connect Test
-        $connect = new Action\Connect($this->getConnexion(), "/product-code-type");
-
-        return $connect->isSuccessful();
+        return Action\Connect::execute($this->getConnexion(), "/simples");
     }
 
     /**
@@ -122,31 +119,31 @@ class OpenApiConnector extends AbstractConnector implements TrackingInterface
     {
         //====================================================================//
         // Server General Description
-        $informations->shortdesc = "ReCommerce API";
-        $informations->longdesc = "Splash Integration for ReCommerce OpenApi V2.8";
+        $informations->shortdesc = "Open API";
+        $informations->longdesc = "Splash Integration for OpenApi Applications";
         //====================================================================//
         // Company Informations
-        $informations->company = "ReCommerce";
-        $informations->address = "54 avenue Lénine";
-        $informations->zip = "94250";
-        $informations->town = "Gentilly";
+        $informations->company = "Splashsync";
+        $informations->address = "xxx";
+        $informations->zip = "33000";
+        $informations->town = "Bordeaux";
         $informations->country = "France";
-        $informations->www = "https://www.recommerce.com/";
-        $informations->email = "commercial@optilog-fr.com";
-        $informations->phone = "+33 (0) 1 57 21 71 52";
+        $informations->www = "https://www.splashsync.com/";
+        $informations->email = "openapi@exemple.com";
+        $informations->phone = " ";
         //====================================================================//
         // Server Logo & Ico
         $informations->icoraw = Splash::file()->readFileContents(
-            dirname(dirname(__FILE__))."/Resources/public/img/ReCommerce-Ico.png"
+            dirname(dirname(__FILE__))."/Resources/public/img/ico.png"
         );
         $informations->logourl = null;
         $informations->logoraw = Splash::file()->readFileContents(
-            dirname(dirname(__FILE__))."/Resources/public/img/ReCommerce-Ico.png"
+            dirname(dirname(__FILE__))."/Resources/public/img/ico.png"
         );
         //====================================================================//
         // Server Informations
-        $informations->servertype = "ReCommerce Api V2.8";
-        $informations->serverurl = "www.recommerce.com";
+        $informations->servertype = "Open Api V0.0";
+        $informations->serverurl = "www.splashsync.com";
         //====================================================================//
         // Module Informations
         $informations->moduleauthor = "Splash Official <www.splashsync.com>";
@@ -196,7 +193,7 @@ class OpenApiConnector extends AbstractConnector implements TrackingInterface
             return false;
         }
 
-        Splash::log()->err("There are No Files Reading for ReCommerce Up To Now!");
+        Splash::log()->err("There are No Files Reading for Open API Up To Now!");
 
         return false;
     }
@@ -221,7 +218,7 @@ class OpenApiConnector extends AbstractConnector implements TrackingInterface
             'title' => 'profile.card.title',                        // Public short name
             'label' => 'profile.card.label',                        // Public long name
             'domain' => 'OpenApiBundle',                            // Translation domain for names
-            'ico' => '/bundles/openapi/img/ReCommerce-Ico.png',     // Public Icon path
+            'ico' => '/bundles/splashopenapi/img/ico.png',         // Public Icon path
             'www' => 'https://www.splashsync.com',                  // Website Url
         );
     }
@@ -231,7 +228,7 @@ class OpenApiConnector extends AbstractConnector implements TrackingInterface
      */
     public function getConnectedTemplate() : string
     {
-        return "@ReCommerce/Profile/connected.html.twig";
+        return "@SplashOpenApi/Profile/connected.html.twig";
     }
 
     /**
@@ -239,7 +236,7 @@ class OpenApiConnector extends AbstractConnector implements TrackingInterface
      */
     public function getOfflineTemplate() : string
     {
-        return "@ReCommerce/Profile/offline.html.twig";
+        return "@SplashOpenApi/Profile/offline.html.twig";
     }
 
     /**
@@ -247,7 +244,7 @@ class OpenApiConnector extends AbstractConnector implements TrackingInterface
      */
     public function getNewTemplate() : string
     {
-        return "@ReCommerce/Profile/new.html.twig";
+        return "@SplashOpenApi/Profile/new.html.twig";
     }
 
     /**
@@ -274,7 +271,7 @@ class OpenApiConnector extends AbstractConnector implements TrackingInterface
     public function getPublicActions() : array
     {
         return array(
-            "index" => "ReCommerceBundle:WebHooks:index",
+            "index" => "OpenApiBundle:WebHooks:index",
         );
     }
 
@@ -313,7 +310,7 @@ class OpenApiConnector extends AbstractConnector implements TrackingInterface
         $config = $this->getConfiguration();
         //====================================================================//
         // Setup Api Connexion
-        $this->connexion = new JsonHalConnexion(
+        $this->connexion = new JsonConnexion(
             $config["WsHost"],
             array('api-key' => $config["ApiKey"])
         );

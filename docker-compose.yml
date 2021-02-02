@@ -39,10 +39,9 @@ services:
         container_name: toolkit.open-api.local
         volumes:
             # Specify Local Configuration File
-#            - './docker/toolkit/splash.yml:/app/config/packages/splash.yml:ro'
+            - './docker/toolkit/splash.yml:/app/config/packages/splash.yml:ro'
             # Uncomment to use Local Sources instead of Release
-#            - './src/:/app/vendor/splash/recommerce/src/:ro'
-            - './vendor/splash/openapi/:/app/vendor/splash/openapi/:ro'
+            - './:/app/vendor/splash/openapi/:ro'
         hostname:           toolkit.open-api.local
         networks:
             openapi:        { ipv4_address: 172.131.0.100, aliases: [ toolkit.open-api.local ] }
@@ -55,8 +54,8 @@ services:
         container_name: sandbox.open-api.local
         volumes:
             # Specify API Entities to Use
-            - './sandbox/Entity:/srv/api/src/Entity:ro'
-#            - './sandbox/recommerce.yml:/srv/api/config/packages/recommerce.yml:ro'
+            - './docker/sandbox/Entity:/srv/api/src/Entity:ro'
+            - './docker/sandbox/config.yml:/srv/api/config/packages/config.yml:ro'
         hostname:           sandbox.open-api.local
         networks:
             openapi:        { ipv4_address: 172.131.0.200, aliases: [ sandbox.open-api.local ] }

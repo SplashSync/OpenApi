@@ -13,22 +13,13 @@
  *  file that was distributed with this source code.
  */
 
-namespace Splash\OpenApi\Models\Objects;
+namespace Splash\OpenApi\Action\Json;
 
-use Splash\OpenApi\Helpers\Descriptor;
+use Splash\OpenApi\Models\Action\AbstractListAction;
 
-trait ApiFieldTrait
+/**
+ * Read Objects List form Remote Server
+ */
+class ListAction extends AbstractListAction
 {
-    /**
-     * Build Objects Fields from OpenApi Model.
-     *
-     * @param string $model
-     * @param array  $options
-     *
-     * @throws Exception
-     */
-    protected function buildApiFields()
-    {
-        Descriptor::buildModelFields($this->fieldsFactory(), $this->model);
-    }
 }
