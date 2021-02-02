@@ -216,13 +216,13 @@ class OpenApiConnector extends AbstractConnector implements TrackingInterface
             'enabled' => true,                                      // is Connector Enabled
             'beta' => false,                                        // is this a Beta release
             'type' => self::TYPE_HIDDEN,                            // Connector Type or Mode
-            'name' => 'recommerce',                                 // Connector code (lowercase, no space allowed)
-            'connector' => 'splash.connectors.recommerce',          // Connector Symfony Service
+            'name' => 'openapi',                                    // Connector code (lowercase, no space allowed)
+            'connector' => 'splash.connectors.openapi',             // Connector Symfony Service
             'title' => 'profile.card.title',                        // Public short name
             'label' => 'profile.card.label',                        // Public long name
-            'domain' => 'ReCommerceBundle',                         // Translation domain for names
-            'ico' => '/bundles/recommerce/img/ReCommerce-Ico.png',  // Public Icon path
-            'www' => 'https://www.recommerce.com',                  // Website Url
+            'domain' => 'OpenApiBundle',                            // Translation domain for names
+            'ico' => '/bundles/openapi/img/ReCommerce-Ico.png',     // Public Icon path
+            'www' => 'https://www.splashsync.com',                  // Website Url
         );
     }
 
