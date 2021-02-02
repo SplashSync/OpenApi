@@ -179,7 +179,7 @@ class Descriptor
     /**
      * Detect Model Class Short Name.
      *
-     * @param string $model
+     * @param class-string $model
      *
      * @throws Exception
      *

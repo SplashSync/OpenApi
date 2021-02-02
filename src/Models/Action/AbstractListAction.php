@@ -65,6 +65,21 @@ abstract class AbstractListAction extends AbstractAction
     }
 
     /**
+     * @return array
+     */
+    public function getDefaultOptions(): array
+    {
+        return  array(
+            "filterKey" => null,        // Query Key for Filtering Data
+            "pageKey" => "page",        // Query Filter for Page Number
+            "offsetKey" => null,        // Or Query key for Results Offset
+            "maxKey" => "limit",        // Query Key for Limit Max Number of Results
+        );
+    }
+
+    /**
+     * Build List request Query Parameters Array
+     *
      * @param null|string $filter
      * @param null|array  $params
      *
@@ -72,30 +87,12 @@ abstract class AbstractListAction extends AbstractAction
      */
     protected function getQueryParameters(?string $filter, ?array $params) : ?array
     {
-        $queryArgs = array();
-        //====================================================================//
-        // Add Filter Args
-        if (!empty($filter) && is_string($this->options['filterKey'])) {
-            $queryArgs[$this->options['filterKey']] = $filter;
-        }
-        if (!is_array($params)) {
-            return !empty($queryArgs) ? $queryArgs : null;
-        }
-        //====================================================================//
-        // Add Max Args
-        if (isset($params["max"]) && is_string($this->options['maxKey'])) {
-            $queryArgs[$this->options['maxKey']] = (string) $params["max"];
-        }
-        //====================================================================//
-        // Add Offset Args
-        if (isset($params["offset"]) && is_string($this->options['offsetKey'])) {
-            $queryArgs[$this->options['offsetKey']] = (string) $params["max"];
-            $this->options['pageKey'] = null;
-        }
-        //====================================================================//
-        // Add Page Args
-        if (isset($params["max"], $params["offset"]) && is_string($this->options['pageKey'])) {
-            $queryArgs[$this->options['pageKey']] = 1 + (int) ($params["offset"] / $params["max"]);
+        $queryArgs = $this->getQueryFilter($filter);
+        if (is_array($params)) {
+            $queryArgs = array_merge(
+                $queryArgs,
+                $this->getQueryPagination($params)
+            );
         }
 
         return !empty($queryArgs) ? $queryArgs : null;
@@ -153,15 +150,50 @@ abstract class AbstractListAction extends AbstractAction
     }
 
     /**
+     * Build List request Query Filters
+     *
+     * @param null|string $filter
+     *
      * @return array
      */
-    public function getDefaultOptions(): array
+    private function getQueryFilter(?string $filter) : array
     {
-        return  array(
-            "filterKey" => null,        // Query Key for Filtering Data
-            "pageKey" => "page",        // Query Filter for Page Number
-            "offsetKey" => null,        // Or Query key for Results Offset
-            "maxKey" => "limit",        // Query Key for Limit Max Number of Results
-        );
+        //====================================================================//
+        // Add Filter Args
+        if (!empty($filter) && is_string($this->options['filterKey'])) {
+            return array($this->options['filterKey'] => $filter);
+        }
+
+        return array();
+    }
+
+    /**
+     * Build List request Query Pagination
+     *
+     * @param array $params
+     *
+     * @return array
+     */
+    private function getQueryPagination(array $params) : array
+    {
+        $queryArgs = array();
+        //====================================================================//
+        // Add Max Args
+        if (isset($params["max"]) && is_string($this->options['maxKey'])) {
+            $queryArgs[$this->options['maxKey']] = (string) $params["max"];
+        }
+        //====================================================================//
+        // Add Offset Args
+        if (isset($params["offset"]) && is_string($this->options['offsetKey'])) {
+            $queryArgs[$this->options['offsetKey']] = (string) $params["max"];
+            $this->options['pageKey'] = null;
+        }
+        //====================================================================//
+        // Add Page Args
+        if (isset($params["max"], $params["offset"]) && is_string($this->options['pageKey'])) {
+            $queryArgs[$this->options['pageKey']] = 1 + (int) ($params["offset"] / $params["max"]);
+        }
+
+        return $queryArgs;
     }
 }

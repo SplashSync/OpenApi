@@ -24,8 +24,10 @@ trait SimpleFieldsTrait
      * Build Objects Fields from OpenApi Model.
      *
      * @throws Exception
+     *
+     * @return void
      */
-    protected function buildApiSimpleFields()
+    protected function buildApiSimpleFields(): void
     {
         ApiFields\Builder::buildModelFields($this->fieldsFactory(), $this->model);
     }

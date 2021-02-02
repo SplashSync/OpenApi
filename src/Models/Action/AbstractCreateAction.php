@@ -23,13 +23,6 @@ use Splash\OpenApi\ApiResponse;
 abstract class AbstractCreateAction extends AbstractAction
 {
     /**
-     * @var array<string, bool|string>
-     */
-    protected $options = array(
-        "requiredOnly" => true,     // Only Write Required Fields
-    );
-
-    /**
      * Execute Objects Create Action.
      *
      * @param object    $object
@@ -88,5 +81,15 @@ abstract class AbstractCreateAction extends AbstractAction
         //====================================================================//
         // Extract Object Data
         return $this->visitor->getHydrator()->hydrate($rawResponse, $this->visitor->getModel());
+    }
+
+    /**
+     * @return array
+     */
+    public function getDefaultOptions(): array
+    {
+        return  array(
+            "requiredOnly" => true,     // Only Write Required Fields
+        );
     }
 }

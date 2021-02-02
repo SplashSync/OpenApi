@@ -16,11 +16,14 @@
 namespace Splash\OpenApi\Models\Objects;
 
 use Splash\Bundle\Models\AbstractStandaloneObject;
-use Splash\Client\Splash;
+use Splash\Models\Objects\IntelParserTrait;
+use Splash\Models\Objects\ListsTrait;
+use Splash\Models\Objects\ObjectsTrait;
+use Splash\Models\Objects\SimpleFieldsTrait;
 use Splash\OpenApi\Hydrator\Hydrator;
-use Splash\OpenApi\Models\Connexion\ConnexionInterface;
+use Splash\OpenApi\Models\Connexion\ConnexionInterface as Connexion;
 use Splash\OpenApi\Models\Objects as ApiModels;
-use Splash\OpenApi\Visitor\AbstractVisitor;
+use Splash\OpenApi\Visitor\AbstractVisitor as Visitor;
 use Splash\OpenApi\Visitor\JsonVisitor;
 
 /**
@@ -28,6 +31,11 @@ use Splash\OpenApi\Visitor\JsonVisitor;
  */
 abstract class AbstractApiObject extends AbstractStandaloneObject
 {
+    use IntelParserTrait;
+    use SimpleFieldsTrait;
+    use ObjectsTrait;
+    use ListsTrait;
+
     use ApiModels\CRUDTrait;
     use ApiModels\SimpleFieldsTrait;
     use ApiModels\ListFieldsTrait;
@@ -46,19 +54,19 @@ abstract class AbstractApiObject extends AbstractStandaloneObject
     /**
      * Open Api Model Visitor
      *
-     * @var AbstractVisitor
+     * @var Visitor
      */
     protected $visitor;
 
     /**
      * Class Constructor
      *
-     * @param ConnexionInterface   $connexion
-     * @param Hydrator             $hydrator
-     * @param string               $model
-     * @param null|AbstractVisitor $visitor
+     * @param Connexion    $connexion
+     * @param Hydrator     $hydrator
+     * @param string       $model
+     * @param null|Visitor $visitor
      */
-    public function __construct(ConnexionInterface $connexion, Hydrator $hydrator, string $model, AbstractVisitor $visitor = null)
+    public function __construct(Connexion $connexion, Hydrator $hydrator, string $model, Visitor $visitor = null)
     {
         $this->model = $model;
         $this->visitor = $visitor ?: new JsonVisitor($connexion, $hydrator, $model);

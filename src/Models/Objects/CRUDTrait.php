@@ -53,7 +53,7 @@ trait CRUDTrait
      *
      * @throws Exception
      *
-     * @return false|stdClass New Object
+     * @return false|object New Object
      */
     public function create()
     {
@@ -101,7 +101,7 @@ trait CRUDTrait
         }
         //====================================================================//
         // Update Remote Object
-        $updateResponse = $this->visitor->update($this->getObjectIdentifier(), $this->object);
+        $updateResponse = $this->visitor->update((string) $this->getObjectIdentifier(), $this->object);
         //====================================================================//
         // Return Object Id or False
         return $updateResponse->isSuccess()
@@ -124,6 +124,9 @@ trait CRUDTrait
         //====================================================================//
         // Stack Trace
         Splash::log()->trace();
+        if (empty($objectId)) {
+            return true;
+        }
         //====================================================================//
         // Load Remote Object
         $object = $this->load($objectId);
@@ -142,22 +145,8 @@ trait CRUDTrait
      */
     public function getObjectIdentifier()
     {
-        if (empty($this->object->getId())) {
-            return false;
-        }
+        $objectId = $this->visitor->getItemId($this->object);
 
-        return $this->object->getId();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getItemUrl()
-    {
-        if (empty($this->object->getId())) {
-            return "/shipment";
-        }
-
-        return "/shipment/".$this->object->getId();
+        return $objectId ?: false;
     }
 }

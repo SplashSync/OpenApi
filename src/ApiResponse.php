@@ -42,7 +42,7 @@ final class ApiResponse
      *
      * @param AbstractVisitor $visitor
      * @param bool            $isSuccess
-     * @param null|mixed            $results
+     * @param null|mixed      $results
      */
     public function __construct(AbstractVisitor $visitor, bool $isSuccess = false, $results = null)
     {

@@ -43,7 +43,7 @@ class PutAction extends AbstractUpdateAction
         // Execute Get Request
         $rawResponse = $this->visitor->getConnexion()->put(
             $uri,
-            $this->extractData($object)
+            $this->extractData($object) ?: array()
         );
         if (null === $rawResponse) {
             return new ApiResponse($this->visitor);

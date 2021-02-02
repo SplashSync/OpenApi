@@ -16,7 +16,6 @@
 namespace Splash\OpenApi\Action;
 
 use Splash\Core\SplashCore as Splash;
-use Splash\OpenApi\Models\Action\AbstractAction;
 use Splash\OpenApi\Models\Connexion\ConnexionInterface;
 
 /**
@@ -28,7 +27,8 @@ class Ping
      * Execute Ping Action.
      *
      * @param ConnexionInterface $connexion
-     * @param null|string $path
+     * @param null|string        $path
+     *
      * @return bool
      */
     public static function execute(ConnexionInterface $connexion, string $path = null): bool

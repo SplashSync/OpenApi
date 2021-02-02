@@ -63,8 +63,8 @@ class ListAction extends AbstractListAction
         }
         //====================================================================//
         // Extract List Total
-        if (is_string($this->options["totalKey"]) && isset($rawResponse[$index])) {
-            return (int) $rawResponse[$index];
+        if (is_string($this->options["totalKey"])) {
+            return (int) $rawResponse[$this->options["totalKey"]];
         }
 
         return 0;

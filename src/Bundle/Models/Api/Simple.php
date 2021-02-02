@@ -189,19 +189,19 @@ class Simple
     // VIRTUAL GETTERS
     //====================================================================//
 
-    /**
-     * Gets countryId.
-     *
-     * @return string
-     */
-    public function getCountryId()
-    {
-        //====================================================================//
-        // Convert ISO Country Code from Alpha-3 to Alpha-2
-        $alpha2Code = Countries::getAlpha2Code($this->countryId);
-
-        return $alpha2Code ? $alpha2Code : $this->countryId;
-    }
+//    /**
+//     * Gets countryId.
+//     *
+//     * @return string
+//     */
+//    public function getCountryId()
+//    {
+//        //====================================================================//
+//        // Convert ISO Country Code from Alpha-3 to Alpha-2
+//        $alpha2Code = Countries::getAlpha2Code($this->countryId);
+//
+//        return $alpha2Code ? $alpha2Code : $this->countryId;
+//    }
 
     //====================================================================//
     // GENERIC GETTERS & SETTERS
@@ -471,17 +471,4 @@ class Simple
 //        return $this->relayCode;
 //    }
 //
-//    /**
-//     * Sets relayCode.
-//     *
-//     * @param string|null $relayCode  Optional relay unique code where to send the shipment in case of pickup delivery mode.
-//     *
-//     * @return $this
-//     */
-//    public function setRelayCode($relayCode = null)
-//    {
-//        $this->relayCode = $relayCode;
-//
-//        return $this;
-//    }
 }

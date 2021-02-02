@@ -30,7 +30,7 @@ use Splash\OpenApi\Models\Connexion\ConnexionInterface;
 /**
  * Base OpenApi Remote Model Visitor
  */
-class AbstractVisitor implements VisitorInterface
+class AbstractVisitor
 {
     //====================================================================//
     // Model Informations
@@ -166,8 +166,8 @@ class AbstractVisitor implements VisitorInterface
         Fields\Descriptor::load($this->hydrator, $this->model);
         //====================================================================//
         // Setup Model Uri
-        $this->collectionUri = "/".strtolower(Fields\Descriptor::getShortName($model))."s";
-        $this->itemUri = $this->collectionUri."/{id}";
+        $this->collectionUri = $collectionUri ?: "/".strtolower(Fields\Descriptor::getShortName($model))."s";
+        $this->itemUri = $itemUri ?: $this->collectionUri."/{id}";
 
         return $this;
     }
@@ -183,30 +183,47 @@ class AbstractVisitor implements VisitorInterface
     }
 
     /**
-     * @param array|object|string $target
+     * @param array|object|string $objectOrId
      *
      * @return null|string
      */
-    public function getItemUri($target): ?string
+    public function getItemUri($objectOrId): ?string
+    {
+        //====================================================================//
+        // Detect Item Id
+        $itemId = $this->getItemId($objectOrId);
+        //====================================================================//
+        // Build Item Uri
+        return is_string($itemId)
+            ? str_replace("{id}", $itemId, $this->itemUri)
+            : null;
+    }
+
+    /**
+     * @param array|object|string $objectOrId
+     *
+     * @return null|string
+     */
+    public function getItemId($objectOrId): ?string
     {
         //====================================================================//
         // String Received
-        if (is_string($target)) {
-            return str_replace("{id}", $target, $this->itemUri);
+        if (is_string($objectOrId)) {
+            return $objectOrId;
         }
         //====================================================================//
         // Array Received
-        if (is_array($target) && isset($target['id'])) {
-            return str_replace("{id}", $target['id'], $this->itemUri);
+        if (is_array($objectOrId) && isset($objectOrId['id'])) {
+            return $objectOrId['id'];
         }
         //====================================================================//
         // Object Received
-        if (is_object($target)) {
-            if (method_exists($target, "getId")) {
-                return str_replace("{id}", $target->getId(), $this->itemUri);
+        if (is_object($objectOrId)) {
+            if (method_exists($objectOrId, "getId")) {
+                return (string) $objectOrId->getId();
             }
-            if (property_exists($target, "id")) {
-                return str_replace("{id}", $target->id, $this->itemUri);
+            if (property_exists($objectOrId, "id") && is_scalar($objectOrId->id)) {
+                return (string) $objectOrId->id;
             }
         }
 

@@ -23,34 +23,6 @@ use Splash\Core\SplashCore as Splash;
 trait JsonHalOptionsTrait
 {
     /**
-     * Extract First Item from Raw Json Hal Data.
-     *
-     * @param array $rawResponse
-     *
-     * @return null|array
-     */
-    protected function getFirstItem(array $rawResponse): ?array
-    {
-        //====================================================================//
-        // Safety Check => Data is at Expected Index
-        if (!isset($rawResponse[$this->options["embedded"]])) {
-            Splash::log()->errTrace("Malformed or Empty Json Hal Response");
-
-            return array();
-        }
-        //====================================================================//
-        // Extract Data at Expected Index
-        $embeddedData = $rawResponse[$this->options["embedded"]];
-        if (empty($embeddedData) || !is_array($firstItem = array_shift($embeddedData))) {
-            Splash::log()->errTrace("Json Hal Response has no Contents");
-
-            return null;
-        }
-
-        return $firstItem;
-    }
-
-    /**
      * @return array
      */
     public function getDefaultOptions(): array
@@ -61,5 +33,40 @@ trait JsonHalOptionsTrait
                 "total", "totalItems", "total_items"
             ),
         );
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmbeddedIndex(): string
+    {
+        return is_string($this->options["embedded"]) ? $this->options["embedded"] : "_embedded";
+    }
+    /**
+     * Extract First Item from Raw Json Hal Data.
+     *
+     * @param array $rawResponse
+     *
+     * @return null|array
+     */
+    protected function getFirstItem(array $rawResponse): ?array
+    {
+        //====================================================================//
+        // Safety Check => Data is at Expected Index
+        if (!isset($rawResponse[$this->getEmbeddedIndex()])) {
+            Splash::log()->errTrace("Malformed or Empty Json Hal Response");
+
+            return array();
+        }
+        //====================================================================//
+        // Extract Data at Expected Index
+        $embeddedData = $rawResponse[$this->getEmbeddedIndex()];
+        if (empty($embeddedData) || !is_array($firstItem = array_shift($embeddedData))) {
+            Splash::log()->errTrace("Json Hal Response has no Contents");
+
+            return null;
+        }
+
+        return $firstItem;
     }
 }

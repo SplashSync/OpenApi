@@ -16,7 +16,6 @@
 namespace Splash\OpenApi\Action;
 
 use Splash\Core\SplashCore as Splash;
-use Splash\OpenApi\Models\Action\AbstractAction;
 use Splash\OpenApi\Models\Connexion\ConnexionInterface;
 
 /**
@@ -28,10 +27,11 @@ class Connect
      * Execute Connect Action.
      *
      * @param ConnexionInterface $connexion
-     * @param null|string $path
+     * @param null|string        $path
+     *
      * @return bool
      */
-    public function execute(ConnexionInterface $connexion, string $path = null): bool
+    public static function execute(ConnexionInterface $connexion, string $path = null): bool
     {
         //====================================================================//
         // If Test Failed

@@ -38,14 +38,14 @@ class GetAction extends AbstractLoadAction
     {
         //====================================================================//
         // Merge Embedded Results
-        if (isset($rawResponse[$this->options["embedded"]])) {
+        if (isset($rawResponse[$this->getEmbeddedIndex()])) {
             $rawResponse = array_replace_recursive(
                 $rawResponse,
-                $rawResponse[$this->options["embedded"]]
+                $rawResponse[$this->getEmbeddedIndex()]
             );
         }
         //====================================================================//
         // Hydrate Results
-        return $this->api->getHydrator()->hydrate($rawResponse, $this->api->getModel());
+        return parent::extractData($rawResponse);
     }
 }
