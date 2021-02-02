@@ -16,11 +16,11 @@
 namespace Splash\OpenApi\Bundle\Widgets;
 
 use Splash\Bundle\Models\AbstractStandaloneWidget;
-use Splash\Connectors\ReCommerce\Services\OpenApiConnector;
 use Splash\Core\SplashCore      as Splash;
+use Splash\OpenApi\Bundle\Services\OpenApiConnector;
 
 /**
- * Open API Test Connector  Config SelfTest
+ * Open API Test Connector Config SelfTest
  */
 class SelfTest extends AbstractStandaloneWidget
 {
