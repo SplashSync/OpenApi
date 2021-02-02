@@ -1,0 +1,23 @@
+
+## Node Variables 
+var:
+    apiurl:
+        label:  Webservice Url
+        desc:   "Your Open API Server Url to Use."
+
+    apikey:
+        label:  API Key
+        desc:   "API keys provide full access to your account, so keep them safe."
+
+## Node Profile
+profile:
+    connection:
+        title:  Open API Connection
+    card:
+        title:  Open API Dev Connector
+        label:  Connect your Splash account with Open API
+
+### Node Api Actions
+admin:
+    selftest:   Open API Connector Configuration
+    connect:    Connect to Open API

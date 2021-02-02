@@ -1,0 +1,19 @@
+services:
+    
+    ################################################################################
+    # SPLASH Open Api Connector Service
+    splash.connectors.openapi:
+        class:      Splash\OpenApi\Bundle\Services\OpenApiConnector
+        autowire:   true
+        calls:
+            - setMetaDir: ["%kernel.cache_dir%"]
+        tags:
+            - { name: "splash.connector" }
+            
+    ################################################################################
+    # Enables Dependency Injection in Controller Actions
+#    Splash\Connectors\ReCommerce\Controller\:
+#        resource:   '../../Controller'
+#        public:     true
+#        tags:
+#            - { name: 'controller.service_arguments' }

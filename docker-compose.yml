@@ -1,0 +1,76 @@
+################################################################################
+#
+#  This file is part of SplashSync Project.
+# 
+#  Copyright (C) Splash Sync <www.splashsync.com>
+# 
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# 
+#  For the full copyright and license information, please view the LICENSE
+#  file that was distributed with this source code.
+# 
+#  @author Bernard Paquier <contact@splashsync.com>
+#
+################################################################################
+
+################################################################################
+# Docker Compose File
+#
+# This Docker File intend to Create a Complete Dev Environnement
+# for Splash OpenApi Connector Testing
+#
+# For a faster access to you container, you can add this IP to /etc/hosts
+#
+#    172.131.0.100       toolkit.open-api.local
+#    172.131.0.200       sandbox.open-api.local
+#
+################################################################################
+
+version: '2'
+
+services:
+    
+    ################################################################################
+    # Splash Toolkit Container   
+    toolkit:
+        image: 'splashsync/toolkit'
+        container_name: toolkit.open-api.local
+        volumes:
+            # Specify Local Configuration File
+#            - './docker/toolkit/splash.yml:/app/config/packages/splash.yml:ro'
+            # Uncomment to use Local Sources instead of Release
+#            - './src/:/app/vendor/splash/recommerce/src/:ro'
+            - './vendor/splash/openapi/:/app/vendor/splash/openapi/:ro'
+        hostname:           toolkit.open-api.local
+        networks:
+            openapi:        { ipv4_address: 172.131.0.100, aliases: [ toolkit.open-api.local ] }
+            splashsync:     { aliases: [ toolkit.open-api.local ] }
+
+    ################################################################################
+    # Splash OpenApi Faker
+    openapi:
+        image: 'splashsync/openapi-sandbox'
+        container_name: sandbox.open-api.local
+        volumes:
+            # Specify API Entities to Use
+            - './sandbox/Entity:/srv/api/src/Entity:ro'
+#            - './sandbox/recommerce.yml:/srv/api/config/packages/recommerce.yml:ro'
+        hostname:           sandbox.open-api.local
+        networks:
+            openapi:        { ipv4_address: 172.131.0.200, aliases: [ sandbox.open-api.local ] }
+            splashsync:     { aliases: [ sandbox.recommerce.localopen-api.local ] }
+
+networks:
+    ################################################################################
+    # Default Private Network    
+    openapi:
+        driver: bridge
+        ipam:
+            config:
+                - subnet: 172.131.0.0/24
+    ################################################################################
+    # External Splash Network
+    splashsync:
+        external: true
