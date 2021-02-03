@@ -36,7 +36,6 @@ use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
 use Splash\Connectors\ReCommerce\Models\Api\Shipment;
 use Splash\OpenApi\Validator as SPL;
-use Symfony\Component\Intl\Countries;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -54,7 +53,7 @@ class Simple
      * @Type("string")
      * @Groups ({"Read", "Write", "List"})
      */
-    protected $id;
+    public $id;
 
     /**
      * Client's firstname.
@@ -66,7 +65,7 @@ class Simple
      * @Type("string")
      * @Groups ({"Read", "Write", "List", "Required"})
      */
-    protected $firstname;
+    public $firstname;
 
     /**
      * Client's lastname.
@@ -78,397 +77,93 @@ class Simple
      * @Type("string")
      * @Groups ({"Read", "Write", "List", "Required"})
      */
-    protected $lastname;
-//
-//    /**
-//     * Client's company.
-//     *
-//     * @var string|null
-//     * @SerializedName("company")
-//     * @Assert\Type("string")
-//     * @Type("string")
-//     * @Groups ({"Read"})
-//     */
-//    protected $company;
-//
-//    /**
-//     * Client's email.
-//     *
-//     * @var string|null
-//     * @SerializedName("email")
-//     * @Assert\Type("string")
-//     * @Type("string")
-//     * @Groups ({"Read"})
-//     * @SPL\Type("email")
-//     */
-//    protected $email;
-//
-//    /**
-//     * Client's phone number.
-//     *
-//     * @var string|null
-//     * @SerializedName("phoneNumber")
-//     * @Assert\Type("string")
-//     * @Type("string")
-//     * @Groups ({"Read"})
-//     */
-//    protected $phoneNumber;
-//
-//    /**
-//     * First line of the address street.
-//     *
-//     * @var string
-//     * @SerializedName("address1")
-//     * @Assert\NotNull()
-//     * @Assert\Type("string")
-//     * @Type("string")
-//     * @Groups ({"Read"})
-//     */
-//    protected $address1;
-//
-//    /**
-//     * Optional second line of the address street.
-//     *
-//     * @var string|null
-//     * @SerializedName("address2")
-//     * @Assert\Type("string")
-//     * @Type("string")
-//     * @Groups ({"Read"})
-//     */
-//    protected $address2;
-//
-//    /**
-//     * Address zip code.
-//     *
-//     * @var string
-//     * @SerializedName("postalCode")
-//     * @Assert\NotNull()
-//     * @Assert\Type("string")
-//     * @Type("string")
-//     * @Groups ({"Read"})
-//     */
-//    protected $postalCode;
-//
-//    /**
-//     * Address city.
-//     *
-//     * @var string
-//     * @SerializedName("city")
-//     * @Assert\NotNull()
-//     * @Assert\Type("string")
-//     * @Type("string")
-//     * @Groups ({"Read"})
-//     */
-//    protected $city;
-//
-//    /**
-//     * Address country as ISO_3166-1 alpha-3.
-//     *
-//     * @var string
-//     * @SerializedName("countryId")
-//     * @Assert\NotNull()
-//     * @Assert\Type("string")
-//     * @Type("string")
-//     * @Groups ({"Read"})
-//     * @SPL\Type("country")
-//     */
-//    protected $countryId;
-//
-//    /**
-//     * Optional relay unique code where to send the shipment in case of pickup delivery mode.
-//     *
-//     * @var string|null
-//     * @SerializedName("relayCode")
-//     * @Assert\Type("string")
-//     * @Type("string")
-//     * @Groups ({"Read"})
-//     */
-//    protected $relayCode;
-
-    //====================================================================//
-    // VIRTUAL GETTERS
-    //====================================================================//
-
-//    /**
-//     * Gets countryId.
-//     *
-//     * @return string
-//     */
-//    public function getCountryId()
-//    {
-//        //====================================================================//
-//        // Convert ISO Country Code from Alpha-3 to Alpha-2
-//        $alpha2Code = Countries::getAlpha2Code($this->countryId);
-//
-//        return $alpha2Code ? $alpha2Code : $this->countryId;
-//    }
-
-    //====================================================================//
-    // GENERIC GETTERS & SETTERS
-    //====================================================================//
+    public $lastname;
 
     /**
-     * Gets id.
+     * Client's email.
      *
-     * @return string
+     * @var null|string
+     * @SerializedName("email")
+     * @Assert\Type("string")
+     * @Type("string")
+     * @SPL\Type("email")
      */
-    public function getId()
-    {
-        return $this->id;
-    }
+    public $email;
 
     /**
-     * Sets id.
+     * Client's phone.
      *
-     * @param string $id Unique identifier representing a Shipment.
-     *
-     * @return $this
+     * @var null|string
+     * @SerializedName("phone")
+     * @Assert\Type("string")
+     * @Type("string")
+     * @SPL\Type("phone")
      */
-    public function setId($id)
-    {
-        $this->id = $id;
-
-        return $this;
-    }
+    public $phone;
 
     /**
-     * Gets firstname.
+     * Optional second line of the address street.
      *
-     * @return string
+     * @var null|bool
+     * @SerializedName("bool")
+     * @Assert\Type("bool")
+     * @Type("bool")
      */
-    public function getFirstname()
-    {
-        return $this->firstname;
-    }
+    public $bool;
 
     /**
-     * Sets firstname.
+     * @var null|int
      *
-     * @param string $firstname Client's firstname.
-     *
-     * @return $this
+     * @SerializedName("int")
+     * @Assert\Type("int")
+     * @Type("int")
      */
-    public function setFirstname($firstname)
-    {
-        $this->firstname = $firstname;
-
-        return $this;
-    }
+    public $int;
 
     /**
-     * Gets lastname.
+     * Client's website.
      *
-     * @return string
+     * @var null|string
+     * @SerializedName("website")
+     * @Assert\Type("string")
+     * @Type("string")
+     * @SPL\Type("url")
      */
-    public function getLastname()
-    {
-        return $this->lastname;
-    }
+    public $website;
 
     /**
-     * Sets lastname.
+     * First line of the address street.
      *
-     * @param string $lastname Client's lastname.
-     *
-     * @return $this
+     * @var string
+     * @SerializedName("language")
+     * @Assert\NotNull()
+     * @Assert\Type("string")
+     * @Type("string")
+     * @SPL\Type("lang")
      */
-    public function setLastname($lastname)
-    {
-        $this->lastname = $lastname;
+    public $language;
 
-        return $this;
-    }
+    /**
+     * Currency.
+     *
+     * @var string
+     * @SerializedName("currency")
+     * @Assert\NotNull()
+     * @Assert\Type("string")
+     * @Type("string")
+     * @SPL\Type("currency")
+     */
+    public $currency;
 
-//    /**
-//     * Gets company.
-//     *
-//     * @return string|null
-//     */
-//    public function getCompany()
-//    {
-//        return $this->company;
-//    }
-//
-//    /**
-//     * Sets company.
-//     *
-//     * @param string|null $company  Client's company.
-//     *
-//     * @return $this
-//     */
-//    public function setCompany($company = null)
-//    {
-//        $this->company = $company;
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * Gets email.
-//     *
-//     * @return string|null
-//     */
-//    public function getEmail()
-//    {
-//        return $this->email;
-//    }
-//
-//    /**
-//     * Sets email.
-//     *
-//     * @param string|null $email  Client's email.
-//     *
-//     * @return $this
-//     */
-//    public function setEmail($email = null)
-//    {
-//        $this->email = $email;
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * Gets phoneNumber.
-//     *
-//     * @return string|null
-//     */
-//    public function getPhoneNumber()
-//    {
-//        return $this->phoneNumber;
-//    }
-//
-//    /**
-//     * Sets phoneNumber.
-//     *
-//     * @param string|null $phoneNumber  Client's phone number.
-//     *
-//     * @return $this
-//     */
-//    public function setPhoneNumber($phoneNumber = null)
-//    {
-//        $this->phoneNumber = $phoneNumber;
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * Gets address1.
-//     *
-//     * @return string
-//     */
-//    public function getAddress1()
-//    {
-//        return $this->address1;
-//    }
-//
-//    /**
-//     * Sets address1.
-//     *
-//     * @param string $address1  First line of the address street.
-//     *
-//     * @return $this
-//     */
-//    public function setAddress1($address1)
-//    {
-//        $this->address1 = $address1;
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * Gets address2.
-//     *
-//     * @return string|null
-//     */
-//    public function getAddress2()
-//    {
-//        return $this->address2;
-//    }
-//
-//    /**
-//     * Sets address2.
-//     *
-//     * @param string|null $address2  Optional second line of the address street.
-//     *
-//     * @return $this
-//     */
-//    public function setAddress2($address2 = null)
-//    {
-//        $this->address2 = $address2;
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * Gets postalCode.
-//     *
-//     * @return string
-//     */
-//    public function getPostalCode()
-//    {
-//        return $this->postalCode;
-//    }
-//
-//    /**
-//     * Sets postalCode.
-//     *
-//     * @param string $postalCode  Address zip code.
-//     *
-//     * @return $this
-//     */
-//    public function setPostalCode($postalCode)
-//    {
-//        $this->postalCode = $postalCode;
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * Gets city.
-//     *
-//     * @return string
-//     */
-//    public function getCity()
-//    {
-//        return $this->city;
-//    }
-//
-//    /**
-//     * Sets city.
-//     *
-//     * @param string $city  Address city.
-//     *
-//     * @return $this
-//     */
-//    public function setCity($city)
-//    {
-//        $this->city = $city;
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * Sets countryId.
-//     *
-//     * @param string $countryId  Address country as ISO_3166-1 alpha-3.
-//     *
-//     * @return $this
-//     */
-//    public function setCountryId($countryId)
-//    {
-//        $this->countryId = $countryId;
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * Gets relayCode.
-//     *
-//     * @return string|null
-//     */
-//    public function getRelayCode()
-//    {
-//        return $this->relayCode;
-//    }
-//
+    /**
+     * Address country as ISO_3166-1 alpha-3.
+     *
+     * @var string
+     * @SerializedName("countryId")
+     * @Assert\NotNull()
+     * @Assert\Type("string")
+     * @Type("string")
+     * @SPL\Type("country")
+     */
+    public $countryId;
 }

@@ -591,10 +591,10 @@ class Descriptor
                 return SPL_T_BOOL;
             case 'double':
             case 'float':
-                return SPL_T_INT;
+                return SPL_T_DOUBLE;
             case 'int':
             case 'integer':
-                return SPL_T_DOUBLE;
+                return SPL_T_INT;
             case 'DateTime':
                 return SPL_T_DATETIME;
         }

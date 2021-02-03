@@ -62,7 +62,10 @@ class Setter
             case SPL_T_VARCHAR:
             case SPL_T_URL:
             case SPL_T_EMAIL:
+            case SPL_T_PHONE:
+            case SPL_T_LANG:
             case SPL_T_COUNTRY:
+            case SPL_T_STATE:
             case SPL_T_CURRENCY:
             case SPL_T_INLINE:
                 return self::setRawData($visitor, $object, $fieldId, (string) $fieldData);

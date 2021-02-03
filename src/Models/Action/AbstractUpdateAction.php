@@ -38,6 +38,7 @@ abstract class AbstractUpdateAction extends AbstractAction
         if (!$uri) {
             return new ApiResponse($this->visitor);
         }
+        \Splash\Client\Splash::log()->www("Set", $this->extractData($object));
         //====================================================================//
         // Execute Get Request
         $rawResponse = $this->visitor->getConnexion()->patch(
