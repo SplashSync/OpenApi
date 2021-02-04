@@ -13,13 +13,18 @@
  *  file that was distributed with this source code.
  */
 
-namespace Splash\OpenApi\Connexion;
-
-use Splash\OpenApi\Models\Connexion\AbstractConnexion;
+namespace Splash\OpenApi\Models\Objects;
 
 /**
- * Httpful Pure Json API Connexion
+ * Splash Api Object List Function
  */
-class JsonConnexion extends AbstractConnexion
+trait ObjectsListTrait
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function objectsList($filter = null, $params = null)
+    {
+        return $this->getVisitor()->list($filter, $params)->getResults();
+    }
 }

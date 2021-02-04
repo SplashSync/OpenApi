@@ -3,7 +3,7 @@
 /*
  *  This file is part of SplashSync Project.
  *
- *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2015-2021 Splash Sync  <www.splashsync.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -23,25 +23,28 @@ use Splash\Core\SplashCore as Splash;
 trait JsonHalOptionsTrait
 {
     /**
-     * @return array
-     */
-    public function getDefaultOptions(): array
-    {
-        return array(
-            "embedded" => "_embedded",      // Key for Embedded Data
-            "totalKey" => array(            // Key for Lists Total Counter
-                "total", "totalItems", "total_items"
-            ),
-        );
-    }
-
-    /**
      * @return string
      */
     public function getEmbeddedIndex(): string
     {
         return is_string($this->options["embedded"]) ? $this->options["embedded"] : "_embedded";
     }
+    /**
+     * @return array
+     */
+    protected function getDefaultOptions(): array
+    {
+        return array_replace_recursive(
+            parent::getDefaultOptions(),
+            array(
+                "embedded" => "_embedded",      // Key for Embedded Data
+                "totalKey" => array(            // Key for Lists Total Counter
+                    "total", "totalItems", "total_items"
+                ),
+            )
+        );
+    }
+
     /**
      * Extract First Item from Raw Json Hal Data.
      *

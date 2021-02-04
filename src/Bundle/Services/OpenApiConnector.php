@@ -3,7 +3,7 @@
 /*
  *  This file is part of SplashSync Project.
  *
- *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2015-2021 Splash Sync  <www.splashsync.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -46,6 +46,7 @@ class OpenApiConnector extends AbstractConnector implements TrackingInterface
      */
     protected static $objectsMap = array(
         "Simple" => Objects\Simple::class,
+        "SubResource" => Objects\SubResource::class,
     );
 
     /**
@@ -184,6 +185,8 @@ class OpenApiConnector extends AbstractConnector implements TrackingInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @throws Exception
      */
     public function getFile(string $filePath, string $fileMd5)
     {
@@ -192,10 +195,23 @@ class OpenApiConnector extends AbstractConnector implements TrackingInterface
         if (!$this->selfTest()) {
             return false;
         }
+        //====================================================================//
+        // Read File Contents via Raw Get Request
+        $rawResponse = $this->getConnexion()->getRaw($filePath);
+        if (!$rawResponse || (md5($rawResponse) != $fileMd5)) {
+            return false;
+        }
+        //====================================================================//
+        // Build File Array
+        $file = array();
+        $file["name"] = $file["filename"] = pathinfo($filePath, PATHINFO_BASENAME);
+        $file["path"] = $filePath;
+        $file["url"] = null;
+        $file["raw"] = base64_encode((string) $rawResponse);
+        $file["md5"] = md5($rawResponse);
+        $file["size"] = strlen($rawResponse);
 
-        Splash::log()->err("There are No Files Reading for Open API Up To Now!");
-
-        return false;
+        return $file;
     }
 
     //====================================================================//

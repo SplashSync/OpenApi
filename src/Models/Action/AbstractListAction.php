@@ -3,7 +3,7 @@
 /*
  *  This file is part of SplashSync Project.
  *
- *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2015-2021 Splash Sync  <www.splashsync.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -23,14 +23,9 @@ use Splash\OpenApi\ApiResponse;
 abstract class AbstractListAction extends AbstractAction
 {
     /**
-     * @var array<string, null|string>
+     * @var array<string, null|array|string>
      */
-    protected $options = array(
-        "filterKey" => null,        // Query Key for Filtering Data
-        "pageKey" => "page",        // Query Filter for Page Number
-        "offsetKey" => null,        // Or Query key for Results Offset
-        "maxKey" => "limit",        // Query Key for Limit Max Number of Results
-    );
+    protected $options;
 
     /**
      * Execute Objects List Action.
@@ -67,7 +62,7 @@ abstract class AbstractListAction extends AbstractAction
     /**
      * @return array
      */
-    public function getDefaultOptions(): array
+    protected function getDefaultOptions(): array
     {
         return  array(
             "filterKey" => null,        // Query Key for Filtering Data

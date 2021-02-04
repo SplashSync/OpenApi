@@ -3,7 +3,7 @@
 /*
  *  This file is part of SplashSync Project.
  *
- *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2015-2021 Splash Sync  <www.splashsync.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -39,7 +39,7 @@ class AbstractVisitor
     /**
      * API Model Class
      *
-     * @var string
+     * @var class-string
      */
     protected $model;
 
@@ -166,7 +166,7 @@ class AbstractVisitor
         Fields\Descriptor::load($this->hydrator, $this->model);
         //====================================================================//
         // Setup Model Uri
-        $this->collectionUri = $collectionUri ?: "/".strtolower(Fields\Descriptor::getShortName($model))."s";
+        $this->collectionUri = $collectionUri ?: "/".self::toSnakeCaseModelName($model)."s";
         $this->itemUri = $itemUri ?: $this->collectionUri."/{id}";
 
         return $this;
@@ -409,7 +409,7 @@ class AbstractVisitor
     /**
      * Api Model Class
      *
-     * @return string
+     * @return class-string
      */
     public function getModel() : string
     {
@@ -440,5 +440,23 @@ class AbstractVisitor
     public function getLastResponse(): ?Response
     {
         return $this->connexion->getLastResponse();
+    }
+
+    /**
+     * Convert Model Name to Snake Case
+     *
+     * @param class-string $model
+     *
+     * @throws Exception
+     *
+     * @return string
+     */
+    private static function toSnakeCaseModelName(string $model): string
+    {
+        return strtolower((string) preg_replace(
+            '/(?<!^)[A-Z]/',
+            '_$0',
+            Fields\Descriptor::getShortName($model)
+        ));
     }
 }

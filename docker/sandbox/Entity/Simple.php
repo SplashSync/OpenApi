@@ -3,7 +3,7 @@
 /*
  *  This file is part of SplashSync Project.
  *
- *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2015-2021 Splash Sync  <www.splashsync.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -18,6 +18,9 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Datetime;
 use Doctrine\ORM\Mapping as ORM;
+use Splash\Client\Splash;
+use Splash\Models\Helpers\PricesHelper;
+use Splash\Templates\Local\Local;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -29,7 +32,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Simple
 {
     /**
-     * Unique identifier representing a Shipment.
+     * Unique identifier.
      *
      * @var int
      *
@@ -110,14 +113,14 @@ class Simple
     public $website;
 
     /**
-     * @var string
+     * @var null|string
      *
      * @ORM\Column(nullable=true)
      */
     public $language;
 
     /**
-     * @var string
+     * @var null|string
      *
      * @ORM\Column(nullable=true)
      */
@@ -126,23 +129,103 @@ class Simple
     /**
      * Address country.
      *
-     * @var string
+     * @var null|string
      *
      * @ORM\Column(nullable=true)
      */
     public $countryId;
 
     /**
-     * @var Datetime
+     * @var null|Datetime
      *
      * @ORM\Column(type="date", nullable=true)
      */
     public $date;
 
     /**
-     * @var Datetime
+     * @var null|Datetime
      *
      * @ORM\Column(type="datetime", nullable=true)
      */
     public $datetime;
+
+    /**
+     * @var null|array
+     *
+     * @ORM\Column(type="array", nullable=true)
+     */
+    protected $price;
+
+    /**
+     * @var null|array
+     *
+     * @ORM\Column(type="array", nullable=true)
+     */
+    protected $image;
+
+    /**
+     * @var null|array
+     *
+     * @ORM\Column(type="array", nullable=true)
+     */
+    protected $file;
+
+    /**
+     * @param null|array $price
+     *
+     * @return self
+     */
+    public function setPrice(?array $price): self
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPrice(): array
+    {
+        if (empty($this->price)) {
+            //====================================================================//
+            // Init Splash Framework
+            Splash::setLocalClass(new Local());
+            //====================================================================//
+            // Encode Splash Price Array
+            $this->price = PricesHelper::encode((float) rand(10, 100), 20.0, null, "EUR");
+        }
+
+        return $this->price;
+    }
+
+    /**
+     * @return array
+     */
+    public function getImage(): array
+    {
+        if (!isset($this->image)) {
+            $helperClass = "App\\Helpers\\Images";
+            if (class_exists($helperClass)) {
+                $this->image = $helperClass::fake();
+            }
+        }
+
+        return $this->image;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFile(): array
+    {
+        if (!isset($this->file)) {
+            $helperClass = "App\\Helpers\\Files";
+            if (class_exists($helperClass)) {
+                $this->file = $helperClass::fake();
+            }
+        }
+
+        return $this->file;
+    }
 }

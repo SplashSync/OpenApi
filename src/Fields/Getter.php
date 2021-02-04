@@ -3,7 +3,7 @@
 /*
  *  This file is part of SplashSync Project.
  *
- *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2015-2021 Splash Sync  <www.splashsync.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -18,6 +18,7 @@ namespace Splash\OpenApi\Fields;
 use DateTime;
 use Exception;
 use Splash\Core\SplashCore      as Splash;
+use Splash\Models\Helpers;
 use Splash\OpenApi\Visitor\AbstractVisitor;
 
 /**
@@ -26,21 +27,16 @@ use Splash\OpenApi\Visitor\AbstractVisitor;
 class Getter
 {
     /**
-     * @var AbstractVisitor
-     */
-    protected $visitor;
-
-    /**
      * Check if Field is Defined and Readable
      *
-     * @param AbstractVisitor $visitor
-     * @param string          $fieldId Field Identifier / Name
+     * @param class-string $model   Target Model
+     * @param string       $fieldId Field Identifier / Name
      *
      *@throws Exception
      *
      * @return bool
      */
-    public static function has(AbstractVisitor $visitor, string $fieldId): bool
+    public static function has(string $model, string $fieldId): bool
     {
         //====================================================================//
         // Detect SubResource Fields Types
@@ -48,8 +44,8 @@ class Getter
         //====================================================================//
         // Override Model
         $model = $prefix
-            ? Descriptor::getSubResourceModel($visitor->getModel(), $prefix)
-            : $visitor->getModel();
+            ? Descriptor::getSubResourceModel($model, $prefix)
+            : $model;
         //====================================================================//
         // Override Field Id
         $fieldId = $prefix
@@ -78,67 +74,37 @@ class Getter
     /**
      * Get an Object Field Data
      *
-     * @param AbstractVisitor $visitor
-     * @param object          $object  Object to Update
-     * @param string          $fieldId Field Identifier / Name
-     * @param null|string     $model   Override Model
+     * @param class-string $model   Target Model
+     * @param object       $object  Object to Update
+     * @param string       $fieldId Field Identifier / Name
      *
      * @throws Exception
      *
      * @return mixed
-     *
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    public static function get(AbstractVisitor $visitor, object $object, string $fieldId, string $model = null)
+    public static function get(string $model, object $object, string $fieldId)
     {
-        $model = $model ?: $visitor->getModel();
         //====================================================================//
         // Detect SubResource Fields Types
         $prefix = Descriptor::getSubResourcePrefix($fieldId);
-        if ($prefix) {
-            $subResource = self::getRawData($object, $prefix);
-
-            return self::get(
-                $visitor,
-                $subResource,
-                (string) Descriptor::getSubResourceField($fieldId),
-                Descriptor::getSubResourceModel($visitor->getModel(), $prefix),
-            );
+        if (!$prefix) {
+            //====================================================================//
+            // Read Simple Fields Types
+            return self::getSimpleData($model, $object, $fieldId);
         }
         //====================================================================//
-        // Read Simple Fields Types
-        switch (Descriptor::getFieldType($model, $fieldId)) {
-            case SPL_T_VARCHAR:
-            case SPL_T_URL:
-            case SPL_T_EMAIL:
-            case SPL_T_PHONE:
-            case SPL_T_LANG:
-            case SPL_T_COUNTRY:
-            case SPL_T_STATE:
-            case SPL_T_CURRENCY:
-            case SPL_T_INLINE:
-                return (string) self::getRawData($object, $fieldId);
-            case SPL_T_BOOL:
-                return (bool) self::getRawData($object, $fieldId);
-            case SPL_T_DOUBLE:
-                return (float) self::getRawData($object, $fieldId);
-            case SPL_T_INT:
-                return (int) self::getRawData($object, $fieldId);
-            case SPL_T_DATE:
-                $dateTime = self::getRawData($object, $fieldId);
-
-                return ($dateTime instanceof DateTime)
-                    ? $dateTime->format(SPL_T_DATECAST)
-                    : null;
-            case SPL_T_DATETIME:
-                $dateTime = self::getRawData($object, $fieldId);
-
-                return ($dateTime instanceof DateTime)
-                    ? $dateTime->format(SPL_T_DATETIMECAST)
-                    : null;
+        // Load SubResource Object
+        $subResourceModel = Descriptor::getSubResourceModel($model, $prefix);
+        $subResource = self::getRawData($object, $prefix);
+        if (!$subResourceModel || !$subResource || !($subResource instanceof $subResourceModel)) {
+            return null;
         }
 
-        return null;
+        return self::getSimpleData(
+            $subResourceModel,
+            $subResource,
+            (string) Descriptor::getSubResourceField($fieldId)
+        );
     }
 
     /**
@@ -164,7 +130,7 @@ class Getter
 
                 return null;
             }
-            $newObject[$fieldId] = self::get($visitor, $inputs, $fieldId);
+            $newObject[$fieldId] = self::get($visitor->getModel(), $inputs, $fieldId);
         }
 
         return $visitor->getHydrator()->hydrate($newObject, $visitor->getModel());
@@ -209,7 +175,7 @@ class Getter
      *
      * @return mixed
      */
-    private static function getRawData(object $object, string $fieldId)
+    public static function getRawData(object $object, string $fieldId)
     {
         foreach (array('get', 'is', 'has') as $prefix) {
             $method = $prefix.ucfirst($fieldId);
@@ -219,5 +185,63 @@ class Getter
         }
 
         return isset($object->{$fieldId}) ? $object->{$fieldId} : null;
+    }
+
+    /**
+     * Get a Simple Object Field Data
+     *
+     * @param class-string $model   Target Model
+     * @param object       $object  Object to Update
+     * @param string       $fieldId Field Identifier / Name
+     *
+     * @throws Exception
+     *
+     * @return mixed
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     */
+    private static function getSimpleData(string $model, object $object, string $fieldId)
+    {
+        //====================================================================//
+        // Read Simple Fields Types
+        switch (Descriptor::getFieldType($model, $fieldId)) {
+            case SPL_T_VARCHAR:
+            case SPL_T_URL:
+            case SPL_T_EMAIL:
+            case SPL_T_PHONE:
+            case SPL_T_LANG:
+            case SPL_T_COUNTRY:
+            case SPL_T_STATE:
+            case SPL_T_CURRENCY:
+            case SPL_T_INLINE:
+                return (string) self::getRawData($object, $fieldId);
+            case SPL_T_BOOL:
+                return (bool) self::getRawData($object, $fieldId);
+            case SPL_T_DOUBLE:
+                return (float) self::getRawData($object, $fieldId);
+            case SPL_T_INT:
+                return (int) self::getRawData($object, $fieldId);
+            case SPL_T_DATE:
+                $dateTime = self::getRawData($object, $fieldId);
+
+                return ($dateTime instanceof DateTime)
+                    ? $dateTime->format(SPL_T_DATECAST)
+                    : null;
+            case SPL_T_DATETIME:
+                $dateTime = self::getRawData($object, $fieldId);
+
+                return ($dateTime instanceof DateTime)
+                    ? $dateTime->format(SPL_T_DATETIMECAST)
+                    : null;
+            case SPL_T_PRICE:
+                $price = self::getRawData($object, $fieldId);
+
+                return Helpers\PricesHelper::isValid($price) ? $price : null;
+            case SPL_T_FILE:
+            case SPL_T_IMG:
+                return self::getRawData($object, $fieldId);
+        }
+
+        return null;
     }
 }

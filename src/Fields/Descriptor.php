@@ -3,7 +3,7 @@
 /*
  *  This file is part of SplashSync Project.
  *
- *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2015-2021 Splash Sync  <www.splashsync.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -378,7 +378,7 @@ class Descriptor
      *
      * @throws Exception
      *
-     * @return null|string
+     * @return null|class-string
      */
     public static function getSubResourceModel(
         string $model,
@@ -426,7 +426,7 @@ class Descriptor
         $metadata = $metadata ?: self::getFieldMetadata($model, $fieldId);
         //====================================================================//
         // Detect Sub-Ressource Model List
-        if ("array" === $metadata->type['name']) {
+        if (("array" === $metadata->type['name']) && (!empty($metadata->type['params']))) {
             $className = $metadata->type['params'][0]['name'];
             if (!in_array($className, self::$protectedClasses, true) && class_exists($className)) {
                 $modelMetadata = self::getModelMetadata($className);

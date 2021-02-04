@@ -3,7 +3,7 @@
 /*
  *  This file is part of SplashSync Project.
  *
- *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2015-2021 Splash Sync  <www.splashsync.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -44,12 +44,12 @@ trait SimpleFieldsTrait
     {
         //====================================================================//
         // Check if Field Exists for Reading
-        if (!ApiFields\Getter::has($this->visitor, $fieldName)) {
+        if (!ApiFields\Getter::has($this->visitor->getModel(), $fieldName)) {
             return;
         }
         //====================================================================//
         // Read Data
-        $this->out[$fieldName] = ApiFields\Getter::get($this->visitor, $this->object, $fieldName);
+        $this->out[$fieldName] = ApiFields\Getter::get($this->visitor->getModel(), $this->object, $fieldName);
         unset($this->in[$key]);
     }
 
@@ -67,12 +67,12 @@ trait SimpleFieldsTrait
     {
         //====================================================================//
         // Check if Field Exists for Writing
-        if (!ApiFields\Setter::has($this->visitor, $fieldName)) {
+        if (!ApiFields\Setter::has($this->visitor->getModel(), $fieldName)) {
             return;
         }
         //====================================================================//
         // Write Data
-        $result = ApiFields\Setter::set($this->visitor, $this->object, $fieldName, $fieldData);
+        $result = ApiFields\Setter::set($this->visitor->getModel(), $this->object, $fieldName, $fieldData);
         //====================================================================//
         // Write Fail
         if (is_null($result)) {

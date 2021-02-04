@@ -22,9 +22,9 @@ use Splash\OpenApi\Bundle\Services\OpenApiConnector;
 use Splash\OpenApi\Models\Objects\AbstractApiObject;
 
 /**
- * OpenApi Implementation for Simple Object
+ * OpenApi Implementation for SubResource Object
  */
-class Simple extends AbstractApiObject
+class SubResource extends AbstractApiObject
 {
     //====================================================================//
     // Object Definition Parameters
@@ -33,24 +33,24 @@ class Simple extends AbstractApiObject
     /**
      * {@inheritdoc}
      */
-    protected static $NAME = "Simple";
+    protected static $NAME = "SubResource";
 
     /**
      * {@inheritdoc}
      */
-    protected static $DESCRIPTION = "Simple Open API Object";
+    protected static $DESCRIPTION = "SubResource Open API Object";
 
     /**
      * {@inheritdoc}
      */
-    protected static $ICO = "fa fa-check";
+    protected static $ICO = "fa fa-list";
 
     //====================================================================//
     // General Class Variables
     //====================================================================//
 
     /**
-     * @var Api\Simple
+     * @var Api\SubResource
      */
     protected $object;
 
@@ -68,7 +68,7 @@ class Simple extends AbstractApiObject
      */
     public function __construct(OpenApiConnector $connector)
     {
-        parent::__construct($connector->getConnexion(), $connector->getHydrator(), Api\Simple::class);
+        parent::__construct($connector->getConnexion(), $connector->getHydrator(), Api\SubResource::class);
         //====================================================================//
         //  Load Translation File
         Splash::translator()->load('local');

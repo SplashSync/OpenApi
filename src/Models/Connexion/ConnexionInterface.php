@@ -3,7 +3,7 @@
 /*
  *  This file is part of SplashSync Project.
  *
- *  Copyright (C) 2015-2020 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) 2015-2021 Splash Sync  <www.splashsync.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -36,6 +36,16 @@ interface ConnexionInterface
      * @return null|array
      */
     public function get(?string $path, array $data = null): ?array;
+
+    /**
+     * Perform a GET Request adn return RAW Response
+     *
+     * @param null|string           $path Resource Path
+     * @param array<string, string> $data Request Query Data
+     *
+     * @return null|string
+     */
+    public function getRaw(?string $path, array $data = null): ?string;
 
     /**
      * Perform a POST Request
