@@ -136,7 +136,8 @@ class Descriptor
      */
     public static function hasField(string $model, string $fieldId): bool
     {
-        return isset(self::getModelMetadata($model)->propertyMetadata[$fieldId]);
+        return class_exists($model)
+            && isset(self::getModelMetadata($model)->propertyMetadata[$fieldId]);
     }
 
     //====================================================================//
@@ -423,10 +424,16 @@ class Descriptor
      */
     public static function isListResource(string $model, string $fieldId, PropertyMetadata $metadata = null): ?string
     {
+        //====================================================================//
+        // Safety Check - Field Exists on Model
+        if ($model && !self::hasField($model, $fieldId)) {
+            return null;
+        }
         $metadata = $metadata ?: self::getFieldMetadata($model, $fieldId);
         //====================================================================//
         // Detect Sub-Ressource Model List
-        if (("array" === $metadata->type['name']) && (!empty($metadata->type['params']))) {
+        if (in_array($metadata->type['name'], array("array", "iterable"), true)
+            && (!empty($metadata->type['params']))) {
             $className = $metadata->type['params'][0]['name'];
             if (!in_array($className, self::$protectedClasses, true) && class_exists($className)) {
                 $modelMetadata = self::getModelMetadata($className);
@@ -439,22 +446,6 @@ class Descriptor
     }
 
     /**
-     * Get SubResource field prefix
-     *
-     * @param string $fieldId
-     *
-     * @throws Exception
-     *
-     * @return null|string
-     */
-    public static function getListResourcePrefix(string $fieldId): ?string
-    {
-        $exploded = explode("@", $fieldId);
-
-        return (is_array($exploded) && (2 == count($exploded))) ? $exploded[0] : null;
-    }
-
-    /**
      * Check if field is Excluded from Api Generic Management
      *
      * @param string                $model
@@ -463,13 +454,13 @@ class Descriptor
      *
      * @throws Exception
      *
-     * @return null|string
+     * @return class-string
      */
     public static function getListResourceModel(
         string $model,
         string $fieldId,
         PropertyMetadata $metadata = null
-    ): ?string {
+    ): string {
         $metadata = $metadata ?: self::getFieldMetadata($model, $fieldId);
 
         return $metadata->type['params'][0]['name'];

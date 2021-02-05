@@ -72,16 +72,16 @@ trait SimpleFieldsTrait
         }
         //====================================================================//
         // Write Data
-        $result = ApiFields\Setter::set($this->visitor->getModel(), $this->object, $fieldName, $fieldData);
+        $updated = ApiFields\Setter::set($this->visitor->getModel(), $this->object, $fieldName, $fieldData);
         //====================================================================//
         // Write Fail
-        if (is_null($result)) {
+        if (is_null($updated)) {
             return;
         }
         unset($this->in[$fieldName]);
         //====================================================================//
         // Data was Updated
-        if ($result) {
+        if ($updated) {
             $this->needUpdate();
         }
     }

@@ -18,7 +18,7 @@ namespace Splash\OpenApi\Models\Objects;
 use Exception;
 use Splash\OpenApi\Fields as ApiFields;
 
-trait ListFieldsTrait
+trait ListFieldsGetTrait
 {
     /**
      * Read requested Field
@@ -45,7 +45,8 @@ trait ListFieldsTrait
         }
         //====================================================================//
         // Fill List with Data
-        foreach (ApiFields\Getter::getListData($this->object, $listName, $fieldId) as $index => $data) {
+        $itemClass = ApiFields\Descriptor::getListResourceModel($this->visitor->getModel(), $listName);
+        foreach (ApiFields\Getter::getListData($itemClass, $this->object, $listName, $fieldId) as $index => $data) {
             //====================================================================//
             // Insert Data in List
             self::lists()->Insert($this->out, $listName, $fieldName, $index, $data);

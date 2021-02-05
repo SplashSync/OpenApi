@@ -68,7 +68,7 @@ class Getter
      */
     public static function exists(object $object, string $fieldId): bool
     {
-        return !empty(self::getRawData($object, $fieldId));
+        return !is_null(self::getRawData($object, $fieldId));
     }
 
     /**
@@ -139,15 +139,16 @@ class Getter
     /**
      * Get an Object List Field Data
      *
-     * @param object $object
-     * @param string $listId
-     * @param string $fieldId
+     * @param class-string $model   Target Model
+     * @param object       $object
+     * @param string       $listId
+     * @param string       $fieldId
      *
      * @throws Exception
      *
      * @return array
      */
-    public static function getListData(object $object, string $listId, string $fieldId): array
+    public static function getListData(string $model, object $object, string $listId, string $fieldId): array
     {
         $results = array();
         //====================================================================//
@@ -159,9 +160,12 @@ class Getter
         //====================================================================//
         // Walk on Raw List Data
         foreach ($rawData as $index => $item) {
-            if (is_object($item) && self::exists($item, $fieldId)) {
-                $results[$index] = self::getRawData($item, $fieldId);
+            if (!is_object($item) || !self::exists($item, $fieldId)) {
+                $results[$index] = null;
+
+                continue;
             }
+            $results[$index] = self::getSimpleData($model, $item, $fieldId);
         }
 
         return $results;

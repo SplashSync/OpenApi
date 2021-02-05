@@ -47,6 +47,7 @@ class OpenApiConnector extends AbstractConnector implements TrackingInterface
     protected static $objectsMap = array(
         "Simple" => Objects\Simple::class,
         "SubResource" => Objects\SubResource::class,
+        "ListResource" => Objects\ListResource::class,
     );
 
     /**

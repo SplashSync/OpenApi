@@ -106,7 +106,77 @@ class Setter
     }
 
     /**
-     * Set an Object Filed Data
+     * Set Multiple Fields of an Object
+     *
+     * @param class-string            $model      Target Model
+     * @param object                  $object     Object to Update
+     * @param iterable<string, mixed> $fieldsData Fields Data
+     *
+     * @throws Exception
+     *
+     * @return null|bool Null if Fail, True if Updated
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     */
+    public static function setMulti(string $model, object &$object, iterable $fieldsData): ?bool
+    {
+        $updated = false;
+        //====================================================================//
+        // Update Multiple Data
+        foreach ($fieldsData as $fieldId => $fieldData) {
+            $itemUpdated = self::set($model, $object, $fieldId, $fieldData);
+            $updated = is_null($itemUpdated) ? null : ($updated || $itemUpdated);
+        }
+
+        return $updated;
+    }
+
+    /**
+     * @param class-string $model     Target Model
+     * @param object       $object    Object to Update
+     * @param string       $fieldId   Field Identifier
+     * @param mixed        $fieldData Field Data
+     * @param bool         $compare   Compare Field Data
+     *
+     * @throws Exception
+     *
+     * @return null|bool Null if Fail, True if Updated
+     */
+    public static function setRawData(
+        string $model,
+        object &$object,
+        string $fieldId,
+        $fieldData,
+        bool $compare = true
+    ): ?bool {
+        //====================================================================//
+        // Compare with Previous Value
+        if ($compare && self::isSameData($model, $object, $fieldId, $fieldData)) {
+            return false;
+        }
+        //====================================================================//
+        // Write with Setter Method Detection
+        foreach (array('set') as $prefix) {
+            $method = $prefix.ucfirst($fieldId);
+            if (method_exists($object, $method)) {
+                $object->{$method}($fieldData);
+
+                return true;
+            }
+        }
+        //====================================================================//
+        // Write to Property
+        if (property_exists($object, $fieldId)) {
+            $object->{$fieldId} = $fieldData;
+
+            return true;
+        }
+
+        return null;
+    }
+
+    /**
+     * Set an Object Field Data
      *
      * @param class-string $model     Target Model
      * @param object       $object    Object to Update
@@ -159,38 +229,61 @@ class Setter
     }
 
     /**
+     * Compare New Object Field Data with Existing
+     *
      * @param class-string $model     Target Model
      * @param object       $object    Object to Update
-     * @param string       $fieldId   Field Identifier
+     * @param string       $fieldId   Field Identifier / Name
      * @param mixed        $fieldData Field Data
      *
      * @throws Exception
      *
-     * @return null|bool Null if Fail, True if Updated
+     * @return bool
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    private static function setRawData(string $model, object &$object, string $fieldId, $fieldData): ?bool
+    private static function isSameData(string $model, object $object, string $fieldId, $fieldData): ?bool
     {
         //====================================================================//
-        // Compare with Previous Value
-        if (Getter::get($model, $object, $fieldId) == $fieldData) {
-            return false;
-        }
+        // Load Original Field Data
+        $original = Getter::get($model, $object, $fieldId);
         //====================================================================//
-        // Write with Setter Method Detection
-        foreach (array('set') as $prefix) {
-            $method = $prefix.ucfirst($fieldId);
-            if (method_exists($object, $method)) {
-                $object->{$method}($fieldData);
+        // Compare with New Data
+        switch (Descriptor::getFieldType($model, $fieldId)) {
+            case SPL_T_VARCHAR:
+            case SPL_T_URL:
+            case SPL_T_EMAIL:
+            case SPL_T_PHONE:
+            case SPL_T_LANG:
+            case SPL_T_COUNTRY:
+            case SPL_T_STATE:
+            case SPL_T_CURRENCY:
+            case SPL_T_INLINE:
+            case SPL_T_BOOL:
+            case SPL_T_DOUBLE:
+            case SPL_T_INT:
+                return $original == $fieldData;
+            case SPL_T_DATE:
+                if (($original instanceof DateTime) && ($fieldData instanceof DateTime)) {
+                    return $original->format(SPL_T_DATECAST) == $fieldData->format(SPL_T_DATECAST);
+                }
 
-                return true;
-            }
-        }
-        //====================================================================//
-        // Write to Property
-        if (property_exists($object, $fieldId)) {
-            $object->{$fieldId} = $fieldData;
+                return false;
+            case SPL_T_DATETIME:
+                if ($fieldData instanceof DateTime) {
+                    return $original == $fieldData->format(SPL_T_DATETIMECAST);
+                }
 
-            return true;
+                return false;
+            case SPL_T_PRICE:
+                return Helpers\PricesHelper::compare($original, $fieldData);
+            case SPL_T_FILE:
+            case SPL_T_IMG:
+                if (is_array($original) && is_array($fieldData)) {
+                    return $original["md5"] == $fieldData["md5"];
+                }
+
+                return $original == $fieldData;
         }
 
         return null;
