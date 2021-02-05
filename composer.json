@@ -25,7 +25,7 @@
     },
     
     "autoload-dev": {
-        "classmap": [],
+        "classmap": [ "tests/Kernel.php" ],
         "files":    [ 
             "vendor/splash/phpcore/inc/Splash.Inc.php",
             "vendor/splash/php-bundle/src/Tests/KernelTestCase.php"
@@ -49,6 +49,9 @@
 
         "symfony/symfony":                              "^3.4|^4.4",
         "symfony/monolog-bundle":                       "*",
-        "symfony/phpunit-bridge":                       "*"
+        "symfony/phpunit-bridge":                       "*",
+
+        "doctrine/doctrine-bundle":                     "^1.6",
+        "doctrine/orm":                                 "^2.5"
     }
 }

@@ -43,12 +43,11 @@ class Kernel extends BaseKernel
 
         //==============================================================================
         // DOCTRINE CORE
-//        $bundles[] = new Doctrine\Bundle\DoctrineBundle\DoctrineBundle();
+        $bundles[] = new Doctrine\Bundle\DoctrineBundle\DoctrineBundle();
 
         //==============================================================================
         // SPLASH PHP BUNDLE
         $bundles[] = new Splash\Bundle\SplashBundle();
-//        $bundles[] = new Splash\Console\ConsoleBundle();
 
         //==============================================================================
         // SPLASH CONNECTORS BUNDLE
