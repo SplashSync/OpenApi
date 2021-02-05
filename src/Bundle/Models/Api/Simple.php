@@ -50,6 +50,7 @@ class Simple
      * @Assert\Type("string")
      * @Type("string")
      * @Groups ({"Read", "Write", "List", "Required"})
+     * @SPL\Description("This is First Name")
      */
     public $firstname;
 
@@ -62,6 +63,7 @@ class Simple
      * @Assert\Type("string")
      * @Type("string")
      * @Groups ({"Read", "Write", "List", "Required"})
+     * @SPL\Description("This is Last Name")
      */
     public $lastname;
 
