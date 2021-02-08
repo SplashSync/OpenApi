@@ -40,12 +40,13 @@ interface ConnexionInterface
     /**
      * Perform a GET Request adn return RAW Response
      *
-     * @param null|string           $path Resource Path
-     * @param array<string, string> $data Request Query Data
+     * @param null|string           $path        Resource Path
+     * @param array<string, string> $data        Request Query Data
+     * @param bool                  $absoluteUrl Use Path as Absolute Url
      *
      * @return null|string
      */
-    public function getRaw(?string $path, array $data = null): ?string;
+    public function getRaw(?string $path, array $data = null, bool $absoluteUrl = false): ?string;
 
     /**
      * Perform a POST Request

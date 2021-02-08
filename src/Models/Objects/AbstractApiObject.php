@@ -47,13 +47,6 @@ abstract class AbstractApiObject extends AbstractStandaloneObject
     //====================================================================//
 
     /**
-     * API Model Class Name
-     *
-     * @var string
-     */
-    protected $model;
-
-    /**
      * Open Api Model Visitor
      *
      * @var Visitor
@@ -72,7 +65,6 @@ abstract class AbstractApiObject extends AbstractStandaloneObject
      */
     public function __construct(Connexion $connexion, Hydrator $hydrator, string $model, Visitor $visitor = null)
     {
-        $this->model = $model;
         $this->visitor = $visitor ?: new JsonVisitor($connexion, $hydrator, $model);
     }
 

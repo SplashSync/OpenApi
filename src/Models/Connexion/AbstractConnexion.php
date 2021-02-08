@@ -135,11 +135,11 @@ abstract class AbstractConnexion implements ConnexionInterface
     /**
      * {@inheritDoc}
      */
-    public function getRaw(?string $path, array $data = null) : ?string
+    public function getRaw(?string $path, array $data = null, bool $absoluteUrl = false) : ?string
     {
         //====================================================================//
         // Prepare Uri
-        $uri = $this->endPoint.$path;
+        $uri = ($absoluteUrl && $path) ? $path : $this->endPoint.$path;
         if (!empty($data)) {
             $uri .= "?".http_build_query($data);
         }

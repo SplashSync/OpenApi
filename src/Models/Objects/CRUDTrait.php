@@ -99,10 +99,6 @@ trait CRUDTrait
         if (!$needed) {
             return $this->getObjectIdentifier();
         }
-
-//        dump($this->object);
-//        exit;
-
         //====================================================================//
         // Update Remote Object
         $updateResponse = $this->visitor->update((string) $this->getObjectIdentifier(), $this->object);

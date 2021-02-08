@@ -29,7 +29,7 @@ trait SimpleFieldsTrait
      */
     protected function buildApiSimpleFields(): void
     {
-        ApiFields\Builder::buildModelFields($this->fieldsFactory(), $this->model);
+        ApiFields\Builder::buildModelFields($this->fieldsFactory(), $this->visitor->getModel());
     }
 
     /**
