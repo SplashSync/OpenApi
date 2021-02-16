@@ -51,10 +51,12 @@ abstract class AbstractListAction extends AbstractAction
         $results = $this->extractData($rawResponse);
         //====================================================================//
         // Compute Meta
-        $results["meta"] = array(
-            'current' => count($results),
-            'total' => $this->extractTotal($rawResponse, $params)
-        );
+        if (empty($this->options['raw'])) {
+            $results["meta"] = array(
+                'current' => count($results),
+                'total' => $this->extractTotal($rawResponse, $params)
+            );
+        }
 
         return new ApiResponse($this->visitor, true, $results);
     }
@@ -69,6 +71,7 @@ abstract class AbstractListAction extends AbstractAction
             "pageKey" => "page",        // Query Filter for Page Number
             "offsetKey" => null,        // Or Query key for Results Offset
             "maxKey" => "limit",        // Query Key for Limit Max Number of Results
+            "raw" => false,             // Return raw data
         );
     }
 
@@ -107,7 +110,9 @@ abstract class AbstractListAction extends AbstractAction
         $results = $this->visitor->getHydrator()->hydrateMany($rawResponse, $this->visitor->getModel());
         //====================================================================//
         // Extract List Results
-        return $this->visitor->getHydrator()->extractMany($results);
+        return empty($this->options['raw'])
+            ? $this->visitor->getHydrator()->extractMany($results)
+            : $results;
     }
 
     /**

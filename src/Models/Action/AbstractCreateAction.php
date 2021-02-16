@@ -63,7 +63,7 @@ abstract class AbstractCreateAction extends AbstractAction
     {
         //====================================================================//
         // Extract Object Data
-        return ($requiredOnly ?: $this->options["requiredOnly"])
+        return ($requiredOnly ?? $this->options["requiredOnly"])
             ? $this->visitor->getHydrator()->extractRequired($object)
             : $this->visitor->getHydrator()->extract($object)
         ;

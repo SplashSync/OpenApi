@@ -148,13 +148,18 @@ class AbstractVisitor
      * @param string      $model
      * @param null|string $collectionUri
      * @param null|string $itemUri
+     * @param null|array  $exclude
      *
      * @throws Exception
      *
      * @return self
      */
-    public function setModel(string $model, string $collectionUri = null, string $itemUri = null): self
-    {
+    public function setModel(
+        string $model,
+        string $collectionUri = null,
+        string $itemUri = null,
+        array $exclude = null
+    ): self {
         //====================================================================//
         // Ensure Model Class Exists
         if (!class_exists($model)) {
@@ -163,7 +168,7 @@ class AbstractVisitor
         $this->model = $model;
         //====================================================================//
         // Ensure Loading of Object Metadata
-        Fields\Descriptor::load($this->hydrator, $this->model);
+        Fields\Descriptor::load($this->hydrator, $this->model, $exclude);
         //====================================================================//
         // Setup Model Uri
         $this->collectionUri = $collectionUri ?: "/".self::toSnakeCaseModelName($model)."s";

@@ -39,8 +39,8 @@ trait ListFieldsGetTrait
         //====================================================================//
         // Check if List field & Init List Array
         $listName = (string) $this->lists()->listName($fieldName);
-        $fieldId = self::lists()->initOutput($this->out, (string) $this->lists()->listName($fieldName), $fieldName);
-        if (!$fieldId) {
+        $fieldId = self::lists()->initOutput($this->out, (string) $listName, $fieldName);
+        if (!$fieldId || ApiFields\Descriptor::isExcluded($this->visitor->getModel(), $listName)) {
             return;
         }
         //====================================================================//
