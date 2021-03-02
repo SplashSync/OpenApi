@@ -78,7 +78,8 @@ quality:php-7.3:
 # Functional Tests
 ################################################################
 
-.phpunit_tests:    &phpunit_tests
+.functionnal:
+  image:      docker:stable
   stage:      functionnal
   tags:
     - Dedicated
@@ -112,10 +113,6 @@ quality:php-7.3:
   # Run After Script
   after_script:
     - docker-compose stop
-
-phpunit:php-7.4:
-  image: registry.gitlab.com/badpixxel-projects/php-sdk:php-7.4
-  <<: *phpunit_tests
 
 #################################################################
 ## Build Documentation
