@@ -27,15 +27,16 @@ variables:
 ################################################################
 # Defined Pipeline Stages
 stages:
-  - tests
+  - functionnal
+  - quality
 #  - deploy
 
 ################################################################
-# Functional Tests
+# Quality Tests
 ################################################################
 
-.core_tests:    &core_tests
-    stage:      tests
+.quality_tests:    &quality_tests
+    stage:      quality
     tags:
         - Dedicated
     services:
@@ -65,18 +66,56 @@ stages:
     after_script:
       - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/ci/after.sh | sh
 
-tests:php-7.4:
+quality:php-7.4:
   image: registry.gitlab.com/badpixxel-projects/php-sdk:php-7.4
-  <<: *core_tests
+  <<: *quality_tests
 
-tests:php-7.3:
+quality:php-7.3:
   image: registry.gitlab.com/badpixxel-projects/php-sdk:php-7.3
-  <<: *core_tests
+  <<: *quality_tests
 
-#tests:php-8.0:
-#  image: registry.gitlab.com/badpixxel-projects/php-sdk:php-8.0
-#  allow_failure: true
-#  <<: *core_tests
+################################################################
+# Functional Tests
+################################################################
+
+.phpunit_tests:    &phpunit_tests
+  stage:      functionnal
+  tags:
+    - Dedicated
+  services:
+    - docker:dind
+  ################################################################################
+  # Install & Configure Environment
+  before_script:
+#    # Setup Travis
+#    - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/ci/configure.sh  | sh
+#    # Deploy Symfony Files
+#    - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/symfony/deploy.sh | sh
+#    # Setup Symfony Version & Create Database
+#    - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/symfony/configure.sh | sh
+#    # Install Symfony
+#    - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/symfony/install.sh | sh
+    # Build Docker Compose
+    - docker network create splashsync --attachable
+    - docker-compose up -d
+
+  ################################################################################
+  # Run Test Script
+  script:
+    # Execute Grumphp Testsuite
+    - docker-compose exec -T toolkit php bin/console
+    # Execute PhpUnit Tests
+    - docker-compose exec -T toolkit php vendor/bin/phpunit
+  #        - php vendor/bin/phpunit
+
+  ################################################################################
+  # Run After Script
+  after_script:
+    - docker-compose stop
+
+phpunit:php-7.4:
+  image: registry.gitlab.com/badpixxel-projects/php-sdk:php-7.4
+  <<: *phpunit_tests
 
 #################################################################
 ## Build Documentation
