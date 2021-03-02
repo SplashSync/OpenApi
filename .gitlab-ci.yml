@@ -78,7 +78,7 @@ quality:php-7.3:
 # Functional Tests
 ################################################################
 
-.functionnal:
+functionnal:
   image:      docker:stable
   stage:      functionnal
   tags:
