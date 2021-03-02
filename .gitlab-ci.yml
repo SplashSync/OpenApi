@@ -96,6 +96,8 @@ functionnal:
 #    - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/symfony/configure.sh | sh
 #    # Install Symfony
 #    - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/symfony/install.sh | sh
+    # Install Git & Docker Compose
+    - apk add --no-cache git docker-compose
     # Build Docker Compose
     - docker network create splashsync --attachable
     - docker-compose up -d

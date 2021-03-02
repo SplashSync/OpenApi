@@ -59,7 +59,7 @@ services:
         hostname:           sandbox.open-api.local
         networks:
             openapi:        { ipv4_address: 172.131.0.200, aliases: [ sandbox.open-api.local ] }
-            splashsync:     { aliases: [ sandbox.recommerce.localopen-api.local ] }
+            splashsync:     { aliases: [ sandbox.open-api.local ] }
 
 networks:
     ################################################################################
