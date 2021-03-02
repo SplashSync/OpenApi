@@ -84,7 +84,7 @@ functionnal:
   tags:
     - Dedicated
   services:
-    - docker:dind-rootless
+    - docker:dind
   ################################################################################
   # Install & Configure Environment
   before_script:
