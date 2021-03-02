@@ -57,10 +57,12 @@ services:
             - './docker/sandbox/Entity:/srv/api/src/Entity:ro'
             - './docker/sandbox/config.yml:/srv/api/config/packages/config.yml:ro'
 #        hostname:           sandbox.open-api.local
-        command:            ["symfony", "serve", "--no-tls"]
+        command:            ["symfony", "serve", "--no-tls", "-vvv"]
         networks:
-            openapi:        { ipv4_address: 172.131.0.200, aliases: [ sandbox.open-api.local ] }
-            splashsync:     { aliases: [ sandbox.open-api.local ] }
+            openapi:        { ipv4_address: 172.131.0.200 }
+#            splashsync:     []
+#            openapi:        { ipv4_address: 172.131.0.200, aliases: [ sandbox.open-api.local ] }
+#            splashsync:     { aliases: [ sandbox.open-api.local ] }
 
 networks:
     ################################################################################
