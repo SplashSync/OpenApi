@@ -101,7 +101,7 @@ functionnal:
   # Run Test Script
   script:
       - sleep 10
-      - curl http://127.0.0.1:80/
+      - curl http://172.131.0.200:80/
 
       # Execute PhpUnit Tests
       - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/toolkit/phpunit.sh  | bash
