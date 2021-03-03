@@ -88,8 +88,8 @@ functionnal:
   ################################################################################
   # Install & Configure Environment
   before_script:
-      # Install Git, Curl & Docker Compose
-      - apk add --no-cache curl git docker-compose
+      # Install Git, Bash, Curl & Docker Compose
+      - apk add --no-cache curl bash git docker-compose
       # Install & Build Docker Compose
       - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/toolkit/build.sh  | bash
 #      # Build Docker Compose
