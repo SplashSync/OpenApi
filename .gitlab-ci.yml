@@ -88,9 +88,10 @@ functionnal:
   ################################################################################
   # Install & Configure Environment
   before_script:
+      # Install Git, Curl & Docker Compose
+      - apk add --no-cache curl git docker-compose
       # Install & Build Docker Compose
       - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/toolkit/build.sh  | bash
-#      - apk add --no-cache git docker-compose
 #      # Build Docker Compose
 #      - mkdir logs
 #      - docker network create splashsync --attachable
