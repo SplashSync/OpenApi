@@ -88,24 +88,27 @@ functionnal:
   ################################################################################
   # Install & Configure Environment
   before_script:
-      # Install Git & Docker Compose
-      - apk add --no-cache git docker-compose
-      # Build Docker Compose
-      - mkdir logs
-      - docker network create splashsync --attachable
-      - docker-compose up -d
+      # Install & Build Docker Compose
+      - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/toolkit/build.sh  | bash
+#      - apk add --no-cache git docker-compose
+#      # Build Docker Compose
+#      - mkdir logs
+#      - docker network create splashsync --attachable
+#      - docker-compose up -d
 
   ################################################################################
   # Run Test Script
   script:
       # Execute PhpUnit Tests
-      - docker-compose exec -T toolkit php vendor/bin/phpunit
+      - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/toolkit/phpunit.sh  | bash
+#      - docker-compose exec -T toolkit php vendor/bin/phpunit
 
   ################################################################################
   # Run After Script
   after_script:
-      - docker-compose stop
-      - docker-compose logs --tail="2000"
+      - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/toolkit/after.sh  | bash
+#      - docker-compose stop
+#      - docker-compose logs --tail="2000"
   artifacts:
       paths:
         - logs
