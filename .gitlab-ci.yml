@@ -100,6 +100,8 @@ functionnal:
   ################################################################################
   # Run Test Script
   script:
+      - curl http://127.0.0.1:80/
+
       # Execute PhpUnit Tests
       - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/toolkit/phpunit.sh  | bash
 #      - docker-compose exec -T toolkit php vendor/bin/phpunit
