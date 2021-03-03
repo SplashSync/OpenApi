@@ -147,6 +147,16 @@ class Builder extends Descriptor
             if (($constraint instanceof SPL\Microdata) && $constraint->isValid()) {
                 $factory->microData($constraint->getItemType(), $constraint->getItemProp());
             }
+            //====================================================================//
+            // Detect Not Tested
+            if (($constraint instanceof SPL\NoTested)) {
+                $factory->isNotTested();
+            }
+            //====================================================================//
+            // Detect Sync Mode Prefer
+            if (($constraint instanceof SPL\Prefer)) {
+                $constraint->apply($factory);
+            }
         }
     }
 
