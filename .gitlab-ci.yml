@@ -58,8 +58,6 @@ stages:
     script:
         # Execute Grumphp Testsuite
         - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/ci/grumphp.sh  | sh
-      # Execute PhpUnit Tests
-#        - php vendor/bin/phpunit
 
     ################################################################################
     # Run After Script
@@ -81,6 +79,7 @@ quality:php-7.3:
 functionnal:
   image:      docker:stable
   stage:      functionnal
+  retry:      2
   tags:
     - Dedicated
   services:
@@ -103,6 +102,7 @@ functionnal:
       - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/toolkit/phpunit.sh  | bash
       # Build Splash Manifest
       - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/toolkit/manifest.sh  | bash
+      - docker-compose exec -T toolkit ls -l
 
   ################################################################################
   # Run After Script
