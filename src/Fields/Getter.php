@@ -242,6 +242,7 @@ class Getter
 
                 return Helpers\PricesHelper::isValid($price) ? $price : null;
             case SPL_T_FILE:
+            case SPL_T_STREAM:
             case SPL_T_IMG:
                 return self::getRawData($object, $fieldId);
         }
