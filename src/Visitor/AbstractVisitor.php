@@ -253,6 +253,58 @@ class AbstractVisitor
     }
 
     /**
+     * Execute Paginated List Action. Read large datasets with a multipart list action.
+     *
+     * @param null|string $filter
+     * @param int         $pageSize
+     * @param int         $maxItems
+     *
+     * @return ApiResponse
+     */
+    public function listWithPagination(string $filter = null, int $pageSize = 50, int $maxItems = 1000): ApiResponse
+    {
+        //====================================================================//
+        // Init Counters
+        $maxLoaded = $listTotal = 0;
+        $listData = array();
+        //====================================================================//
+        // Multi-pages Loading Objects List from API
+        do {
+            //====================================================================//
+            // Load Units List from API
+            $listResponse = $this->list($filter, array(
+                "max" => $pageSize,
+                "offset" => $maxLoaded,
+            ));
+            //====================================================================//
+            // Request Fail => Exit
+            if (!$listResponse->isSuccess()) {
+                break;
+            }
+            //====================================================================//
+            // Increment Counters
+            $maxLoaded += $pageSize;
+            $listTotal = $listTotal ?: $listResponse->getListTotal();
+            //====================================================================//
+            // Push Units to List
+            $rawData = $listResponse->getResults();
+            if (isset($rawData["meta"])) {
+                unset($rawData["meta"]);
+            }
+            //====================================================================//
+            // Push Units to List
+            $listData = array_merge($listData, $listResponse->getResults());
+        } while (($maxLoaded < $listTotal) && ($maxLoaded < $maxItems));
+
+        return new ApiResponse(
+            $this,
+            $listResponse->isSuccess(),
+            $listData,
+            array('current' => count($listData), 'total' => $listTotal)
+        );
+    }
+
+    /**
      * Execute Load Action
      *
      * @param string $objectId
