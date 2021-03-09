@@ -51,14 +51,15 @@ abstract class AbstractListAction extends AbstractAction
         $results = $this->extractData($rawResponse);
         //====================================================================//
         // Compute Meta
+        $meta = array(
+            'current' => count($results),
+            'total' => $this->extractTotal($rawResponse, $params)
+        );
         if (empty($this->options['raw'])) {
-            $results["meta"] = array(
-                'current' => count($results),
-                'total' => $this->extractTotal($rawResponse, $params)
-            );
+            $results["meta"] = $meta;
         }
 
-        return new ApiResponse($this->visitor, true, $results);
+        return new ApiResponse($this->visitor, true, $results, $meta);
     }
 
     /**
