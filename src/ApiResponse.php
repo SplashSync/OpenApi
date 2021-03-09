@@ -32,6 +32,12 @@ final class ApiResponse
      * @var mixed
      */
     private $results;
+
+    /**
+     * @var array
+     */
+    private $metadata;
+
     /**
      * @var null|Response
      */
@@ -43,11 +49,13 @@ final class ApiResponse
      * @param AbstractVisitor $visitor
      * @param bool            $isSuccess
      * @param null|mixed      $results
+     * @param null|array      $meta
      */
-    public function __construct(AbstractVisitor $visitor, bool $isSuccess = false, $results = null)
+    public function __construct(AbstractVisitor $visitor, bool $isSuccess = false, $results = null, array $meta = null)
     {
         $this->isSuccess = $isSuccess;
         $this->results = $results;
+        $this->metadata = $meta ?: array();
         $this->response = $visitor->getLastResponse();
     }
 
@@ -68,10 +76,42 @@ final class ApiResponse
     }
 
     /**
+     * Get All Request Metadata
+     *
+     * @return array
+     */
+    public function getMetas(): array
+    {
+        return $this->metadata;
+    }
+
+    /**
+     * Get Last Api Response
+     *
      * @return null|Response
      */
     public function getResponse(): ?Response
     {
         return $this->response;
+    }
+
+    /**
+     * Get List Request Current Count
+     *
+     * @return int
+     */
+    public function getListCount(): int
+    {
+        return isset($this->metadata["current"]) ? (int) $this->metadata["current"] : 0;
+    }
+
+    /**
+     * Get List Request Total Count
+     *
+     * @return int
+     */
+    public function getListTotal(): int
+    {
+        return isset($this->metadata["total"]) ? (int) $this->metadata["total"] : 0;
     }
 }
