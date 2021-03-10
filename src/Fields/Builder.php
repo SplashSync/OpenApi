@@ -157,6 +157,11 @@ class Builder extends Descriptor
             if (($constraint instanceof SPL\Prefer)) {
                 $constraint->apply($factory);
             }
+            //====================================================================//
+            // Detect To Log Fields
+            if (($constraint instanceof SPL\Logged)) {
+                $factory->isLogged();
+            }
         }
     }
 
