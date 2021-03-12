@@ -72,12 +72,8 @@ trait ErrorParserTrait
             return;
         }
         //====================================================================//
-        // Store Decoded Response
-        foreach ($decoded as $key => $value) {
-            if (is_scalar($key) && is_scalar($value)) {
-                Splash::log()->err((string) $key." -> ".(string) $value);
-            }
-        }
+        // Store Decoded Error Response
+        Splash::log()->err('<PRE>'.print_r($decoded, true).'</PRE>');
     }
 
     /**
@@ -89,10 +85,6 @@ trait ErrorParserTrait
      */
     private static function extractResponseHeaders(Response $response): void
     {
-        foreach ($response->headers->toArray() as $key => $value) {
-            if (is_scalar($key) && is_scalar($value)) {
-                Splash::log()->war((string) $key." -> ".(string) $value);
-            }
-        }
+        Splash::log()->www("Headers", $response->headers->toArray());
     }
 }
