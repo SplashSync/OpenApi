@@ -29,7 +29,7 @@ variables:
 stages:
   - quality
   - functionnal
-#  - deploy
+  - deploy
 
 ################################################################
 # Quality Tests
@@ -112,6 +112,15 @@ functionnal:
       paths:
         - logs
         - manifest
+
+#################################################################
+## Trigger Toolkit Docker Build
+#################################################################
+toolkit:
+  stage:      deploy
+  trigger:
+    project:  SplashSync/Toolkit
+    strategy: depend
 
 #################################################################
 ## Build Documentation
