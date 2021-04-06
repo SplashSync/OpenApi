@@ -21,7 +21,7 @@ use Splash\OpenApi\Fields as ApiFields;
 use stdClass;
 
 /**
- * ReCommerce Orders CRUD Functions
+ * Splash Open Api Object CRUD Functions
  */
 trait CRUDTrait
 {

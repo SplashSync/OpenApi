@@ -16,7 +16,7 @@
 namespace Splash\OpenApi\Models\Objects;
 
 /**
- * Splash Api Object List Function
+ * Splash Open Api Object List Function
  */
 trait ObjectsListTrait
 {

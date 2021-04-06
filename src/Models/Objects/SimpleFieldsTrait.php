@@ -18,6 +18,9 @@ namespace Splash\OpenApi\Models\Objects;
 use Exception;
 use Splash\OpenApi\Fields as ApiFields;
 
+/**
+ * Splash Open Api Simple Fields Access Function
+ */
 trait SimpleFieldsTrait
 {
     /**
