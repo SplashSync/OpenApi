@@ -72,6 +72,7 @@ abstract class AbstractListAction extends AbstractAction
             "pageKey" => "page",        // Query Filter for Page Number
             "offsetKey" => null,        // Or Query key for Results Offset
             "maxKey" => "limit",        // Query Key for Limit Max Number of Results
+            "extraArgs" => null,        // Query String Extra Attributes
             "raw" => false,             // Return raw data
         );
     }
@@ -90,7 +91,8 @@ abstract class AbstractListAction extends AbstractAction
         if (is_array($params)) {
             $queryArgs = array_merge(
                 $queryArgs,
-                $this->getQueryPagination($params)
+                $this->getQueryPagination($params),
+                $this->getQueryExtraArgs()
             );
         }
 
@@ -163,6 +165,22 @@ abstract class AbstractListAction extends AbstractAction
         // Add Filter Args
         if (!empty($filter) && is_string($this->options['filterKey'])) {
             return array($this->options['filterKey'] => $filter);
+        }
+
+        return array();
+    }
+
+    /**
+     * Build List request Query Extra Parameters
+     *
+     * @return array
+     */
+    private function getQueryExtraArgs() : array
+    {
+        //====================================================================//
+        // Add Extra Args
+        if (is_array($this->options['extraArgs']) && !empty($this->options['extraArgs'])) {
+            return $this->options['extraArgs'];
         }
 
         return array();
