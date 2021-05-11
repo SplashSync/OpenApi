@@ -113,6 +113,9 @@ abstract class AbstractConnexion implements ConnexionInterface
     public function get(?string $path, array $data = null) : ?array
     {
         //====================================================================//
+        // Restore Connexion Template
+        Request::ini($this->template);
+        //====================================================================//
         // Prepare Uri
         $uri = $this->endPoint.$path;
         if (!empty($data)) {
@@ -137,6 +140,9 @@ abstract class AbstractConnexion implements ConnexionInterface
      */
     public function getRaw(?string $path, array $data = null, bool $absoluteUrl = false) : ?string
     {
+        //====================================================================//
+        // Restore Connexion Template
+        Request::ini($this->template);
         //====================================================================//
         // Prepare Uri
         $uri = ($absoluteUrl && $path) ? $path : $this->endPoint.$path;
@@ -166,6 +172,9 @@ abstract class AbstractConnexion implements ConnexionInterface
     public function post(string $path, array $data): ?array
     {
         //====================================================================//
+        // Restore Connexion Template
+        Request::ini($this->template);
+        //====================================================================//
         // Perform Request
         try {
             $this->lastResponse = Request::post($this->endPoint.$path)
@@ -186,6 +195,9 @@ abstract class AbstractConnexion implements ConnexionInterface
      */
     public function put(string $path, array $data): ?array
     {
+        //====================================================================//
+        // Restore Connexion Template
+        Request::ini($this->template);
         //====================================================================//
         // Perform Request
         try {
@@ -208,6 +220,9 @@ abstract class AbstractConnexion implements ConnexionInterface
     public function patch(string $path, array $data = null): ?array
     {
         //====================================================================//
+        // Restore Connexion Template
+        Request::ini($this->template);
+        //====================================================================//
         // Perform Request
         try {
             $this->lastResponse = Request::patch($this->endPoint.$path)
@@ -229,6 +244,9 @@ abstract class AbstractConnexion implements ConnexionInterface
      */
     public function delete(string $path): ?array
     {
+        //====================================================================//
+        // Restore Connexion Template
+        Request::ini($this->template);
         //====================================================================//
         // Perform Request
         try {
