@@ -57,7 +57,7 @@ class SubResource
      * @var null|Item
      * @Assert\Type("App\Entity\Item")
      *
-     * @ORM\OneToOne(targetEntity="App\Entity\Item", cascade="all")
+     * @ORM\OneToOne(targetEntity="App\Entity\Item", cascade={"all"})
      * @ORM\JoinColumn(referencedColumnName="id", unique=true, nullable=true)
      */
     protected $item;
