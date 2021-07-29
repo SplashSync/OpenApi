@@ -58,7 +58,7 @@ class ListResource
      *
      * @var Collection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\ListItem", mappedBy="parent", cascade="all", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\ListItem", mappedBy="parent", cascade={"all"}, orphanRemoval=true)
      */
     protected $items;
 
