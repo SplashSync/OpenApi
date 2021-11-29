@@ -4,3 +4,5 @@
 /.php_cs.cache
 /var/
 /.php-cs-fixer.cache
+/public/
+/bin/console
