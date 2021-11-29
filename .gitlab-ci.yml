@@ -28,7 +28,7 @@ variables:
 # Defined Pipeline Stages
 stages:
   - quality
-  - functionnal
+  - functional
   - deploy
 
 ################################################################
@@ -64,63 +64,62 @@ stages:
     after_script:
       - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/ci/after.sh | sh
 
-quality:php-7.4:
-  image: registry.gitlab.com/badpixxel-projects/php-sdk:php-7.4
-  <<: *quality_tests
+quality:php-8.0:
+    image: registry.gitlab.com/badpixxel-projects/php-sdk:php-8.0
+    <<: *quality_tests
 
-quality:php-7.3:
-  image: registry.gitlab.com/badpixxel-projects/php-sdk:php-7.3
-  <<: *quality_tests
+quality:php-7.4:
+    image: registry.gitlab.com/badpixxel-projects/php-sdk:php-7.4
+    <<: *quality_tests
 
 ################################################################
 # Functional Tests
 ################################################################
 
-functionnal:
-  image:      docker:stable
-  stage:      functionnal
-  retry:      2
-  tags:
-    - Dedicated
-  services:
-    - docker:dind
-  ################################################################################
-  # Install & Configure Environment
-  before_script:
-      # Install Git, Bash, Curl & Docker Compose
-      - apk add --no-cache curl bash git docker-compose
-      # Install & Build Docker Compose
-      - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/toolkit/build.sh  | bash
+functional:
+    image:      docker:stable
+    stage:      functional
+    retry:      2
+    tags:
+        - Dedicated
+    services:
+        - docker:dind
+    ################################################################################
+    # Install & Configure Environment
+    before_script:
+        # Install Git, Bash, Curl & Docker Compose
+        - apk add --no-cache curl bash git docker-compose
+        # Install & Build Docker Compose
+        - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/toolkit/build.sh  | bash
+    ################################################################################
+    # Run Test Script
+    script:
+        # Wait for container to Start
+        - sleep 10
+        - docker-compose exec -T toolkit curl http://openapi/
+        # Execute PhpUnit Tests
+        - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/toolkit/phpunit.sh  | bash
+        # Build Splash Manifest
+        - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/toolkit/manifest.sh  | bash
+        - docker-compose exec -T toolkit ls -l
 
-  ################################################################################
-  # Run Test Script
-  script:
-      # Wait for container to Start
-      - sleep 10
-      - docker-compose exec -T toolkit curl http://openapi/
-      # Execute PhpUnit Tests
-      - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/toolkit/phpunit.sh  | bash
-      # Build Splash Manifest
-      - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/toolkit/manifest.sh  | bash
-      - docker-compose exec -T toolkit ls -l
-
-  ################################################################################
-  # Run After Script
-  after_script:
-      - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/toolkit/after.sh  | bash
-  artifacts:
-      paths:
-        - logs
-        - manifest
+    ################################################################################
+    # Run After Script
+    after_script:
+        - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/toolkit/after.sh  | bash
+    artifacts:
+        paths:
+            - logs
+            - manifest
 
 #################################################################
 ## Trigger Toolkit Docker Build
 #################################################################
 toolkit:
-  stage:      deploy
-  trigger:
-    project:  SplashSync/Toolkit
-    strategy: depend
+    stage:      deploy
+    trigger:
+        project:  SplashSync/Toolkit
+        strategy: depend
 
 #################################################################
 ## Build Documentation
