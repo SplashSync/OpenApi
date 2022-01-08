@@ -344,7 +344,7 @@ class Descriptor
         $metadata = $metadata ?: self::getFieldMetadata($model, $fieldId);
         //====================================================================//
         // Detect Sub-Ressource Model
-        $className = $metadata->type['name'];
+        $className = $metadata->type['name'] ?? null;
         if (!in_array($className, self::$protectedClasses, true) && class_exists($className)) {
             $modelMetadata = self::getModelMetadata($className);
 
@@ -388,7 +388,7 @@ class Descriptor
     ): ?string {
         $metadata = $metadata ?: self::getFieldMetadata($model, $fieldId);
 
-        return $metadata->type['name'];
+        return $metadata->type['name'] ?? null;
     }
 
     /**
@@ -432,7 +432,7 @@ class Descriptor
         $metadata = $metadata ?: self::getFieldMetadata($model, $fieldId);
         //====================================================================//
         // Detect Sub-Ressource Model List
-        if (in_array($metadata->type['name'], array("array", "iterable"), true)
+        if (in_array($metadata->type['name'] ?? null, array("array", "iterable"), true)
             && (!empty($metadata->type['params']))) {
             $className = $metadata->type['params'][0]['name'];
             if (!in_array($className, self::$protectedClasses, true) && class_exists($className)) {
@@ -462,8 +462,12 @@ class Descriptor
         PropertyMetadata $metadata = null
     ): string {
         $metadata = $metadata ?: self::getFieldMetadata($model, $fieldId);
+        $params = $metadata->type['params'] ?? null;
+        if (!isset($params[0]['name'])) {
+            throw new Exception("This should never happen");
+        }
 
-        return $metadata->type['params'][0]['name'];
+        return $params[0]['name'];
     }
 
     //====================================================================//
@@ -541,7 +545,7 @@ class Descriptor
     }
 
     /**
-     * Detect Field Type using Validator Informations.
+     * Detect Field Type using Validator Information.
      *
      * @param PropertyMetadata $metadata
      *
@@ -574,7 +578,7 @@ class Descriptor
      */
     private static function getTypeFromSerializer(PropertyMetadata $metadata): ?string
     {
-        switch ($metadata->type['name']) {
+        switch ($metadata->type['name'] ?? null) {
             case 'string':
                 return SPL_T_VARCHAR;
             case 'bool':
