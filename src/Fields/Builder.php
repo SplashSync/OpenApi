@@ -162,6 +162,11 @@ class Builder extends Descriptor
             if (($constraint instanceof SPL\Logged)) {
                 $factory->isLogged();
             }
+            //====================================================================//
+            // Detect Field Group
+            if (($constraint instanceof SPL\Group) && !empty($constraint->getValue())) {
+                $factory->group((string) $constraint->getValue());
+            }
         }
     }
 

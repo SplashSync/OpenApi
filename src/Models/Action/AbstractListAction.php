@@ -205,7 +205,7 @@ abstract class AbstractListAction extends AbstractAction
         //====================================================================//
         // Add Offset Args
         if (isset($params["offset"]) && is_string($this->options['offsetKey'])) {
-            $queryArgs[$this->options['offsetKey']] = (string) $params["max"];
+            $queryArgs[$this->options['offsetKey']] = (string) $params["offset"];
             $this->options['pageKey'] = null;
         }
         //====================================================================//
