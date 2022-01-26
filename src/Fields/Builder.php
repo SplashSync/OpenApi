@@ -130,6 +130,8 @@ class Builder extends Descriptor
      * @param Metadata      $metadata
      *
      * @throws Exception
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     private static function setupValidatorMetadata(FieldsFactory $factory, Metadata $metadata): void
     {
