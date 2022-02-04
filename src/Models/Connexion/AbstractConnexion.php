@@ -48,21 +48,28 @@ abstract class AbstractConnexion implements ConnexionInterface
      *
      * @var string
      */
-    private $endPoint;
+    private string $endPoint;
 
     /**
      * Request Template
      *
      * @var Request
      */
-    private $template;
+    private Request $template;
 
     /**
      * Last Api Response
      *
      * @var null|Response
      */
-    private $lastResponse;
+    private ?Response $lastResponse;
+
+    /**
+     * Api Endpoint
+     *
+     * @var string
+     */
+    private string $patchMime = "application/merge-patch+json";
 
     //====================================================================//
     // Configuration
@@ -227,7 +234,7 @@ abstract class AbstractConnexion implements ConnexionInterface
         try {
             $this->lastResponse = Request::patch($this->endPoint.$path)
                 ->body(json_encode($data))
-                ->sends("application/merge-patch+json")
+                ->sends($this->patchMime ?: Mime::JSON)
                 ->send();
         } catch (ConnectionErrorException $ex) {
             Splash::log()->err($ex->getMessage());
@@ -265,6 +272,20 @@ abstract class AbstractConnexion implements ConnexionInterface
     //====================================================================//
     // Various Methods
     //====================================================================//
+
+    /**
+     * Force Patch Actions Mime Type
+     *
+     * @param string $mimeType
+     *
+     * @return $this
+     */
+    public function setPatchMimeType(string $mimeType): self
+    {
+        $this->patchMime = $mimeType;
+
+        return $this;
+    }
 
     /**
      * Get Connexion Endpoint Url
