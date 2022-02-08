@@ -17,6 +17,7 @@ namespace Splash\OpenApi\Fields;
 
 use DateTime;
 use Exception;
+use Splash\Models\Fields\FieldsManagerTrait;
 use Splash\Models\Helpers;
 
 /**
@@ -24,6 +25,8 @@ use Splash\Models\Helpers;
  */
 class Setter
 {
+    use FieldsManagerTrait;
+
     /**
      * @param class-string $model   Target Model
      * @param string       $fieldId
@@ -191,9 +194,10 @@ class Setter
      */
     private static function setSimpleData(string $model, object &$object, string $fieldId, $fieldData): ?bool
     {
+        $fieldType = Descriptor::getFieldType($model, $fieldId);
         //====================================================================//
-        // Read Simple Fields Types
-        switch (Descriptor::getFieldType($model, $fieldId)) {
+        // Write Simple Fields Types
+        switch ($fieldType) {
             case SPL_T_VARCHAR:
             case SPL_T_URL:
             case SPL_T_EMAIL:
@@ -223,6 +227,11 @@ class Setter
                 $fieldData = Helpers\PricesHelper::isValid($fieldData) ? $fieldData : null;
 
                 return self::setRawData($model, $object, $fieldId, $fieldData);
+        }
+        //====================================================================//
+        // Write Simple Object ID Fields Types
+        if (self::isIdField($fieldType)) {
+            return self::setRawData($model, $object, $fieldId, (string) $fieldData);
         }
 
         return null;

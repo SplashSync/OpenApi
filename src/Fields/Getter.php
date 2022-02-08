@@ -18,6 +18,7 @@ namespace Splash\OpenApi\Fields;
 use DateTime;
 use Exception;
 use Splash\Core\SplashCore      as Splash;
+use Splash\Models\Fields\FieldsManagerTrait;
 use Splash\Models\Helpers;
 use Splash\OpenApi\Visitor\AbstractVisitor;
 
@@ -26,6 +27,8 @@ use Splash\OpenApi\Visitor\AbstractVisitor;
  */
 class Getter
 {
+    use FieldsManagerTrait;
+
     /**
      * Check if Field is Defined and Readable
      *
@@ -206,9 +209,10 @@ class Getter
      */
     private static function getSimpleData(string $model, object $object, string $fieldId)
     {
+        $fieldType = Descriptor::getFieldType($model, $fieldId);
         //====================================================================//
         // Read Simple Fields Types
-        switch (Descriptor::getFieldType($model, $fieldId)) {
+        switch ($fieldType) {
             case SPL_T_VARCHAR:
             case SPL_T_URL:
             case SPL_T_EMAIL:
@@ -226,17 +230,9 @@ class Getter
             case SPL_T_INT:
                 return (int) self::getRawData($object, $fieldId);
             case SPL_T_DATE:
-                $dateTime = self::getRawData($object, $fieldId);
-
-                return ($dateTime instanceof DateTime)
-                    ? $dateTime->format(SPL_T_DATECAST)
-                    : null;
+                return self::toDate(SPL_T_DATECAST, self::getRawData($object, $fieldId));
             case SPL_T_DATETIME:
-                $dateTime = self::getRawData($object, $fieldId);
-
-                return ($dateTime instanceof DateTime)
-                    ? $dateTime->format(SPL_T_DATETIMECAST)
-                    : null;
+                return self::toDate(SPL_T_DATETIMECAST, self::getRawData($object, $fieldId));
             case SPL_T_PRICE:
                 $price = self::getRawData($object, $fieldId);
 
@@ -246,7 +242,37 @@ class Getter
             case SPL_T_IMG:
                 return self::getRawData($object, $fieldId);
         }
+        //====================================================================//
+        // Read Simple Object ID Fields Types
+        if (self::isIdField($fieldType)) {
+            return self::getRawData($object, $fieldId);
+        }
 
         return null;
+    }
+
+    /**
+     * Get a Simple Object Date or DateTime
+     *
+     * @throws Exception
+     *
+     * @param string $format
+     * @param mixed $rawData
+     *
+     * @return string|null
+     */
+    private static function toDate(string $format, $rawData): ?string
+    {
+        if ($rawData instanceof DateTime) {
+            return $rawData->format($format);
+        }
+        if (!is_scalar($rawData)) {
+            return null;
+        }
+        try {
+            return (new DateTime($rawData))->format($format);
+        } catch (\Exception $ex) {
+            return null;
+        }
     }
 }

@@ -76,25 +76,6 @@ trait ListFieldsSetTrait
             $this->needUpdate(ucfirst($fieldName));
         }
 
-//        dump($itemClass);
-//        dump($fieldName, $fieldData);
-//        dump($finalData);
-//        dump($this->object);
-//        exit;
-//        //====================================================================//
-//        // Check if List field & Init List Array
-//        $listName = (string) $this->lists()->listName($fieldName);
-//        $fieldId = self::lists()->initOutput($this->out, (string) $this->lists()->listName($fieldName), $fieldName);
-//        if (!$fieldId) {
-//            return;
-//        }
-//        //====================================================================//
-//        // Fill List with Data
-//        foreach (ApiFields\Getter::getListData($this->object, $listName, $fieldId) as $index => $data) {
-//            //====================================================================//
-//            // Insert Data in List
-//            self::lists()->Insert($this->out, $listName, $fieldName, $index, $data);
-//        }
         unset($this->in[$fieldName]);
     }
 }

@@ -91,7 +91,7 @@ class Builder extends Descriptor
             ->isRequired(self::isRequiredField("", "", $metadata))
             ->isReadOnly(self::isReadOnlyField("", "", $metadata))
             ->isWriteOnly(self::isWriteOnlyField("", "", $metadata))
-            ->isListed(self::isListedField("", "", $metadata))
+            ->isListed(is_null($prefix) && self::isListedField("", "", $metadata))
             ->isLogged(self::isLoggedField("", "", $metadata))
         ;
         if ($prefix) {
@@ -191,6 +191,16 @@ class Builder extends Descriptor
         $model = (string) self::getSubResourceModel("", "", $metadata);
         /** @var Metadata $serializerMetadata */
         foreach (self::getModelMetadata($model)->propertyMetadata as $serializerMetadata) {
+            //====================================================================//
+            // Override Sub-Ressource via Parent
+            if(self::isReadOnlyField("", "", $metadata)) {
+                $overrideMetadata = clone $serializerMetadata;
+                $overrideMetadata->readOnly = true;
+                self::addField($factory, $overrideMetadata, $prefix);
+
+                continue;
+            }
+
             self::addField($factory, $serializerMetadata, $prefix);
         }
 
