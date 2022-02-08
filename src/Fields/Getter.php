@@ -254,12 +254,12 @@ class Getter
     /**
      * Get a Simple Object Date or DateTime
      *
+     * @param string $format
+     * @param mixed  $rawData
+     *
      * @throws Exception
      *
-     * @param string $format
-     * @param mixed $rawData
-     *
-     * @return string|null
+     * @return null|string
      */
     private static function toDate(string $format, $rawData): ?string
     {
@@ -269,8 +269,9 @@ class Getter
         if (!is_scalar($rawData)) {
             return null;
         }
+
         try {
-            return (new DateTime($rawData))->format($format);
+            return (new DateTime((string) $rawData))->format($format);
         } catch (\Exception $ex) {
             return null;
         }

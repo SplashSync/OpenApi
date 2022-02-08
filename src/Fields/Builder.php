@@ -193,7 +193,7 @@ class Builder extends Descriptor
         foreach (self::getModelMetadata($model)->propertyMetadata as $serializerMetadata) {
             //====================================================================//
             // Override Sub-Ressource via Parent
-            if(self::isReadOnlyField("", "", $metadata)) {
+            if (self::isReadOnlyField("", "", $metadata)) {
                 $overrideMetadata = clone $serializerMetadata;
                 $overrideMetadata->readOnly = true;
                 self::addField($factory, $overrideMetadata, $prefix);

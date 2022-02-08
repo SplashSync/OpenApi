@@ -38,9 +38,9 @@ class Group extends Constraint
     /**
      * Get Field Type
      *
-     * @return string
+     * @return null|string
      */
-    public function getValue(): string
+    public function getValue(): ?string
     {
         return $this->value;
     }

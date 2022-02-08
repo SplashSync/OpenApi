@@ -87,7 +87,7 @@ trait SimpleFieldsTrait
         if ($updated) {
             $this->needUpdate();
             $prefix = ApiFields\Descriptor::getSubResourcePrefix($fieldName);
-            if($prefix) {
+            if ($prefix) {
                 $this->needUpdate(ucfirst($prefix));
             }
         }
