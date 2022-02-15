@@ -51,8 +51,8 @@ interface ConnexionInterface
     /**
      * Perform a POST Request
      *
-     * @param string                $path Resource Path
-     * @param array<string, string> $data Request Query Data
+     * @param string                          $path Resource Path
+     * @param array<string, array|int|string> $data Request Query Data
      *
      * @return null|array
      */
