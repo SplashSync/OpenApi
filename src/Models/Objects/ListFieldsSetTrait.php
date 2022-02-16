@@ -63,6 +63,7 @@ trait ListFieldsSetTrait
                 // Push Item to Final Data
                 $finalData[] = $originItem;
             }
+            $updated |= !empty($originData);
         }
         //====================================================================//
         // List Data was Updated
