@@ -61,8 +61,8 @@ interface ConnexionInterface
     /**
      * Perform a PUT Request
      *
-     * @param string                $path Resource Path
-     * @param array<string, string> $data Request Query Data
+     * @param string                          $path Resource Path
+     * @param array<string, array|int|string> $data Request Query Data
      *
      * @return null|array
      */
@@ -71,8 +71,8 @@ interface ConnexionInterface
     /**
      * Perform a PATCH Request
      *
-     * @param string                $path Resource Path
-     * @param array<string, string> $data Request Query Data
+     * @param string                          $path Resource Path
+     * @param array<string, array|int|string> $data Request Query Data
      *
      * @return null|array
      */
