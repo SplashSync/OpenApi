@@ -312,6 +312,6 @@ abstract class AbstractConnexion implements ConnexionInterface
      */
     public function getLastResponse(): ?Response
     {
-        return $this->lastResponse;
+        return $this->lastResponse ?? null;
     }
 }
