@@ -23,6 +23,8 @@ use Splash\OpenApi\Models\Objects\AbstractApiObject;
 
 /**
  * OpenApi Implementation for Simple Object
+ *
+ * @SuppressWarnings(PHPMD.CamelCasePropertyName)
  */
 class Simple extends AbstractApiObject
 {

@@ -23,6 +23,8 @@ use Splash\OpenApi\Models\Objects\AbstractApiObject;
 
 /**
  * OpenApi Implementation for SubResource Object
+ *
+ * @SuppressWarnings(PHPMD.CamelCasePropertyName)
  */
 class SubResource extends AbstractApiObject
 {

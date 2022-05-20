@@ -38,13 +38,13 @@
     "require": {
         "php":                                          "^7.3|^8.0",
         "ext-json":                                     "*",
-        "splash/php-bundle":                            "dev-master",
+        "splash/php-bundle":                            "~1.0",
         "nategood/httpful":                             "^0.2|^0.3",
         "jms/serializer":                               "^3"
     },
     
     "require-dev": {
-        "badpixxel/php-sdk":                            "dev-main",
+        "badpixxel/php-sdk":                            "~1.0",
         "api-platform/core":                            "*",
 
         "symfony/symfony":                              "^3.4|^4.4",

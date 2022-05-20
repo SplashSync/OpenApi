@@ -21,6 +21,8 @@ use Splash\OpenApi\Bundle\Services\OpenApiConnector;
 
 /**
  * Open API Test Connector Config SelfTest
+ *
+ * @SuppressWarnings(PHPMD.CamelCasePropertyName)
  */
 class SelfTest extends AbstractStandaloneWidget
 {

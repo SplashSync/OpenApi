@@ -23,6 +23,8 @@ use Splash\OpenApi\Models\Objects\AbstractApiObject;
 
 /**
  * OpenApi Implementation for ListResource Object
+ *
+ * @SuppressWarnings(PHPMD.CamelCasePropertyName)
  */
 class ListResource extends AbstractApiObject
 {
