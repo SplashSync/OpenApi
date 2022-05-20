@@ -3,7 +3,7 @@
 /*
  *  This file is part of SplashSync Project.
  *
- *  Copyright (C) 2015-2021 Splash Sync  <www.splashsync.com>
+ *  Copyright (C) Splash Sync  <www.splashsync.com>
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -58,10 +58,10 @@ class Setter
     /**
      * Set an Object Filed Data
      *
-     * @param class-string $model     Target Model
-     * @param object       $object    Object to Update
-     * @param string       $fieldId   Field Identifier
-     * @param null|array<string, null|array|scalar>|scalar        $fieldData Field Data
+     * @param class-string                                 $model     Target Model
+     * @param object                                       $object    Object to Update
+     * @param string                                       $fieldId   Field Identifier
+     * @param null|array<string, null|array|scalar>|scalar $fieldData Field Data
      *
      * @throws Exception
      *
@@ -111,8 +111,8 @@ class Setter
     /**
      * Set Multiple Fields of an Object
      *
-     * @param class-string            $model      Target Model
-     * @param object                  $object     Object to Update
+     * @param class-string                        $model      Target Model
+     * @param object                              $object     Object to Update
      * @param iterable<string, null|array|scalar> $fieldsData Fields Data
      *
      * @throws Exception
@@ -135,11 +135,11 @@ class Setter
     }
 
     /**
-     * @param class-string $model     Target Model
-     * @param object       $object    Object to Update
-     * @param string       $fieldId   Field Identifier
-     * @param null|array<int|string, null|array|scalar>|DateTime|scalar        $fieldData Field Data
-     * @param bool         $compare   Compare Field Data
+     * @param class-string                                              $model     Target Model
+     * @param object                                                    $object    Object to Update
+     * @param string                                                    $fieldId   Field Identifier
+     * @param null|array<int|string, null|array|scalar>|DateTime|scalar $fieldData Field Data
+     * @param bool                                                      $compare   Compare Field Data
      *
      * @throws Exception
      *
@@ -181,10 +181,10 @@ class Setter
     /**
      * Set an Object Field Data
      *
-     * @param class-string $model     Target Model
-     * @param object       $object    Object to Update
-     * @param string       $fieldId   Field Identifier
-     * @param null|array<string, null|array|scalar>|scalar  $fieldData Field Data
+     * @param class-string                                 $model     Target Model
+     * @param object                                       $object    Object to Update
+     * @param string                                       $fieldId   Field Identifier
+     * @param null|array<string, null|array|scalar>|scalar $fieldData Field Data
      *
      * @throws Exception
      *
@@ -241,10 +241,10 @@ class Setter
     /**
      * Compare New Object Field Data with Existing
      *
-     * @param class-string $model     Target Model
-     * @param object       $object    Object to Update
-     * @param string       $fieldId   Field Identifier / Name
-     * @param null|array<int|string, null|array|scalar>|scalar|DateTime        $fieldData Field Data
+     * @param class-string                                              $model     Target Model
+     * @param object                                                    $object    Object to Update
+     * @param string                                                    $fieldId   Field Identifier / Name
+     * @param null|array<int|string, null|array|scalar>|DateTime|scalar $fieldData Field Data
      *
      * @throws Exception
      *
@@ -289,6 +289,7 @@ class Setter
                 if (is_array($original) && is_array($fieldData)) {
                     return Helpers\PricesHelper::compare($original, $fieldData);
                 }
+
                 return (empty($original) && empty($fieldData));
             case SPL_T_FILE:
             case SPL_T_IMG:
