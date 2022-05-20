@@ -288,12 +288,15 @@ class AbstractVisitor
             //====================================================================//
             // Push Units to List
             $rawData = $listResponse->getResults();
+            if (!is_array($rawData)) {
+                continue;
+            }
             if (isset($rawData["meta"])) {
                 unset($rawData["meta"]);
             }
             //====================================================================//
             // Push Units to List
-            $listData = array_merge($listData, $listResponse->getResults());
+            $listData = array_merge($listData, $rawData);
         } while (($maxLoaded < $listTotal) && ($maxLoaded < $maxItems));
 
         return new ApiResponse(

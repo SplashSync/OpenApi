@@ -75,8 +75,8 @@ abstract class AbstractApiObject extends AbstractStandaloneObject
     /**
      * {@inheritdoc}
      */
-    public function objectsList($filter = null, $params = null)
+    public function objectsList(?string $filter = null, array $params = array()): array
     {
-        return $this->visitor->list($filter, $params)->getResults();
+        return $this->visitor->list($filter, $params)->getArrayResults() ?? array();
     }
 }

@@ -61,7 +61,7 @@ class Setter
      * @param class-string $model     Target Model
      * @param object       $object    Object to Update
      * @param string       $fieldId   Field Identifier
-     * @param mixed        $fieldData Field Data
+     * @param null|array<string, null|array|scalar>|scalar        $fieldData Field Data
      *
      * @throws Exception
      *
@@ -113,7 +113,7 @@ class Setter
      *
      * @param class-string            $model      Target Model
      * @param object                  $object     Object to Update
-     * @param iterable<string, mixed> $fieldsData Fields Data
+     * @param iterable<string, null|array|scalar> $fieldsData Fields Data
      *
      * @throws Exception
      *
@@ -138,7 +138,7 @@ class Setter
      * @param class-string $model     Target Model
      * @param object       $object    Object to Update
      * @param string       $fieldId   Field Identifier
-     * @param mixed        $fieldData Field Data
+     * @param null|array<int|string, null|array|scalar>|DateTime|scalar        $fieldData Field Data
      * @param bool         $compare   Compare Field Data
      *
      * @throws Exception
@@ -184,7 +184,7 @@ class Setter
      * @param class-string $model     Target Model
      * @param object       $object    Object to Update
      * @param string       $fieldId   Field Identifier
-     * @param mixed        $fieldData Field Data
+     * @param null|array<string, null|array|scalar>|scalar  $fieldData Field Data
      *
      * @throws Exception
      *
@@ -195,6 +195,7 @@ class Setter
     private static function setSimpleData(string $model, object &$object, string $fieldId, $fieldData): ?bool
     {
         $fieldType = Descriptor::getFieldType($model, $fieldId);
+        $scalarData = is_scalar($fieldData) ? $fieldData : null;
         //====================================================================//
         // Write Simple Fields Types
         switch ($fieldType) {
@@ -207,17 +208,17 @@ class Setter
             case SPL_T_STATE:
             case SPL_T_CURRENCY:
             case SPL_T_INLINE:
-                return self::setRawData($model, $object, $fieldId, (string) $fieldData);
+                return self::setRawData($model, $object, $fieldId, (string) $scalarData);
             case SPL_T_BOOL:
-                return self::setRawData($model, $object, $fieldId, (bool) $fieldData);
+                return self::setRawData($model, $object, $fieldId, (bool) $scalarData);
             case SPL_T_DOUBLE:
-                return self::setRawData($model, $object, $fieldId, (float) $fieldData);
+                return self::setRawData($model, $object, $fieldId, (float) $scalarData);
             case SPL_T_INT:
-                return self::setRawData($model, $object, $fieldId, (int) $fieldData);
+                return self::setRawData($model, $object, $fieldId, (int) $scalarData);
             case SPL_T_DATE:
             case SPL_T_DATETIME:
                 try {
-                    $datetime = new DateTime($fieldData);
+                    $datetime = new DateTime((string) $scalarData);
                 } catch (Exception $ex) {
                     $datetime = null;
                 }
@@ -231,7 +232,7 @@ class Setter
         //====================================================================//
         // Write Simple Object ID Fields Types
         if (self::isIdField($fieldType)) {
-            return self::setRawData($model, $object, $fieldId, (string) $fieldData);
+            return self::setRawData($model, $object, $fieldId, (string) $scalarData);
         }
 
         return null;
@@ -243,7 +244,7 @@ class Setter
      * @param class-string $model     Target Model
      * @param object       $object    Object to Update
      * @param string       $fieldId   Field Identifier / Name
-     * @param mixed        $fieldData Field Data
+     * @param null|array<int|string, null|array|scalar>|scalar|DateTime        $fieldData Field Data
      *
      * @throws Exception
      *
@@ -285,7 +286,10 @@ class Setter
 
                 return false;
             case SPL_T_PRICE:
-                return Helpers\PricesHelper::compare($original, $fieldData);
+                if (is_array($original) && is_array($fieldData)) {
+                    return Helpers\PricesHelper::compare($original, $fieldData);
+                }
+                return (empty($original) && empty($fieldData));
             case SPL_T_FILE:
             case SPL_T_IMG:
                 if (is_array($original) && is_array($fieldData)) {

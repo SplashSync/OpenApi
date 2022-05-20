@@ -52,7 +52,9 @@ trait SimpleFieldsTrait
         }
         //====================================================================//
         // Read Data
-        $this->out[$fieldName] = ApiFields\Getter::get($this->visitor->getModel(), $this->object, $fieldName);
+        /** @var null|array<string, null|array<string, null|array|scalar>|scalar> $fieldData */
+        $fieldData = ApiFields\Getter::get($this->visitor->getModel(), $this->object, $fieldName);
+        $this->out[$fieldName] = $fieldData;
         unset($this->in[$key]);
     }
 
@@ -60,7 +62,7 @@ trait SimpleFieldsTrait
      * Write Given Fields
      *
      * @param string $fieldName Field Identifier / Name
-     * @param mixed  $fieldData Field Data
+     * @param null|array<string, null|array|scalar>|scalar  $fieldData Field Data
      *
      * @throws Exception
      *

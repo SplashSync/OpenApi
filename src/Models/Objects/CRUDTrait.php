@@ -30,9 +30,9 @@ trait CRUDTrait
      *
      * @param string $objectId Object id
      *
-     * @return false|stdClass
+     * @return null|object
      */
-    public function load($objectId)
+    public function load(string $objectId): ?object
     {
         //====================================================================//
         // Stack Trace
@@ -41,11 +41,13 @@ trait CRUDTrait
         // Load Remote Object
         $loadResponse = $this->visitor->load($objectId);
         if (!$loadResponse->isSuccess()) {
-            return false;
+            return null;
         }
         //====================================================================//
         // Return Hydrated Object
-        return $loadResponse->getResults();
+        $object = $loadResponse->getResults();
+
+        return is_object($object) ? $object : null;
     }
 
     /**
@@ -53,9 +55,9 @@ trait CRUDTrait
      *
      * @throws Exception
      *
-     * @return false|object New Object
+     * @return null|object New Object
      */
-    public function create()
+    public function create(): ?object
     {
         //====================================================================//
         // Stack Trace
@@ -64,7 +66,7 @@ trait CRUDTrait
         // Collect Required Fields
         $newObject = ApiFields\Getter::getRequiredFields($this->visitor, (object) $this->in);
         if (!$newObject) {
-            return false;
+            return null;
         }
         //====================================================================//
         // Create Remote Object
@@ -72,14 +74,14 @@ trait CRUDTrait
         //====================================================================//
         // Create Remote Object
         if (!$createResponse->isSuccess()) {
-            return false;
+            return null;
         }
         //====================================================================//
         // Verify Returned Object Type
         $model = $this->visitor->getModel();
         $object = $createResponse->getResults();
 
-        return ($object instanceof $model) ? $object : false;
+        return ($object instanceof $model) ? $object : null;
     }
 
     /**
@@ -87,9 +89,9 @@ trait CRUDTrait
      *
      * @param bool $needed Is This Update Needed
      *
-     * @return false|string Object Id of False if Failed to Update
+     * @return null|string Object ID of False if Failed to Update
      */
-    public function update(bool $needed)
+    public function update(bool $needed): ?string
     {
         //====================================================================//
         // Stack Trace
@@ -106,7 +108,7 @@ trait CRUDTrait
         // Return Object Id or False
         return $updateResponse->isSuccess()
             ? $this->getObjectIdentifier()
-            : Splash::log()->errTrace(
+            : Splash::log()->errNull(
                 "Unable to Update Object (".$this->getObjectIdentifier().")."
             )
         ;
@@ -115,11 +117,11 @@ trait CRUDTrait
     /**
      * Delete requested Object
      *
-     * @param null|string $objectId Object Id
+     * @param null|string $objectId Object ID
      *
      * @return bool
      */
-    public function delete($objectId = null)
+    public function delete(string $objectId = null): bool
     {
         //====================================================================//
         // Stack Trace
@@ -143,10 +145,10 @@ trait CRUDTrait
     /**
      * {@inheritdoc}
      */
-    public function getObjectIdentifier()
+    public function getObjectIdentifier(): ?string
     {
         $objectId = $this->visitor->getItemId($this->object);
 
-        return $objectId ?: false;
+        return $objectId ?: null;
     }
 }

@@ -27,7 +27,7 @@ class SelfTest extends AbstractStandaloneWidget
     /**
      * {@inheritdoc}
      */
-    public static $OPTIONS = array(
+    public static array $options = array(
         "Width" => self::SIZE_DEFAULT,
         'UseCache' => true,
         'CacheLifeTime' => 1,
@@ -36,22 +36,22 @@ class SelfTest extends AbstractStandaloneWidget
     /**
      * {@inheritdoc}
      */
-    protected static $NAME = "Server SelfTest";
+    protected static string $name = "Server SelfTest";
 
     /**
      * {@inheritdoc}
      */
-    protected static $DESCRIPTION = "Results of your Server SelfTests";
+    protected static string $description = "Results of your Server SelfTests";
 
     /**
      * {@inheritdoc}
      */
-    protected static $ICO = "fa fa-info-circle";
+    protected static string $ico = "fa fa-info-circle";
 
     /**
      * @var OpenApiConnector
      */
-    protected $connector;
+    protected OpenApiConnector $connector;
 
     /**
      * Class Constructor
@@ -72,7 +72,7 @@ class SelfTest extends AbstractStandaloneWidget
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function get($params = null)
+    public function get(array $params = array()): ?array
     {
         //====================================================================//
         // Stack Trace
@@ -91,7 +91,7 @@ class SelfTest extends AbstractStandaloneWidget
         $this->buildIntroBlock();
 
         //====================================================================//
-        // Build SlefTest Results Block
+        // Build Self-Test Results Block
         //====================================================================//
         $this->connector->selfTest();
         $this->buildNotificationsBlock();

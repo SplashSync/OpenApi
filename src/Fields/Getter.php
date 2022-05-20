@@ -83,7 +83,7 @@ class Getter
      *
      * @throws Exception
      *
-     * @return mixed
+     * @return null|array<string, null|array<string, null|array|scalar>|object|scalar>|object|scalar
      */
     public static function get(string $model, object $object, string $fieldId)
     {
@@ -180,7 +180,7 @@ class Getter
      * @param object $object
      * @param string $fieldId
      *
-     * @return mixed
+     * @return null|array<string, null|array<string, null|array|scalar>|object|scalar>|scalar
      */
     public static function getRawData(object $object, string $fieldId)
     {
@@ -191,7 +191,20 @@ class Getter
             }
         }
 
-        return isset($object->{$fieldId}) ? $object->{$fieldId} : null;
+        return $object->{$fieldId} ?? null;
+    }
+
+    /**
+     * Extract Raw Data from An Object
+     *
+     * @param object $object
+     * @param string $fieldId
+     *
+     * @return null|scalar>
+     */
+    public static function getRawScalarData(object $object, string $fieldId)
+    {
+        return is_scalar($rawData = self::getRawData($object, $fieldId)) ? $rawData : null;
     }
 
     /**
@@ -203,7 +216,7 @@ class Getter
      *
      * @throws Exception
      *
-     * @return mixed
+     * @return null|array<string, null|array<string, null|array|scalar>|object|scalar>|scalar
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
@@ -222,13 +235,13 @@ class Getter
             case SPL_T_STATE:
             case SPL_T_CURRENCY:
             case SPL_T_INLINE:
-                return (string) self::getRawData($object, $fieldId);
+                return (string) self::getRawScalarData($object, $fieldId);
             case SPL_T_BOOL:
-                return (bool) self::getRawData($object, $fieldId);
+                return (bool) self::getRawScalarData($object, $fieldId);
             case SPL_T_DOUBLE:
-                return (float) self::getRawData($object, $fieldId);
+                return (float) self::getRawScalarData($object, $fieldId);
             case SPL_T_INT:
-                return (int) self::getRawData($object, $fieldId);
+                return (int) self::getRawScalarData($object, $fieldId);
             case SPL_T_DATE:
                 return self::toDate(SPL_T_DATECAST, self::getRawData($object, $fieldId));
             case SPL_T_DATETIME:

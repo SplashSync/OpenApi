@@ -33,17 +33,17 @@ class SubResource extends AbstractApiObject
     /**
      * {@inheritdoc}
      */
-    protected static $NAME = "SubResource";
+    protected static string $name = "SubResource";
 
     /**
      * {@inheritdoc}
      */
-    protected static $DESCRIPTION = "SubResource Open API Object";
+    protected static string $description = "SubResource Open API Object";
 
     /**
      * {@inheritdoc}
      */
-    protected static $ICO = "fa fa-list";
+    protected static string $ico = "fa fa-list";
 
     //====================================================================//
     // General Class Variables
@@ -52,12 +52,12 @@ class SubResource extends AbstractApiObject
     /**
      * @var Api\SubResource
      */
-    protected $object;
+    protected object $object;
 
     /**
      * @var OpenApiConnector
      */
-    protected $connector;
+    protected OpenApiConnector $connector;
 
     /**
      * Class Constructor

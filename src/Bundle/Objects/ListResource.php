@@ -33,17 +33,17 @@ class ListResource extends AbstractApiObject
     /**
      * {@inheritdoc}
      */
-    protected static $NAME = "ListResource";
+    protected static string $name = "ListResource";
 
     /**
      * {@inheritdoc}
      */
-    protected static $DESCRIPTION = "ListResource Open API Object";
+    protected static string $description = "ListResource Open API Object";
 
     /**
      * {@inheritdoc}
      */
-    protected static $ICO = "fa fa-list";
+    protected static string $ico = "fa fa-list";
 
     //====================================================================//
     // General Class Variables
@@ -52,12 +52,12 @@ class ListResource extends AbstractApiObject
     /**
      * @var Api\ListResource
      */
-    protected $object;
+    protected object $object;
 
     /**
      * @var OpenApiConnector
      */
-    protected $connector;
+    protected OpenApiConnector $connector;
 
     /**
      * Class Constructor

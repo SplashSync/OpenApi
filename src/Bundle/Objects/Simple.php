@@ -33,17 +33,17 @@ class Simple extends AbstractApiObject
     /**
      * {@inheritdoc}
      */
-    protected static $NAME = "Simple";
+    protected static string $name = "Simple";
 
     /**
      * {@inheritdoc}
      */
-    protected static $DESCRIPTION = "Simple Open API Object";
+    protected static string $description = "Simple Open API Object";
 
     /**
      * {@inheritdoc}
      */
-    protected static $ICO = "fa fa-check";
+    protected static string $ico = "fa fa-check";
 
     //====================================================================//
     // General Class Variables
@@ -52,12 +52,12 @@ class Simple extends AbstractApiObject
     /**
      * @var Api\Simple
      */
-    protected $object;
+    protected object $object;
 
     /**
      * @var OpenApiConnector
      */
-    protected $connector;
+    protected OpenApiConnector $connector;
 
     /**
      * Class Constructor

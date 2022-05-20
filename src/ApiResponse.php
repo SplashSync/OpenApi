@@ -26,7 +26,7 @@ final class ApiResponse
     /**
      * @var bool
      */
-    private $isSuccess;
+    private bool $isSuccess;
 
     /**
      * @var mixed
@@ -36,12 +36,12 @@ final class ApiResponse
     /**
      * @var array
      */
-    private $metadata;
+    private array $metadata;
 
     /**
      * @var null|Response
      */
-    private $response;
+    private ?Response $response;
 
     /**
      * Create New Action.
@@ -73,6 +73,14 @@ final class ApiResponse
     public function getResults()
     {
         return $this->results;
+    }
+
+    /**
+     * @return null|array<string, null|array<string, null|array|scalar>|scalar>
+     */
+    public function getArrayResults(): ?array
+    {
+        return is_array($this->results) ? $this->results : null;
     }
 
     /**

@@ -139,7 +139,10 @@ abstract class AbstractConnexion implements ConnexionInterface
         }
         //====================================================================//
         // Catch Errors inResponse
-        return self::isErrored($this->lastResponse) ? null : json_decode($this->lastResponse->body, true);
+        return self::isErrored($this->lastResponse)
+            ? null
+            : (array) json_decode($this->lastResponse->body, true)
+        ;
     }
 
     /**
@@ -193,8 +196,11 @@ abstract class AbstractConnexion implements ConnexionInterface
             return null;
         }
         //====================================================================//
-        // Catch Errors inResponse
-        return self::isErrored($this->lastResponse) ? null : json_decode($this->lastResponse->body, true);
+        // Catch Errors in Response
+        return self::isErrored($this->lastResponse)
+            ? null
+            : (array) json_decode($this->lastResponse->body, true)
+        ;
     }
 
     /**
@@ -217,8 +223,11 @@ abstract class AbstractConnexion implements ConnexionInterface
             return null;
         }
         //====================================================================//
-        // Catch Errors inResponse
-        return self::isErrored($this->lastResponse) ? null : json_decode($this->lastResponse->body, true);
+        // Catch Errors in Response
+        return self::isErrored($this->lastResponse)
+            ? null
+            : (array) json_decode($this->lastResponse->body, true)
+        ;
     }
 
     /**
@@ -242,8 +251,11 @@ abstract class AbstractConnexion implements ConnexionInterface
             return null;
         }
         //====================================================================//
-        // Catch Errors inResponse
-        return self::isErrored($this->lastResponse) ? null : json_decode($this->lastResponse->body, true);
+        // Catch Errors in Response
+        return self::isErrored($this->lastResponse)
+            ? null
+            : (array) json_decode($this->lastResponse->body, true)
+        ;
     }
 
     /**

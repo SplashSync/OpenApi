@@ -31,12 +31,12 @@ class Hydrator
     /**
      * @var Serializer
      */
-    protected $serializer;
+    protected Serializer $serializer;
 
     /**
      * @var MetadataFactory
      */
-    protected $metadataFactory;
+    protected MetadataFactory $metadataFactory;
 
     /**
      * Hydrator constructor.
@@ -48,7 +48,8 @@ class Hydrator
         $builder = SerializerBuilder::create()
             ->setDocBlockTypeResolver(true)
             ->addDefaultHandlers()
-            ->setCacheDir($cacheDir);
+            ->setCacheDir($cacheDir)
+        ;
         $this->serializer = $builder->build();
     }
 
@@ -103,6 +104,7 @@ class Hydrator
      */
     public function hydrate(array $data, string $type): object
     {
+        /** @phpstan-ignore-next-line  */
         return $this->serializer->fromArray($data, $type);
     }
 

@@ -27,7 +27,7 @@ trait ListFieldsSetTrait
      * Write Given Fields
      *
      * @param string $fieldName Field Identifier / Name
-     * @param mixed  $fieldData Field Data
+     * @param null|array<string, null|array<string, null|array|scalar>|scalar>|scalar  $fieldData Field Data
      *
      * @throws Exception
      *
@@ -52,7 +52,13 @@ trait ListFieldsSetTrait
         if (is_iterable($fieldData)) {
             foreach ($fieldData as $itemData) {
                 //====================================================================//
+                // Safety Check => Item data Must be Iterable
+                if (!is_iterable($itemData)) {
+                    continue;
+                }
+                //====================================================================//
                 // Load / Create Item
+                $originData = is_iterable($originData) ? $originData : array();
                 $originItem = array_shift($originData);
                 $originItem = $originItem ?: new $itemClass();
                 //====================================================================//

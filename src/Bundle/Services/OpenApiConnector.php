@@ -44,7 +44,7 @@ class OpenApiConnector extends AbstractConnector implements TrackingInterface
      *
      * @var array
      */
-    protected static $objectsMap = array(
+    protected static array $objectsMap = array(
         "Simple" => Objects\Simple::class,
         "SubResource" => Objects\SubResource::class,
         "ListResource" => Objects\ListResource::class,
@@ -55,26 +55,26 @@ class OpenApiConnector extends AbstractConnector implements TrackingInterface
      *
      * @var array
      */
-    protected static $widgetsMap = array(
+    protected static array $widgetsMap = array(
         "SelfTest" => "Splash\\OpenApi\\Bundle\\Widgets\\SelfTest",
     );
 
     /**
-     * @var ConnexionInterface
+     * @var null|ConnexionInterface
      */
-    private $connexion;
+    private ?ConnexionInterface $connexion;
 
     /**
      * Object Hydrator
      *
      * @var Hydrator
      */
-    private $hydrator;
+    private Hydrator $hydrator;
 
     /**
      * @var string
      */
-    private $metaDir;
+    private string $metaDir;
 
     /**
      * Setup Cache Dir for Metadata
@@ -189,18 +189,18 @@ class OpenApiConnector extends AbstractConnector implements TrackingInterface
      *
      * @throws Exception
      */
-    public function getFile(string $filePath, string $fileMd5)
+    public function getFile(string $filePath, string $fileMd5): ?array
     {
         //====================================================================//
         // Safety Check => Verify Self-test Pass
         if (!$this->selfTest()) {
-            return false;
+            return null;
         }
         //====================================================================//
         // Read File Contents via Raw Get Request
         $rawResponse = $this->getConnexion()->getRaw($filePath);
         if (!$rawResponse || (md5($rawResponse) != $fileMd5)) {
-            return false;
+            return null;
         }
         //====================================================================//
         // Build File Array
@@ -220,7 +220,7 @@ class OpenApiConnector extends AbstractConnector implements TrackingInterface
     //====================================================================//
 
     /**
-     * Get Connector Profile Informations
+     * Get Connector Profile Information
      *
      * @return array
      */
@@ -277,7 +277,7 @@ class OpenApiConnector extends AbstractConnector implements TrackingInterface
     /**
      * {@inheritdoc}
      */
-    public function getMasterAction()
+    public function getMasterAction(): ?string
     {
         return null;
     }

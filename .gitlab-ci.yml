@@ -115,11 +115,11 @@ functional:
 #################################################################
 ## Trigger Toolkit Docker Build
 #################################################################
-toolkit:
-    stage:      deploy
-    trigger:
-        project:  SplashSync/Toolkit
-        strategy: depend
+#toolkit:
+#    stage:      deploy
+#    trigger:
+#        project:  SplashSync/Toolkit
+#        strategy: depend
 
 #################################################################
 ## Build Documentation
