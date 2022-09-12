@@ -68,7 +68,7 @@ class SubResource
     public function getItem(): ?Item
     {
         // Force Hydratation of Child Object
-        $this->item->name;
+        isset($this->item) ?? $this->item->name;
 
         return $this->item;
     }
