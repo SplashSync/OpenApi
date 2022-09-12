@@ -53,5 +53,10 @@
 
         "doctrine/doctrine-bundle":                     "^2.6",
         "doctrine/orm":                                 "^2.6"
+    },
+    "config": {
+        "allow-plugins": {
+            "phpro/grumphp": true
+        }
     }
 }
