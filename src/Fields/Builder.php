@@ -132,6 +132,7 @@ class Builder extends Descriptor
      * @throws Exception
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     private static function setupValidatorMetadata(FieldsFactory $factory, Metadata $metadata): void
     {
@@ -148,6 +149,11 @@ class Builder extends Descriptor
             // Detect Choices
             if (($constraint instanceof SPL\Microdata) && $constraint->isValid()) {
                 $factory->microData($constraint->getItemType(), $constraint->getItemProp());
+            }
+            //====================================================================//
+            // Detect Primary
+            if (($constraint instanceof SPL\Primary)) {
+                $factory->isPrimary();
             }
             //====================================================================//
             // Detect Not Tested
