@@ -15,6 +15,7 @@
 
 namespace Splash\OpenApi\Visitor;
 
+use DateTimeZone;
 use Exception;
 use Httpful\Response;
 use Splash\OpenApi\ApiResponse;
@@ -29,6 +30,8 @@ use Splash\OpenApi\Models\Connexion\ConnexionInterface;
 
 /**
  * Base OpenApi Remote Model Visitor
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class AbstractVisitor
 {
@@ -56,6 +59,11 @@ class AbstractVisitor
      * @var string
      */
     protected $itemUri;
+
+    /**
+     * @var null|DateTimeZone
+     */
+    protected static ?DateTimeZone $timezone = null;
 
     //====================================================================//
     // Actions Storage
@@ -233,6 +241,20 @@ class AbstractVisitor
         }
 
         return null;
+    }
+
+    /**
+     * Set Connector Default Timezone
+     *
+     * @param string $timezone
+     *
+     * @return AbstractVisitor
+     */
+    public function setTimezone(string $timezone = "Europe/Paris"): self
+    {
+        self::$timezone = new DateTimeZone($timezone);
+
+        return $this;
     }
 
     //====================================================================//
@@ -482,6 +504,16 @@ class AbstractVisitor
     public function getHydrator(): Hydrator
     {
         return $this->hydrator;
+    }
+
+    /**
+     * Get Connector Default Timezone
+     *
+     * @return DateTimeZone
+     */
+    public static function getTimezone(): DateTimeZone
+    {
+        return self::$timezone ?? new DateTimeZone("Europe/Paris");
     }
 
     /**

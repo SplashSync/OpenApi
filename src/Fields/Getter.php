@@ -277,6 +277,11 @@ class Getter
     private static function toDate(string $format, $rawData): ?string
     {
         if ($rawData instanceof DateTime) {
+            //====================================================================//
+            // Force Timezone to Local Connector Timezone
+            $rawData->setTimezone(AbstractVisitor::getTimezone());
+            //====================================================================//
+            // Format Date
             return $rawData->format($format);
         }
         if (!is_scalar($rawData)) {
@@ -284,7 +289,10 @@ class Getter
         }
 
         try {
-            return (new DateTime((string) $rawData))->format($format);
+            return (new DateTime((string) $rawData))
+                ->setTimezone(AbstractVisitor::getTimezone())
+                ->format($format)
+            ;
         } catch (\Exception $ex) {
             return null;
         }

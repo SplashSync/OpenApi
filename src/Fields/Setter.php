@@ -19,6 +19,7 @@ use DateTime;
 use Exception;
 use Splash\Models\Fields\FieldsManagerTrait;
 use Splash\Models\Helpers;
+use Splash\OpenApi\Visitor\AbstractVisitor;
 
 /**
  * Set Data to Generic Open API Class
@@ -218,7 +219,10 @@ class Setter
             case SPL_T_DATE:
             case SPL_T_DATETIME:
                 try {
-                    $datetime = new DateTime((string) $scalarData);
+                    $datetime = new DateTime(
+                        (string) $scalarData,
+                        AbstractVisitor::getTimezone()
+                    );
                 } catch (Exception $ex) {
                     $datetime = null;
                 }
