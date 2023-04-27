@@ -69,6 +69,7 @@ class Simple extends AbstractApiObject
     public function __construct(OpenApiConnector $connector)
     {
         parent::__construct($connector->getConnexion(), $connector->getHydrator(), Api\Simple::class);
+        $this->visitor->setTimezone("UTC");
         //====================================================================//
         //  Load Translation File
         Splash::translator()->load('local');
