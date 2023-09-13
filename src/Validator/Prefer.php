@@ -24,6 +24,7 @@ use Symfony\Component\Validator\Constraint;
  *
  * @Annotation
  */
+#[\Attribute]
 class Prefer extends Constraint
 {
     /**

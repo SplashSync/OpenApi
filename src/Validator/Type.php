@@ -20,6 +20,7 @@ use Symfony\Component\Validator\Constraint;
 /**
  * @Annotation
  */
+#[\Attribute]
 class Type extends Constraint
 {
     /**

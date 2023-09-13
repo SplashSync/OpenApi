@@ -22,6 +22,7 @@ use Symfony\Component\Validator\Constraint;
  *
  * @Annotation
  */
+#[\Attribute]
 class NoTested extends Constraint
 {
 }
