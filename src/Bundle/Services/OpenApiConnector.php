@@ -26,8 +26,10 @@ use Splash\OpenApi\Action;
 use Splash\OpenApi\Bundle\Form\EditFormType;
 use Splash\OpenApi\Bundle\Objects;
 use Splash\OpenApi\Connexion\JsonConnexion;
+use Splash\OpenApi\Fields\Descriptor;
 use Splash\OpenApi\Hydrator\Hydrator;
 use Splash\OpenApi\Models\Connexion\ConnexionInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * ReCommerce REST API Connector for Splash
@@ -82,6 +84,14 @@ class OpenApiConnector extends AbstractConnector implements TrackingInterface
     public function setMetaDir(string $metaDir) : void
     {
         $this->metaDir = $metaDir."/metadata/openapi";
+    }
+
+    /**
+     * Setup Validator for Models Annotations Parsing
+     */
+    public function setValidator(ValidatorInterface $validator) : void
+    {
+        Descriptor::setValidator($validator);
     }
 
     /**

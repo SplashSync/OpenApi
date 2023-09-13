@@ -23,6 +23,7 @@ use Splash\OpenApi\Validator as SPL;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Mapping;
 use Symfony\Component\Validator\Validation;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Splash Api Fields Descriptor.
@@ -37,32 +38,37 @@ class Descriptor
     private static $meta = array();
 
     /**
+     * Symfony Validator
+     */
+    private static ?ValidatorInterface $validator = null;
+
+    /**
      * List of Loaded Model Validator Metadata
      *
      * @var Mapping\ClassMetadata[]
      */
-    private static $validators = array();
+    private static array $validators = array();
 
     /**
      * Object Hydrator
      *
      * @var Hydrator
      */
-    private static $hydrator;
+    private static Hydrator $hydrator;
 
     /**
      * Field Ids to Exclude for each Model
      *
      * @var array
      */
-    private static $exclude = array();
+    private static array $exclude = array();
 
     /**
      * Class Names to Exclude for Sub-Resources
      *
      * @var array
      */
-    private static $protectedClasses = array(
+    private static array $protectedClasses = array(
         \DateTime::class,
         \ArrayObject::class
     );
@@ -95,6 +101,18 @@ class Descriptor
         //====================================================================//
         // Load Excluded Fields
         self::$exclude[$model] = is_null($exclude) ? array('id') : $exclude;
+    }
+
+    /**
+     * Set Symfony Validator.
+     *
+     * @param ValidatorInterface $validator
+     *
+     * @return void
+     */
+    public static function setValidator(ValidatorInterface $validator): void
+    {
+        self::$validator = $validator;
     }
 
     /**
@@ -529,10 +547,7 @@ class Descriptor
     protected static function getModelConstraints(string $model, string $fieldId): array
     {
         if (!isset(self::$validators[$model])) {
-            $validator = Validation::createValidatorBuilder()
-                ->enableAnnotationMapping()
-                ->getValidator()
-                ->getMetadataFor($model);
+            $validator = self::getValidator()->getMetadataFor($model);
             if ($validator instanceof Mapping\ClassMetadata) {
                 self::$validators[$model] = $validator;
             }
@@ -542,6 +557,23 @@ class Descriptor
         }
 
         return self::$validators[$model]->properties[$fieldId]->getConstraints();
+    }
+
+    /**
+     * Get Symfony Validator.
+     *
+     * @return ValidatorInterface
+     */
+    private static function getValidator(): ValidatorInterface
+    {
+        if (!isset(self::$validator)) {
+            self::$validator = Validation::createValidatorBuilder()
+                ->enableAnnotationMapping()
+                ->getValidator()
+            ;
+        }
+
+        return self::$validator;
     }
 
     /**

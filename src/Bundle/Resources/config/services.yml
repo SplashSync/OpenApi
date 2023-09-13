@@ -6,7 +6,8 @@ services:
         class:      Splash\OpenApi\Bundle\Services\OpenApiConnector
         autowire:   true
         calls:
-            - setMetaDir: ["%kernel.cache_dir%"]
+            - setMetaDir:   ["%kernel.cache_dir%"]
+            - setValidator: ["@validator"]
         tags:
             - { name: "splash.connector" }
             
