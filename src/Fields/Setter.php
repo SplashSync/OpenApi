@@ -201,6 +201,7 @@ class Setter
         // Write Simple Fields Types
         switch ($fieldType) {
             case SPL_T_VARCHAR:
+            case SPL_T_TEXT:
             case SPL_T_URL:
             case SPL_T_EMAIL:
             case SPL_T_PHONE:
