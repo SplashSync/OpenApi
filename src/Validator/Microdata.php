@@ -26,12 +26,12 @@ class Microdata extends Constraint
     /**
      * @var array
      */
-    public $value;
+    public array $value;
 
     /**
      * {@inheritdoc}
      */
-    public function getDefaultOption()
+    public function getDefaultOption(): ?string
     {
         return 'value';
     }

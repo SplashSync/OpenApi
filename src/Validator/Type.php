@@ -26,12 +26,12 @@ class Type extends Constraint
     /**
      * @var string
      */
-    public $value;
+    public string $value;
 
     /**
      * {@inheritdoc}
      */
-    public function getDefaultOption()
+    public function getDefaultOption(): ?string
     {
         return 'value';
     }

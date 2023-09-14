@@ -33,7 +33,7 @@ class Group extends Constraint
      */
     public function getDefaultOption(): ?string
     {
-        return null;
+        return 'value';
     }
 
     /**
