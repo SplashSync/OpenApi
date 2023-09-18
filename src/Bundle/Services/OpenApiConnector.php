@@ -104,6 +104,7 @@ class OpenApiConnector extends AbstractConnector implements TrackingInterface
         if (!$this->selfTest()) {
             return false;
         }
+
         //====================================================================//
         // Perform Ping Test
         return Action\Ping::execute($this->getConnexion(), "");
@@ -119,6 +120,7 @@ class OpenApiConnector extends AbstractConnector implements TrackingInterface
         if (!$this->selfTest()) {
             return false;
         }
+
         //====================================================================//
         // Perform Connect Test
         return Action\Connect::execute($this->getConnexion(), "/simples");

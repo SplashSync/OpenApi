@@ -44,8 +44,6 @@ abstract class AbstractLoadAction extends AbstractAction
             return new ApiResponse($this->visitor);
         }
 
-//        \Splash\Client\Splash::log()->www("Get", $this->extractData($rawResponse));
-
         return new ApiResponse($this->visitor, true, $this->extractData($rawResponse));
     }
 

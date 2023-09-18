@@ -25,6 +25,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Basic Object Model with List Resource Fields.
  *
  * @ApiResource()
+ *
  * @ORM\Entity
  */
 class ListResource
@@ -35,7 +36,9 @@ class ListResource
      * @var int
      *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue
+     *
      * @ORM\Column(type="integer")
      *
      * @Assert\Type("integer")
@@ -46,7 +49,9 @@ class ListResource
      * Object Name.
      *
      * @var string
+     *
      * @Assert\NotNull()
+     *
      * @Assert\Type("string")
      *
      * @ORM\Column

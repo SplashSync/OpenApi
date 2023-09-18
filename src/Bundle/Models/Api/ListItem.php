@@ -31,26 +31,37 @@ class ListItem
      * Name.
      *
      * @var string
+     *
      * @SerializedName("name")
+     *
      * @Assert\NotNull()
+     *
      * @Assert\Type("string")
+     *
      * @Type("string")
+     *
      * @Groups ({"Read", "Write", "Required"})
      */
     public $name;
 
     /**
      * @var null|bool
+     *
      * @SerializedName("bool")
+     *
      * @Assert\Type("bool")
+     *
      * @Type("bool")
      */
     public $bool = false;
 
     /**
      * @var null|int
+     *
      * @SerializedName("int")
+     *
      * @Assert\Type("int")
+     *
      * @Type("int")
      */
     public $int;
@@ -59,7 +70,9 @@ class ListItem
      * @var null|Datetime
      *
      * @SerializedName("datetime")
+     *
      * @Assert\Type("DateTime")
+     *
      * @Type("DateTime")
      */
     public $datetime;
@@ -68,7 +81,9 @@ class ListItem
      * @var null|array
      *
      * @SerializedName("price")
+     *
      * @Type("array")
+     *
      * @SPL\Type("price")
      */
     public $price;

@@ -33,10 +33,15 @@ class Simple
      * Unique identifier representing a Shipment.
      *
      * @var string
+     *
      * @SerializedName("id")
+     *
      * @Assert\NotNull()
+     *
      * @Assert\Type("string")
+     *
      * @Type("string")
+     *
      * @Groups ({"Read", "Write", "List"})
      */
     public $id;
@@ -45,11 +50,17 @@ class Simple
      * Client's firstname.
      *
      * @var string
+     *
      * @SerializedName("firstname")
+     *
      * @Assert\NotNull()
+     *
      * @Assert\Type("string")
+     *
      * @Type("string")
+     *
      * @Groups ({"Read", "Write", "List", "Required"})
+     *
      * @SPL\Description("This is First Name")
      */
     public $firstname;
@@ -58,11 +69,17 @@ class Simple
      * Client's lastname.
      *
      * @var string
+     *
      * @SerializedName("lastname")
+     *
      * @Assert\NotNull()
+     *
      * @Assert\Type("string")
+     *
      * @Type("string")
+     *
      * @Groups ({"Read", "Write", "List", "Required"})
+     *
      * @SPL\Description("This is Last Name")
      */
     public $lastname;
@@ -71,9 +88,13 @@ class Simple
      * Client's email.
      *
      * @var null|string
+     *
      * @SerializedName("email")
+     *
      * @Assert\Type("string")
+     *
      * @Type("string")
+     *
      * @SPL\Type("email")
      */
     public $email;
@@ -82,9 +103,13 @@ class Simple
      * Client's phone.
      *
      * @var null|string
+     *
      * @SerializedName("phone")
+     *
      * @Assert\Type("string")
+     *
      * @Type("string")
+     *
      * @SPL\Type("phone")
      */
     public $phone;
@@ -93,8 +118,11 @@ class Simple
      * Optional second line of the address street.
      *
      * @var null|bool
+     *
      * @SerializedName("bool")
+     *
      * @Assert\Type("bool")
+     *
      * @Type("bool")
      */
     public $bool;
@@ -103,7 +131,9 @@ class Simple
      * @var null|int
      *
      * @SerializedName("int")
+     *
      * @Assert\Type("int")
+     *
      * @Type("int")
      */
     public $int;
@@ -112,9 +142,13 @@ class Simple
      * Client's website.
      *
      * @var null|string
+     *
      * @SerializedName("website")
+     *
      * @Assert\Type("string")
+     *
      * @Type("string")
+     *
      * @SPL\Type("url")
      */
     public $website;
@@ -123,10 +157,15 @@ class Simple
      * First line of the address street.
      *
      * @var string
+     *
      * @SerializedName("language")
+     *
      * @Assert\NotNull()
+     *
      * @Assert\Type("string")
+     *
      * @Type("string")
+     *
      * @SPL\Type("lang")
      */
     public $language;
@@ -135,10 +174,15 @@ class Simple
      * Currency.
      *
      * @var string
+     *
      * @SerializedName("currency")
+     *
      * @Assert\NotNull()
+     *
      * @Assert\Type("string")
+     *
      * @Type("string")
+     *
      * @SPL\Type("currency")
      */
     public $currency;
@@ -147,10 +191,15 @@ class Simple
      * Address country as ISO_3166-1 alpha-3.
      *
      * @var string
+     *
      * @SerializedName("countryId")
+     *
      * @Assert\NotNull()
+     *
      * @Assert\Type("string")
+     *
      * @Type("string")
+     *
      * @SPL\Type("country")
      */
     public $countryId;
@@ -159,7 +208,9 @@ class Simple
      * @var Datetime
      *
      * @SerializedName("date")
+     *
      * @Type("DateTime")
+     *
      * @SPL\Type("date")
      */
     public $date;
@@ -168,7 +219,9 @@ class Simple
      * @var Datetime
      *
      * @SerializedName("datetime")
+     *
      * @Type("DateTime")
+     *
      * @SPL\Type("datetime")
      */
     public $datetime;
@@ -177,7 +230,9 @@ class Simple
      * @var null|array
      *
      * @SerializedName("price")
+     *
      * @Type("array")
+     *
      * @SPL\Type("price")
      */
     public $price;
@@ -186,8 +241,11 @@ class Simple
      * @var null|array
      *
      * @SerializedName("image")
+     *
      * @Type("array")
+     *
      * @SPL\Type("image")
+     *
      * @Groups ({"Read"})
      */
     public $image;
@@ -196,8 +254,11 @@ class Simple
      * @var null|array
      *
      * @SerializedName("file")
+     *
      * @Type("array")
+     *
      * @SPL\Type("file")
+     *
      * @Groups ({"Read"})
      */
     public $file;

@@ -128,6 +128,7 @@ abstract class AbstractConnexion implements ConnexionInterface
         if (!empty($data)) {
             $uri .= "?".http_build_query($data);
         }
+
         //====================================================================//
         // Perform Request
         try {
@@ -137,6 +138,7 @@ abstract class AbstractConnexion implements ConnexionInterface
 
             return null;
         }
+
         //====================================================================//
         // Catch Errors inResponse
         return self::isErrored($this->lastResponse)
@@ -159,6 +161,7 @@ abstract class AbstractConnexion implements ConnexionInterface
         if (!empty($data)) {
             $uri .= "?".http_build_query($data);
         }
+
         //====================================================================//
         // Perform Request
         try {
@@ -171,6 +174,7 @@ abstract class AbstractConnexion implements ConnexionInterface
 
             return null;
         }
+
         //====================================================================//
         // Catch Errors inResponse
         return self::isErrored($this->lastResponse) ? null : $this->lastResponse->body;
@@ -184,6 +188,7 @@ abstract class AbstractConnexion implements ConnexionInterface
         //====================================================================//
         // Restore Connexion Template
         Request::ini($this->template);
+
         //====================================================================//
         // Perform Request
         try {
@@ -195,6 +200,7 @@ abstract class AbstractConnexion implements ConnexionInterface
 
             return null;
         }
+
         //====================================================================//
         // Catch Errors in Response
         return self::isErrored($this->lastResponse)
@@ -211,6 +217,7 @@ abstract class AbstractConnexion implements ConnexionInterface
         //====================================================================//
         // Restore Connexion Template
         Request::ini($this->template);
+
         //====================================================================//
         // Perform Request
         try {
@@ -222,6 +229,7 @@ abstract class AbstractConnexion implements ConnexionInterface
 
             return null;
         }
+
         //====================================================================//
         // Catch Errors in Response
         return self::isErrored($this->lastResponse)
@@ -238,6 +246,7 @@ abstract class AbstractConnexion implements ConnexionInterface
         //====================================================================//
         // Restore Connexion Template
         Request::ini($this->template);
+
         //====================================================================//
         // Perform Request
         try {
@@ -250,6 +259,7 @@ abstract class AbstractConnexion implements ConnexionInterface
 
             return null;
         }
+
         //====================================================================//
         // Catch Errors in Response
         return self::isErrored($this->lastResponse)
@@ -266,6 +276,7 @@ abstract class AbstractConnexion implements ConnexionInterface
         //====================================================================//
         // Restore Connexion Template
         Request::ini($this->template);
+
         //====================================================================//
         // Perform Request
         try {
@@ -276,6 +287,7 @@ abstract class AbstractConnexion implements ConnexionInterface
 
             return null;
         }
+
         //====================================================================//
         // Catch Errors inResponse
         return self::isErrored($this->lastResponse) ? null : (array) json_decode($this->lastResponse->body, true);

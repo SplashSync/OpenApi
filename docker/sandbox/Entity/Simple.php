@@ -27,6 +27,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Simple Object Model with basic Fields.
  *
  * @ApiResource()
+ *
  * @ORM\Entity
  */
 class Simple
@@ -37,7 +38,9 @@ class Simple
      * @var int
      *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue
+     *
      * @ORM\Column(type="integer")
      *
      * @Assert\Type("integer")
@@ -48,7 +51,9 @@ class Simple
      * Client's firstname.
      *
      * @var string
+     *
      * @Assert\NotNull()
+     *
      * @Assert\Type("string")
      *
      * @ORM\Column
@@ -59,7 +64,9 @@ class Simple
      * Client's lastname.
      *
      * @var string
+     *
      * @Assert\NotNull()
+     *
      * @Assert\Type("string")
      *
      * @ORM\Column
@@ -70,6 +77,7 @@ class Simple
      * Client's email.
      *
      * @var null|string
+     *
      * @Assert\Type("string")
      *
      * @ORM\Column(nullable=true)
@@ -80,6 +88,7 @@ class Simple
      * Client's phone.
      *
      * @var null|string
+     *
      * @Assert\Type("string")
      *
      * @ORM\Column(nullable=true)
@@ -88,6 +97,7 @@ class Simple
 
     /**
      * @var null|bool
+     *
      * @Assert\Type("bool")
      *
      * @ORM\Column(type="boolean", nullable=true)
@@ -96,6 +106,7 @@ class Simple
 
     /**
      * @var null|int
+     *
      * @Assert\Type("int")
      *
      * @ORM\Column(type="integer", nullable=true)
@@ -106,6 +117,7 @@ class Simple
      * Client's website.
      *
      * @var null|string
+     *
      * @Assert\Type("string")
      *
      * @ORM\Column(nullable=true)

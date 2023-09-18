@@ -110,6 +110,7 @@ abstract class AbstractListAction extends AbstractAction
         //====================================================================//
         // Hydrate Results
         $results = $this->visitor->getHydrator()->hydrateMany($rawResponse, $this->visitor->getModel());
+
         //====================================================================//
         // Extract List Results
         return empty($this->options['raw'])

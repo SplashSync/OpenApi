@@ -44,6 +44,7 @@ class GetAction extends AbstractLoadAction
                 $rawResponse[$this->getEmbeddedIndex()]
             );
         }
+
         //====================================================================//
         // Hydrate Results
         return parent::extractData($rawResponse);

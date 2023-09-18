@@ -35,7 +35,7 @@ class Getter
      * @param class-string $model   Target Model
      * @param string       $fieldId Field Identifier / Name
      *
-     *@throws Exception
+     * @throws Exception
      *
      * @return bool
      */
@@ -116,7 +116,7 @@ class Getter
      * @param AbstractVisitor $visitor
      * @param object          $inputs
      *
-     *@throws Exception
+     * @throws Exception
      *
      * @return null|object
      */
@@ -281,6 +281,7 @@ class Getter
             //====================================================================//
             // Force Timezone to Local Connector Timezone
             $rawData->setTimezone(AbstractVisitor::getTimezone());
+
             //====================================================================//
             // Format Date
             return $rawData->format($format);

@@ -31,9 +31,13 @@ class ListResource
      * @var string
      *
      * @SerializedName("id")
+     *
      * @Assert\NotNull()
+     *
      * @Assert\Type("string")
+     *
      * @Type("string")
+     *
      * @Groups ({"Read", "Write", "List"})
      */
     public $id;
@@ -42,10 +46,15 @@ class ListResource
      * Object Name.
      *
      * @var string
+     *
      * @SerializedName("name")
+     *
      * @Assert\NotNull()
+     *
      * @Assert\Type("string")
+     *
      * @Type("string")
+     *
      * @Groups ({"Read", "Write", "List", "Required"})
      */
     public $name;
@@ -54,8 +63,11 @@ class ListResource
      * Just a Item Object.
      *
      * @var null|ListItem[]
+     *
      * @SerializedName("items")
+     *
      * @Assert\Type("array<Splash\OpenApi\Bundle\Models\Api\ListItem>")
+     *
      * @Type("iterable<Splash\OpenApi\Bundle\Models\Api\ListItem>")
      */
     public $items;

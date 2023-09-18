@@ -205,6 +205,7 @@ class AbstractVisitor
         //====================================================================//
         // Detect Item Id
         $itemId = $this->getItemId($objectOrId);
+
         //====================================================================//
         // Build Item Uri
         return is_string($itemId)

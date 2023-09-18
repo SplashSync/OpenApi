@@ -36,10 +36,13 @@ class Item
      * @var int
      *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue
+     *
      * @ORM\Column(type="integer")
      *
      * @Assert\NotNull()
+     *
      * @Assert\Type("integer")
      *
      * @Groups ({"read"})
@@ -59,7 +62,9 @@ class Item
      * Name.
      *
      * @var string
+     *
      * @Assert\NotNull()
+     *
      * @Assert\Type("string")
      *
      * @ORM\Column
@@ -68,6 +73,7 @@ class Item
 
     /**
      * @var null|bool
+     *
      * @Assert\Type("bool")
      *
      * @ORM\Column(type="boolean", nullable=true)
@@ -76,6 +82,7 @@ class Item
 
     /**
      * @var null|int
+     *
      * @Assert\Type("int")
      *
      * @ORM\Column(type="integer", nullable=true)
@@ -89,39 +96,39 @@ class Item
      */
     public $datetime;
 
-//    /**
-//     * @var null|array
-//     *
-//     * @ORM\Column(type="array", nullable=true)
-//     */
-//    protected $price;
-//
-//    /**
-//     * @param array|null $price
-//     *
-//     * @return self
-//     */
-//    public function setPrice(?array $price): self
-//    {
-//        $this->price = $price;
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * @return array
-//     */
-//    public function getPrice(): array
-//    {
-//        if (empty($this->price)) {
-//            //====================================================================//
-//            // Init Splash Framework
-//            Splash::setLocalClass(new Local());
-//            //====================================================================//
-//            // Encode Splash Price Array
-//            $this->price = PricesHelper::encode((float) rand(10, 100), 20.0, null, "EUR");
-//        }
-//
-//        return $this->price;
-//    }
+    //    /**
+    //     * @var null|array
+    //     *
+    //     * @ORM\Column(type="array", nullable=true)
+    //     */
+    //    protected $price;
+    //
+    //    /**
+    //     * @param array|null $price
+    //     *
+    //     * @return self
+    //     */
+    //    public function setPrice(?array $price): self
+    //    {
+    //        $this->price = $price;
+    //
+    //        return $this;
+    //    }
+    //
+    //    /**
+    //     * @return array
+    //     */
+    //    public function getPrice(): array
+    //    {
+    //        if (empty($this->price)) {
+    //            //====================================================================//
+    //            // Init Splash Framework
+    //            Splash::setLocalClass(new Local());
+    //            //====================================================================//
+    //            // Encode Splash Price Array
+    //            $this->price = PricesHelper::encode((float) rand(10, 100), 20.0, null, "EUR");
+    //        }
+    //
+    //        return $this->price;
+    //    }
 }

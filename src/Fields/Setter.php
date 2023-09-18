@@ -32,7 +32,7 @@ class Setter
      * @param class-string $model   Target Model
      * @param string       $fieldId
      *
-     *@throws Exception
+     * @throws Exception
      *
      * @return bool
      */

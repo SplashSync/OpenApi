@@ -31,9 +31,13 @@ class SubResource
      * @var string
      *
      * @SerializedName("id")
+     *
      * @Assert\NotNull()
+     *
      * @Assert\Type("string")
+     *
      * @Type("string")
+     *
      * @Groups ({"Read", "Write", "List"})
      */
     public $id;
@@ -42,10 +46,15 @@ class SubResource
      * Object Name.
      *
      * @var string
+     *
      * @SerializedName("name")
+     *
      * @Assert\NotNull()
+     *
      * @Assert\Type("string")
+     *
      * @Type("string")
+     *
      * @Groups ({"Read", "Write", "List", "Required"})
      */
     public $name;
@@ -54,8 +63,11 @@ class SubResource
      * Just a Item Object.
      *
      * @var null|Item
+     *
      * @SerializedName("item")
+     *
      * @Assert\Type("Splash\OpenApi\Bundle\Models\Api\Item")
+     *
      * @Type("Splash\OpenApi\Bundle\Models\Api\Item")
      */
     public $item;

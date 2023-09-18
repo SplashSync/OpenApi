@@ -22,17 +22,4 @@ use Splash\OpenApi\Models\Action\AbstractLoadAction;
  */
 class GetAction extends AbstractLoadAction
 {
-//    /**
-//     * Extract Objects List Data.
-//     *
-//     * @param array $rawResponse
-//     *
-//     * @return object
-//     */
-//    public function extractData(array $rawResponse): object
-//    {
-//        //====================================================================//
-//        // Hydrate Results
-//        return $this->api->getHydrator()->hydrate($rawResponse, $this->api->getModel());
-//    }
 }

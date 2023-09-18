@@ -16,33 +16,27 @@
 #
 ################################################################################
 
+set -e
+
+################################################################################
+# Docker Compose Container you want to check
+CONTAINERS="php-8.2,php-8.1"
+
 ################################################################################
 # Start Docker Compose Stack
 echo '===> Start Docker Stack'
 docker-compose up -d
 
-################################################################################
-# PHP 8.1
-echo '===> Checks Php 8.1'
-docker-compose exec php-8.1 bash ci/install.sh
-docker-compose exec php-8.1 php vendor/bin/grumphp run --testsuite=travis
-docker-compose exec php-8.1 php vendor/bin/grumphp run --testsuite=csfixer
-docker-compose exec php-8.1 php vendor/bin/grumphp run --testsuite=phpstan
-
-################################################################################
-# PHP 8.0
-echo '===> Checks Php 8.0'
-docker-compose exec php-8.0 bash ci/install.sh
-docker-compose exec php-8.0 php vendor/bin/grumphp run --testsuite=travis
-docker-compose exec php-8.0 php vendor/bin/grumphp run --testsuite=csfixer
-docker-compose exec php-8.0 php vendor/bin/grumphp run --testsuite=phpstan
-
-################################################################################
-# PHP 7.4
-echo '===> Checks Php 7.4'
-docker-compose exec php-7.4 bash ci/install.sh
-docker-compose exec php-7.4 php vendor/bin/grumphp run --testsuite=travis
-docker-compose exec php-7.4 php vendor/bin/grumphp run --testsuite=csfixer
-docker-compose exec php-7.4 php vendor/bin/grumphp run --testsuite=phpstan
-
+######################################
+# Walk on Docker Compose Container
+for ID in $(echo $CONTAINERS | tr "," "\n")
+do
+    echo "----------------------------------------------------"
+    echo "===> CHECKS ON $ID"
+    echo "----------------------------------------------------"
+    docker-compose exec $ID composer update -q || docker-compose exec $ID composer update
+    docker-compose exec $ID php vendor/bin/grumphp run --testsuite=travis
+    docker-compose exec $ID php vendor/bin/grumphp run --testsuite=csfixer
+    docker-compose exec $ID php vendor/bin/grumphp run --testsuite=phpstan
+done
 

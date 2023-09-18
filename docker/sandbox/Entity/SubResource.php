@@ -23,6 +23,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Basic Object Model with Sub-Resource Fields.
  *
  * @ApiResource()
+ *
  * @ORM\Entity
  */
 class SubResource
@@ -33,7 +34,9 @@ class SubResource
      * @var int
      *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue
+     *
      * @ORM\Column(type="integer")
      *
      * @Assert\Type("integer")
@@ -44,7 +47,9 @@ class SubResource
      * Object Name.
      *
      * @var string
+     *
      * @Assert\NotNull()
+     *
      * @Assert\Type("string")
      *
      * @ORM\Column
@@ -55,9 +60,11 @@ class SubResource
      * Just a Item Object.
      *
      * @var null|Item
+     *
      * @Assert\Type("App\Entity\Item")
      *
      * @ORM\OneToOne(targetEntity="App\Entity\Item", cascade={"all"})
+     *
      * @ORM\JoinColumn(referencedColumnName="id", unique=true, nullable=true)
      */
     protected $item;

@@ -42,6 +42,7 @@ class ListAction extends AbstractListAction
         if (empty($firstItem)) {
             return array();
         }
+
         //====================================================================//
         // Extract List Results
         return parent::extractData($firstItem);

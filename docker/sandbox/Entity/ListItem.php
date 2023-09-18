@@ -36,10 +36,13 @@ class ListItem
      * @var int
      *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue
+     *
      * @ORM\Column(type="integer")
      *
      * @Assert\NotNull()
+     *
      * @Assert\Type("integer")
      *
      * @Groups ({"read"})
@@ -59,7 +62,9 @@ class ListItem
      * Name.
      *
      * @var string
+     *
      * @Assert\NotNull()
+     *
      * @Assert\Type("string")
      *
      * @ORM\Column
@@ -68,6 +73,7 @@ class ListItem
 
     /**
      * @var null|bool
+     *
      * @Assert\Type("bool")
      *
      * @ORM\Column(type="boolean", nullable=true)
@@ -76,6 +82,7 @@ class ListItem
 
     /**
      * @var null|int
+     *
      * @Assert\Type("int")
      *
      * @ORM\Column(type="integer", nullable=true)
