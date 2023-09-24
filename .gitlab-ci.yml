@@ -18,4 +18,4 @@
 ################################################################
 # Include Pipeline Templates
 include:
-  - remote: 'https://raw.githubusercontent.com/SplashSync/OpenApi/master/gitlab/connectors.yaml'
+  - local: 'gitlab/connectors.yaml'
