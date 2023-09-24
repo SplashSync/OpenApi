@@ -54,7 +54,7 @@
         }
     },
     "archive": {
-        "exclude": ["/bin", "/ci", "/docs", "/tests"]
+        "exclude": ["/bin", "/ci", "/docker", "/gitlab"]
     },
     "scripts": {
         "auto-scripts": [
