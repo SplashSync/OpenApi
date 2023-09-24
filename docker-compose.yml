@@ -61,24 +61,6 @@ services:
             openapi:        { ipv4_address: 172.131.0.200, aliases: [ sandbox.open-api.local ] }
             splashsync:     { aliases: [ sandbox.open-api.local ] }
 
-    ################################################################################
-    # PHP 8.2
-    php-8.2:
-        image:          splashsync/php-sdk:php-8.2
-        container_name: open-api-8.2
-        volumes:
-            - ./:/var/www/html
-            - vendor-php82:/var/www/html/vendor
-
-    ################################################################################
-    # PHP 8.1
-    php-8.1:
-        image:          splashsync/php-sdk:php-8.1
-        container_name: open-api-8.1
-        volumes:
-            - ./:/var/www/html
-            - vendor-php81:/var/www/html/vendor
-
 networks:
     ################################################################################
     # Default Private Network    
@@ -91,7 +73,3 @@ networks:
     # External Splash Network
     splashsync:
         external: true
-
-volumes:
-    vendor-php82: ~
-    vendor-php81: ~
