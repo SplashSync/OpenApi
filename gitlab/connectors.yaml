@@ -70,4 +70,4 @@ functional:
             - manifest
             - reports
         reports:
-            junit: "*-report.xml"
+            junit: "./reports/*-report.xml"
