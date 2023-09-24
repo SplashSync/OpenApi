@@ -48,6 +48,8 @@ functional:
     ################################################################################
     # Install & Configure Environment
     before_script:
+        # Install bash & curl
+        - apk add --no-cache curl bash
         # Install & Build Docker Compose
         - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/toolkit/build.sh  | bash
     ################################################################################
