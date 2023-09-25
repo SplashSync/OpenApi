@@ -72,4 +72,4 @@ functional:
             - manifest
             - reports
         reports:
-            junit: "./reports/*-report.xml"
+            junit: "$CI_PROJECT_DIR/reports/*-report.xml"
