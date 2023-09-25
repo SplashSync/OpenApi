@@ -61,11 +61,13 @@ functional:
         - docker-compose exec -T toolkit curl http://openapi/
         # Execute PhpUnit Tests
         - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/toolkit/phpunit.sh  | bash
-        - ls -l
         - docker cp "$(docker-compose ps -q toolkit)":/app/test-report.xml  $CI_PROJECT_DIR/reports/test-report.xml
-        - ls -l
+        - ls -l reports
         # Build Splash Manifest
         - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/toolkit/manifest.sh  | bash
+        - docker cp "$(docker-compose ps -q toolkit)":/app/splash.json  $CI_PROJECT_DIR/manifest/splash.json
+          docker cp "$(docker-compose ps -q toolkit)":/app/splash.yml   $CI_PROJECT_DIR/manifest/splash.yml
+        - ls -l manifest
     ################################################################################
     # Run After Script
     after_script:
