@@ -58,22 +58,15 @@ functional:
         - sleep 10
         - docker-compose exec -T toolkit curl http://openapi/
         # Execute PhpUnit Tests
-        - mkdir reports manifest
-        - docker-compose exec -T toolkit php vendor/bin/phpunit --log-junit test-report.xml
-        - CONTAINER_ID="`docker-compose ps -q toolkit`"
-        - docker cp $CONTAINER_ID:/app/test-report.xml reports/test-report.xml
-#        - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/toolkit/phpunit.sh  | bash
+        - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/toolkit/phpunit.sh  | bash
         # Build Splash Manifest
-#        - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/toolkit/manifest.sh  | bash
-        - docker cp $CONTAINER_ID:/app/splash.json manifest/splash.json
-        - docker cp $CONTAINER_ID:/app/splash.yml manifest/splash.yml
-        - docker-compose exec -T toolkit ls -l
-        - ls -l
+        - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/toolkit/manifest.sh  | bash
     ################################################################################
     # Run After Script
     after_script:
         - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/toolkit/after.sh  | bash
     artifacts:
+        when: always
         paths:
             - logs
             - manifest
