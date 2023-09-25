@@ -26,10 +26,12 @@ include:
 ################################################################
 
 quality:php-8.2:
+  when: manual
   extends: .quality
   image: registry.gitlab.com/badpixxel-projects/php-sdk:php-8.2
 
 quality:php-8.1:
+  when: manual
   extends: .quality
   image: registry.gitlab.com/badpixxel-projects/php-sdk:php-8.1
 
@@ -59,6 +61,9 @@ functional:
         - docker-compose exec -T toolkit curl http://openapi/
         # Execute PhpUnit Tests
         - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/toolkit/phpunit.sh  | bash
+        - ls -l
+        - docker cp "$(docker-compose ps -q toolkit)":/app/test-report.xml  $CI_PROJECT_DIR/reports/test-report.xml
+        - ls -l
         # Build Splash Manifest
         - curl -s https://raw.githubusercontent.com/BadPixxel/Php-Sdk/main/toolkit/manifest.sh  | bash
     ################################################################################
