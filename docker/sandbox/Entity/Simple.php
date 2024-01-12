@@ -15,8 +15,9 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation as API;
 use Datetime;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Splash\Client\Splash;
 use Splash\Models\Helpers\PricesHelper;
@@ -25,162 +26,154 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Simple Object Model with basic Fields.
- *
- * @ApiResource()
- *
- * @ORM\Entity
  */
+#[
+    API\ApiResource,
+    ORM\Entity()
+]
 class Simple
 {
     /**
-     * Unique identifier.
-     *
-     * @var int
-     *
-     * @ORM\Id
-     *
-     * @ORM\GeneratedValue
-     *
-     * @ORM\Column(type="integer")
-     *
-     * @Assert\Type("integer")
+     * Unique Identifier.
      */
-    public $id;
+    #[
+        Assert\Type("integer"),
+        ORM\Id,
+        ORM\GeneratedValue,
+        ORM\Column(type: Types::INTEGER),
+    ]
+    public int $id;
 
     /**
      * Client's firstname.
-     *
-     * @var string
-     *
-     * @Assert\NotNull()
-     *
-     * @Assert\Type("string")
-     *
-     * @ORM\Column
      */
-    public $firstname;
+    #[
+        Assert\NotNull,
+        Assert\Type("string"),
+        ORM\Column(),
+    ]
+    public string $firstname;
 
     /**
      * Client's lastname.
-     *
-     * @var string
-     *
-     * @Assert\NotNull()
-     *
-     * @Assert\Type("string")
-     *
-     * @ORM\Column
      */
-    public $lastname;
+    #[
+        Assert\NotNull,
+        Assert\Type("string"),
+        ORM\Column(),
+    ]
+    public string $lastname;
 
     /**
      * Client's email.
-     *
-     * @var null|string
-     *
-     * @Assert\Type("string")
-     *
-     * @ORM\Column(nullable=true)
      */
-    public $email;
+    #[
+        Assert\Type("string"),
+        ORM\Column(nullable: true),
+    ]
+    public ?string $email = null;
 
     /**
      * Client's phone.
-     *
-     * @var null|string
-     *
-     * @Assert\Type("string")
-     *
-     * @ORM\Column(nullable=true)
      */
-    public $phone;
+    #[
+        Assert\Type("string"),
+        ORM\Column(nullable: true),
+    ]
+    public ?string $phone = null;
+
+    #[
+        Assert\Type("bool"),
+        ORM\Column(type: Types::BOOLEAN, nullable: true),
+    ]
+    public ?bool $bool;
+
+    #[
+        Assert\Type("int"),
+        ORM\Column(type: Types::INTEGER, nullable: true),
+    ]
+    public ?int $int;
 
     /**
-     * @var null|bool
-     *
-     * @Assert\Type("bool")
-     *
-     * @ORM\Column(type="boolean", nullable=true)
+     * Website Url
      */
-    public $bool;
+    #[
+        Assert\Type("string"),
+        ORM\Column(nullable: true),
+    ]
+    public ?string $website = null;
 
     /**
-     * @var null|int
-     *
-     * @Assert\Type("int")
-     *
-     * @ORM\Column(type="integer", nullable=true)
+     * ISO Language
      */
-    public $int;
+    #[
+        Assert\Type("string"),
+        ORM\Column(nullable: true),
+    ]
+    public ?string $language = null;
 
     /**
-     * Client's website.
-     *
-     * @var null|string
-     *
-     * @Assert\Type("string")
-     *
-     * @ORM\Column(nullable=true)
+     * ISO Currency
      */
-    public $website;
-
-    /**
-     * @var null|string
-     *
-     * @ORM\Column(nullable=true)
-     */
-    public $language;
-
-    /**
-     * @var null|string
-     *
-     * @ORM\Column(nullable=true)
-     */
-    public $currency;
+    #[
+        Assert\Type("string"),
+        ORM\Column(nullable: true),
+    ]
+    public ?string $currency;
 
     /**
      * Address country.
-     *
-     * @var null|string
-     *
-     * @ORM\Column(nullable=true)
      */
-    public $countryId;
+    #[
+        Assert\Type("string"),
+        ORM\Column(nullable: true),
+    ]
+    public ?string $countryId;
 
     /**
-     * @var null|Datetime
-     *
-     * @ORM\Column(type="date", nullable=true)
+     * Date Field
      */
-    public $date;
+    #[
+        Assert\Type("datetime"),
+        ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true),
+    ]
+    public ?Datetime $date = null;
 
     /**
-     * @var null|Datetime
-     *
-     * @ORM\Column(type="datetime", nullable=true)
+     * Datetime Field
      */
-    public $datetime;
+    #[
+        Assert\Type("datetime"),
+        ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true),
+    ]
+    public ?Datetime $datetime = null;
 
     /**
-     * @var null|array
-     *
-     * @ORM\Column(type="array", nullable=true)
+     * Price Field
      */
-    protected $price;
+    #[
+        Assert\Type("array"),
+        ORM\Column(type: Types::JSON, nullable: true),
+    ]
+    protected ?array $price = null;
 
     /**
-     * @var null|array
-     *
-     * @ORM\Column(type="array", nullable=true)
+     * Image Field
      */
-    protected $image;
+    #[
+        Assert\Type("array"),
+        ORM\Column(type: Types::JSON, nullable: true),
+    ]
+    protected ?array $image = null;
 
     /**
-     * @var null|array
-     *
-     * @ORM\Column(type="array", nullable=true)
+     * File Field
      */
-    protected $file;
+    #[
+        Assert\Type("array"),
+        ORM\Column(type: Types::JSON, nullable: true),
+    ]
+    protected ?array $file = null;
 
     /**
      * @param null|array $price
