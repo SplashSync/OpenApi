@@ -295,7 +295,7 @@ class Getter
                 ->setTimezone(AbstractVisitor::getTimezone())
                 ->format($format)
             ;
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             return null;
         }
     }
