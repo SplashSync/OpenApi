@@ -15,7 +15,6 @@
 
 namespace Splash\OpenApi\Bundle\Models\Metadata;
 
-use DateTime;
 use JMS\Serializer\Annotation as JMS;
 use Splash\Metadata\Attributes as SPL;
 use Symfony\Component\Validator\Constraints as Assert;

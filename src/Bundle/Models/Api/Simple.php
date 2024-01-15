@@ -16,9 +16,7 @@
 namespace Splash\OpenApi\Bundle\Models\Api;
 
 use DateTime;
-use JMS\Serializer\Annotation\Groups;
-use JMS\Serializer\Annotation\SerializedName;
-use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation as JMS;
 use Splash\OpenApi\Validator as SPL;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -30,236 +28,196 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Simple
 {
     /**
-     * Unique identifier representing a Shipment.
-     *
-     * @var string
-     *
-     * @SerializedName("id")
-     *
-     * @Assert\NotNull()
-     *
-     * @Assert\Type("string")
-     *
-     * @Type("string")
-     *
-     * @Groups ({"Read", "Write", "List"})
+     * Unique Identifier.
      */
-    public $id;
+    #[
+        Assert\NotNull(),
+        Assert\Type("string"),
+        JMS\SerializedName("id"),
+        JMS\Groups(array("Read", "Write", "List")),
+        JMS\Type("string"),
+    ]
+    public string $id;
 
     /**
      * Client's firstname.
      *
-     * @var string
-     *
-     * @SerializedName("firstname")
-     *
-     * @Assert\NotNull()
-     *
-     * @Assert\Type("string")
-     *
-     * @Type("string")
-     *
-     * @Groups ({"Read", "Write", "List", "Required"})
-     *
      * @SPL\Description("This is First Name")
      */
-    public $firstname;
+    #[
+        Assert\NotNull(),
+        Assert\Type("string"),
+        JMS\SerializedName("firstname"),
+        JMS\Type("string"),
+        JMS\Groups(array("Read", "Write", "List", "Required")),
+    ]
+    public string $firstname;
 
     /**
      * Client's lastname.
      *
-     * @var string
-     *
-     * @SerializedName("lastname")
-     *
-     * @Assert\NotNull()
-     *
-     * @Assert\Type("string")
-     *
-     * @Type("string")
-     *
-     * @Groups ({"Read", "Write", "List", "Required"})
-     *
      * @SPL\Description("This is Last Name")
      */
-    public $lastname;
+    #[
+        Assert\NotNull(),
+        Assert\Type("string"),
+        JMS\SerializedName("lastname"),
+        JMS\Type("string"),
+        JMS\Groups(array("Read", "Write", "List", "Required")),
+    ]
+    public string $lastname;
 
     /**
      * Client's email.
      *
-     * @var null|string
-     *
-     * @SerializedName("email")
-     *
-     * @Assert\Type("string")
-     *
-     * @Type("string")
-     *
      * @SPL\Type("email")
      */
-    public $email;
+    #[
+        Assert\Type("string"),
+        JMS\SerializedName("email"),
+        JMS\Type("string"),
+    ]
+    public ?string $email = null;
 
     /**
      * Client's phone.
      *
-     * @var null|string
-     *
-     * @SerializedName("phone")
-     *
-     * @Assert\Type("string")
-     *
-     * @Type("string")
-     *
      * @SPL\Type("phone")
      */
-    public $phone;
+    #[
+        Assert\Type("string"),
+        JMS\SerializedName("phone"),
+        JMS\Type("string"),
+    ]
+    public ?string $phone = null;
 
     /**
-     * Optional second line of the address street.
-     *
-     * @var null|bool
-     *
-     * @SerializedName("bool")
-     *
-     * @Assert\Type("bool")
-     *
-     * @Type("bool")
+     * Just a Bool Flag.
      */
-    public $bool;
+    #[
+        Assert\Type("bool"),
+        JMS\SerializedName("bool"),
+        JMS\Type("bool"),
+    ]
+    public ?bool $bool = false;
 
     /**
-     * @var null|int
-     *
-     * @SerializedName("int")
-     *
-     * @Assert\Type("int")
-     *
-     * @Type("int")
+     * Just an integer.
      */
-    public $int;
+    #[
+        Assert\Type("int"),
+        JMS\SerializedName("int"),
+        JMS\Type("int"),
+    ]
+    public ?int $int = null;
 
     /**
-     * Client's website.
-     *
-     * @var null|string
-     *
-     * @SerializedName("website")
-     *
-     * @Assert\Type("string")
-     *
-     * @Type("string")
+     * Client's website Url.
      *
      * @SPL\Type("url")
      */
-    public $website;
+    #[
+        Assert\Type("string"),
+        JMS\SerializedName("website"),
+        JMS\Type("string"),
+    ]
+    public ?string $website = null;
 
     /**
-     * First line of the address street.
-     *
-     * @var string
-     *
-     * @SerializedName("language")
-     *
-     * @Assert\NotNull()
-     *
-     * @Assert\Type("string")
-     *
-     * @Type("string")
+     * ISO Language
      *
      * @SPL\Type("lang")
      */
-    public $language;
+    #[
+        Assert\Type("string"),
+        JMS\SerializedName("language"),
+        JMS\Type("string"),
+    ]
+    public ?string $language = null;
 
     /**
-     * Currency.
-     *
-     * @var string
-     *
-     * @SerializedName("currency")
-     *
-     * @Assert\NotNull()
-     *
-     * @Assert\Type("string")
-     *
-     * @Type("string")
+     * ISO Currency
      *
      * @SPL\Type("currency")
      */
-    public $currency;
+    #[
+        Assert\Type("string"),
+        JMS\SerializedName("currency"),
+        JMS\Type("string"),
+    ]
+    public ?string $currency = null;
 
     /**
      * Address country as ISO_3166-1 alpha-3.
      *
-     * @var string
-     *
-     * @SerializedName("countryId")
-     *
-     * @Assert\NotNull()
-     *
-     * @Assert\Type("string")
-     *
-     * @Type("string")
-     *
      * @SPL\Type("country")
      */
-    public $countryId;
+    #[
+        Assert\Type("string"),
+        JMS\SerializedName("countryId"),
+        JMS\Type("string"),
+    ]
+    public ?string $countryId = null;
 
     /**
-     * @var Datetime
-     *
-     * @SerializedName("date")
-     *
-     * @Type("DateTime")
+     * Date Field
      *
      * @SPL\Type("date")
      */
-    public $date;
+    #[
+        Assert\Type("datetime"),
+        JMS\SerializedName("date"),
+        JMS\Type("DateTime"),
+    ]
+    public ?DateTime $date = null;
 
     /**
-     * @var Datetime
-     *
-     * @SerializedName("datetime")
-     *
-     * @Type("DateTime")
+     * Datetime Field
      *
      * @SPL\Type("datetime")
      */
-    public $datetime;
+    #[
+        Assert\Type("datetime"),
+        JMS\SerializedName("datetime"),
+        JMS\Type("DateTime"),
+    ]
+    public ?DateTime $datetime = null;
 
     /**
-     * @var null|array
-     *
-     * @SerializedName("price")
-     *
-     * @Type("array")
+     * Splash Price Field
      *
      * @SPL\Type("price")
      */
-    public $price;
+    #[
+        Assert\Type("array"),
+        JMS\SerializedName("price"),
+        JMS\Type("array"),
+    ]
+    public ?array $price = null;
 
     /**
-     * @var null|array
-     *
-     * @SerializedName("image")
-     *
-     * @Type("array")
+     * Splash Image Field
      *
      * @SPL\Type("image")
-     *
-     * @Groups ({"Read"})
      */
-    public $image;
+    #[
+        Assert\Type("array"),
+        JMS\SerializedName("image"),
+        JMS\Type("array"),
+        JMS\Groups(array("Read")),
+    ]
+    public ?array $image = null;
 
     /**
-     * @var null|array
-     *
-     * @SerializedName("file")
-     *
-     * @Type("array")
+     * Splash File Field
      *
      * @SPL\Type("file")
-     *
-     * @Groups ({"Read"})
      */
-    public $file;
+    #[
+        Assert\Type("array"),
+        JMS\SerializedName("file"),
+        JMS\Type("array"),
+        JMS\Groups(array("Read")),
+    ]
+    public ?array $file = null;
 }

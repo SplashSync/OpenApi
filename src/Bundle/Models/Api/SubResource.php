@@ -15,9 +15,8 @@
 
 namespace Splash\OpenApi\Bundle\Models\Api;
 
-use JMS\Serializer\Annotation\Groups;
-use JMS\Serializer\Annotation\SerializedName;
-use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation as JMS;
+use Splash\OpenApi\Bundle\Models\Metadata\Item;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -26,49 +25,36 @@ use Symfony\Component\Validator\Constraints as Assert;
 class SubResource
 {
     /**
-     * Unique identifier .
-     *
-     * @var string
-     *
-     * @SerializedName("id")
-     *
-     * @Assert\NotNull()
-     *
-     * @Assert\Type("string")
-     *
-     * @Type("string")
-     *
-     * @Groups ({"Read", "Write", "List"})
+     * Unique Identifier.
      */
-    public $id;
+    #[
+        Assert\NotNull(),
+        Assert\Type("string"),
+        JMS\SerializedName("id"),
+        JMS\Groups(array("Read", "Write", "List")),
+        JMS\Type("string"),
+    ]
+    public string $id;
 
     /**
      * Object Name.
-     *
-     * @var string
-     *
-     * @SerializedName("name")
-     *
-     * @Assert\NotNull()
-     *
-     * @Assert\Type("string")
-     *
-     * @Type("string")
-     *
-     * @Groups ({"Read", "Write", "List", "Required"})
      */
-    public $name;
+    #[
+        Assert\NotNull(),
+        Assert\Type("string"),
+        JMS\SerializedName("name"),
+        JMS\Type("string"),
+        JMS\Groups(array("Read", "Write", "List", "Required")),
+    ]
+    public string $name;
 
     /**
-     * Just a Item Object.
-     *
-     * @var null|Item
-     *
-     * @SerializedName("item")
-     *
-     * @Assert\Type("Splash\OpenApi\Bundle\Models\Api\Item")
-     *
-     * @Type("Splash\OpenApi\Bundle\Models\Api\Item")
+     * Just an Item Object.
      */
-    public $item;
+    #[
+        Assert\Type(Item::class),
+        JMS\SerializedName("item"),
+        JMS\Type(Item::class),
+    ]
+    public ?Item $item = null;
 }

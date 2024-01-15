@@ -172,7 +172,7 @@ class Simple
         JMS\Type("DateTime"),
         SPL\Field(type: SPL_T_DATE)
     ]
-    public ?Datetime $date = null;
+    public ?DateTime $date = null;
 
     /**
      * Datetime Field
@@ -183,7 +183,7 @@ class Simple
         JMS\Type("DateTime"),
         SPL\Field(type: SPL_T_DATETIME)
     ]
-    public ?Datetime $datetime = null;
+    public ?DateTime $datetime = null;
 
     /**
      * Splash Price Field

@@ -19,7 +19,6 @@ use JMS\Serializer\Annotation as JMS;
 use Splash\Metadata\Attributes as SPL;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
 /**
  * Basic Object Api Metadata Model with Sub-Resource Fields.
  */
@@ -41,7 +40,7 @@ class SubResource
         JMS\Groups(array("Read", "Write", "List")),
         JMS\Type("string"),
     ]
-    public $id;
+    public string $id;
 
     /**
      * Object Name.

@@ -16,12 +16,9 @@
 namespace Splash\OpenApi\Bundle\Models\Metadata;
 
 use DateTime;
-use JMS\Serializer\Annotation\Groups;
-use JMS\Serializer\Annotation\SerializedName;
-use JMS\Serializer\Annotation\Type;
-use Symfony\Component\Validator\Constraints as Assert;
-use Splash\Metadata\Attributes as SPL;
 use JMS\Serializer\Annotation as JMS;
+use Splash\Metadata\Attributes as SPL;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Item Object Api Metadata Model with minimal Fields.
@@ -68,10 +65,10 @@ class Item
      * Item Datetime Field
      */
     #[
-        Assert\Type(Datetime::class),
+        Assert\Type(DateTime::class),
         JMS\SerializedName("datetime"),
-        JMS\Type(Datetime::class),
+        JMS\Type(DateTime::class),
         SPL\Field(desc: "Item Datetime Field"),
     ]
-    public ?Datetime $datetime = null;
+    public ?DateTime $datetime = null;
 }

@@ -35,8 +35,9 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
- * ReCommerce REST API Connector for Splash
+ * OpenApi REST API Connector for Splash
  *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class OpenApiConnector extends AbstractConnector implements TrackingInterface

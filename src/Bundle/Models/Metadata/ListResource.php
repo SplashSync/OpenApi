@@ -17,7 +17,6 @@ namespace Splash\OpenApi\Bundle\Models\Metadata;
 
 use JMS\Serializer\Annotation as JMS;
 use Splash\Metadata\Attributes as SPL;
-use Splash\Metadata\Test\Bundle\Entity\ChildEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -41,7 +40,7 @@ class ListResource
         JMS\Groups(array("Read", "Write", "List")),
         JMS\Type("string"),
     ]
-    public $id;
+    public string $id;
 
     /**
      * Object Name.
@@ -58,7 +57,7 @@ class ListResource
     public string $name;
 
     /**
-     * Just an Item Object.
+     * Just a List of Item Objects.
      */
     #[
         Assert\Type("array<".ListItem::class.">"),

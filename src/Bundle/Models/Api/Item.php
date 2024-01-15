@@ -16,9 +16,7 @@
 namespace Splash\OpenApi\Bundle\Models\Api;
 
 use DateTime;
-use JMS\Serializer\Annotation\Groups;
-use JMS\Serializer\Annotation\SerializedName;
-use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -27,52 +25,44 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Item
 {
     /**
-     * Name.
-     *
-     * @var string
-     *
-     * @SerializedName("name")
-     *
-     * @Assert\NotNull()
-     *
-     * @Assert\Type("string")
-     *
-     * @Type("string")
-     *
-     * @Groups ({"Read", "Write", "Required"})
+     * Item Name.
      */
-    public $name;
+    #[
+        Assert\NotNull(),
+        Assert\Type("string"),
+        JMS\SerializedName("name"),
+        JMS\Type("string"),
+        JMS\Groups(array("Read", "Write", "Required")),
+    ]
+    public string $name;
 
     /**
-     * @var null|bool
-     *
-     * @SerializedName("bool")
-     *
-     * @Assert\Type("bool")
-     *
-     * @Type("bool")
+     * Item Bool Field
      */
-    public $bool;
+    #[
+        Assert\Type("bool"),
+        JMS\SerializedName("bool"),
+        JMS\Type("bool"),
+    ]
+    public ?bool $bool = false;
 
     /**
-     * @var null|int
-     *
-     * @SerializedName("int")
-     *
-     * @Assert\Type("int")
-     *
-     * @Type("int")
+     * Item Integer Field
      */
-    public $int;
+    #[
+        Assert\Type("int"),
+        JMS\SerializedName("int"),
+        JMS\Type("int"),
+    ]
+    public ?int $int = null;
 
     /**
-     * @var null|Datetime
-     *
-     * @SerializedName("datetime")
-     *
-     * @Assert\Type("DateTime")
-     *
-     * @Type("DateTime")
+     * Item Datetime Field
      */
-    public $datetime;
+    #[
+        Assert\Type(DateTime::class),
+        JMS\SerializedName("datetime"),
+        JMS\Type(DateTime::class),
+    ]
+    public ?DateTime $datetime = null;
 }

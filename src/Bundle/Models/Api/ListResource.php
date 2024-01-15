@@ -15,9 +15,7 @@
 
 namespace Splash\OpenApi\Bundle\Models\Api;
 
-use JMS\Serializer\Annotation\Groups;
-use JMS\Serializer\Annotation\SerializedName;
-use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -27,48 +25,35 @@ class ListResource
 {
     /**
      * Unique Identifier.
-     *
-     * @var string
-     *
-     * @SerializedName("id")
-     *
-     * @Assert\NotNull()
-     *
-     * @Assert\Type("string")
-     *
-     * @Type("string")
-     *
-     * @Groups ({"Read", "Write", "List"})
      */
-    public $id;
+    #[
+        Assert\NotNull(),
+        Assert\Type("string"),
+        JMS\SerializedName("id"),
+        JMS\Groups(array("Read", "Write", "List")),
+        JMS\Type("string"),
+    ]
+    public string $id;
 
     /**
      * Object Name.
-     *
-     * @var string
-     *
-     * @SerializedName("name")
-     *
-     * @Assert\NotNull()
-     *
-     * @Assert\Type("string")
-     *
-     * @Type("string")
-     *
-     * @Groups ({"Read", "Write", "List", "Required"})
      */
-    public $name;
+    #[
+        Assert\NotNull(),
+        Assert\Type("string"),
+        JMS\SerializedName("name"),
+        JMS\Type("string"),
+        JMS\Groups(array("Read", "Write", "List", "Required")),
+    ]
+    public string $name;
 
     /**
-     * Just a Item Object.
-     *
-     * @var null|ListItem[]
-     *
-     * @SerializedName("items")
-     *
-     * @Assert\Type("array<Splash\OpenApi\Bundle\Models\Api\ListItem>")
-     *
-     * @Type("iterable<Splash\OpenApi\Bundle\Models\Api\ListItem>")
+     * Just a List of Item Objects.
      */
-    public $items;
+    #[
+        Assert\Type("array<".ListItem::class.">"),
+        JMS\SerializedName("items"),
+        JMS\Type("iterable<".ListItem::class.">"),
+    ]
+    public array $items = array();
 }

@@ -49,11 +49,6 @@ trait CRUDTrait
         //====================================================================//
         // Hydrate Object with Required Data
         $newObject = $this->visitor->getHydrator()->hydrate($newObjectArray, $model);
-        if (!$newObject) {
-            return Splash::log()->errNull(
-                "Create fail: Unable to Hydrate new Object."
-            );
-        }
         //====================================================================//
         // Create Remote Object
         $createResponse = $this->visitor->create($newObject);
