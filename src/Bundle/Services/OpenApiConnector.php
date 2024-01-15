@@ -17,11 +17,13 @@ namespace Splash\OpenApi\Bundle\Services;
 
 use ArrayObject;
 use Exception;
+use Psr\Log\LoggerInterface;
 use Splash\Bundle\Interfaces\Connectors\TrackingInterface;
 use Splash\Bundle\Models\AbstractConnector;
 use Splash\Bundle\Models\Connectors\GenericObjectMapperTrait;
 use Splash\Bundle\Models\Connectors\GenericWidgetMapperTrait;
 use Splash\Core\SplashCore as Splash;
+use Splash\Metadata\Services\MetadataAdapter;
 use Splash\OpenApi\Action;
 use Splash\OpenApi\Bundle\Form\EditFormType;
 use Splash\OpenApi\Bundle\Objects;
@@ -29,6 +31,7 @@ use Splash\OpenApi\Connexion\JsonConnexion;
 use Splash\OpenApi\Fields\Descriptor;
 use Splash\OpenApi\Hydrator\Hydrator;
 use Splash\OpenApi\Models\Connexion\ConnexionInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
@@ -50,6 +53,9 @@ class OpenApiConnector extends AbstractConnector implements TrackingInterface
         "Simple" => Objects\Simple::class,
         "SubResource" => Objects\SubResource::class,
         "ListResource" => Objects\ListResource::class,
+        "MetaSimple" => Objects\Metadata\Simple::class,
+        "MetaSubResource" => Objects\Metadata\SubResource::class,
+        "MetaListResource" => Objects\Metadata\ListResource::class,
     );
 
     /**
@@ -77,6 +83,17 @@ class OpenApiConnector extends AbstractConnector implements TrackingInterface
      * @var string
      */
     private string $metaDir;
+
+    /**
+     * Splash Connector Constructor
+     */
+    public function __construct(
+        protected readonly MetadataAdapter   $metadataAdapter,
+        EventDispatcherInterface $eventDispatcher,
+        LoggerInterface          $logger
+    ) {
+        parent::__construct($eventDispatcher, $logger);
+    }
 
     /**
      * Setup Cache Dir for Metadata
@@ -359,5 +376,13 @@ class OpenApiConnector extends AbstractConnector implements TrackingInterface
         }
 
         return $this->hydrator;
+    }
+
+    /**
+     * Get Splash Metadata Adapter
+     */
+    public function getMetadataAdapter(): MetadataAdapter
+    {
+        return $this->metadataAdapter;
     }
 }

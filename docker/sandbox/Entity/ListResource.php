@@ -83,17 +83,14 @@ class ListResource
      */
     public function setItems(?array $items): self
     {
+        $items ??= array();
+        // Remove All Items
         foreach ($this->items as $item) {
             $this->items->removeElement($item);
         }
-
-        if (is_array($items)) {
-            foreach ($items as &$item) {
-                $item->parent = $this;
-            }
-        }
-
+        // Insert All New Items
         foreach ($items as $item) {
+            $item->parent = $this;
             $this->items->add($item);
         }
 

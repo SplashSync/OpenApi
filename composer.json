@@ -31,9 +31,10 @@
     },
 
     "require": {
-        "php":                                          "^8.0",
+        "php":                                          "^8.1",
         "ext-json":                                     "*",
         "splash/php-bundle":                            "dev-master",
+        "splash/metadata":                              "dev-master",
         "nategood/httpful":                             "^0.2|^0.3",
         "jms/serializer":                               "^3"
     },

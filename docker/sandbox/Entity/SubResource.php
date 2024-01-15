@@ -54,8 +54,7 @@ class SubResource
      * Just an Item Object.
      */
     #[
-        Assert\NotNull,
-        Assert\Type("string"),
+        Assert\Type(Item::class),
         ORM\OneToOne(targetEntity: Item::class, cascade: array("all")),
         ORM\JoinColumn(referencedColumnName:"id", unique:true, nullable:true),
     ]

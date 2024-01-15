@@ -26,7 +26,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class ListResource
 {
     /**
-     * Unique identifier .
+     * Unique Identifier.
      *
      * @var string
      *
