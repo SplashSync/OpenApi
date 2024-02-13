@@ -205,7 +205,7 @@ class Simple
     public $countryId;
 
     /**
-     * @var Datetime
+     * @var DateTime
      *
      * @SerializedName("date")
      *
@@ -216,7 +216,7 @@ class Simple
     public $date;
 
     /**
-     * @var Datetime
+     * @var DateTime
      *
      * @SerializedName("datetime")
      *

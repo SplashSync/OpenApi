@@ -37,10 +37,10 @@ abstract class AbstractApiObject extends AbstractStandaloneObject
     use ObjectsTrait;
     use ListsTrait;
 
-    use ApiModels\CRUDTrait;
+    use CRUDTrait;
     use ApiModels\SimpleFieldsTrait;
-    use ApiModels\ListFieldsGetTrait;
-    use ApiModels\ListFieldsSetTrait;
+    use ListFieldsGetTrait;
+    use ListFieldsSetTrait;
 
     //====================================================================//
     // Open Api Variables
