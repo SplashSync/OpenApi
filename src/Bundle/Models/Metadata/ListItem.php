@@ -13,26 +13,25 @@
  *  file that was distributed with this source code.
  */
 
-namespace Splash\OpenApi\Bundle\Models\Api;
+namespace Splash\OpenApi\Bundle\Models\Metadata;
 
 use JMS\Serializer\Annotation as JMS;
-use Splash\OpenApi\Validator as SPL;
+use Splash\Metadata\Attributes as SPL;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Item Object Model with minimal Fields.
+ * Item List Object Model with minimal Fields.
  */
 class ListItem extends Item
 {
     /**
      * Item Price
-     *
-     * @SPL\Type("price")
      */
     #[
         Assert\Type("array"),
         JMS\SerializedName("price"),
-        JMS\Type("array")
+        JMS\Type("array"),
+        SPL\Field(type: SPL_T_PRICE, desc: "Item Price"),
     ]
     public ?array $price = null;
 }

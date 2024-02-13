@@ -16,97 +16,90 @@
 namespace App\Entity;
 
 use Datetime;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Splash\Client\Splash;
 use Splash\Models\Helpers\PricesHelper;
 use Splash\Templates\Local\Local;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Item Object Model with minimal Fields.
- *
- * @ORM\Entity
  */
+#[
+    ORM\Entity()
+]
 class ListItem
 {
     /**
-     * Unique identifier.
-     *
-     * @var int
-     *
-     * @ORM\Id
-     *
-     * @ORM\GeneratedValue
-     *
-     * @ORM\Column(type="integer")
-     *
-     * @Assert\NotNull()
-     *
-     * @Assert\Type("integer")
-     *
-     * @Groups ({"read"})
+     * Unique Identifier.
      */
-    public $id;
+    #[
+        Assert\Type("integer"),
+        ORM\Id,
+        ORM\GeneratedValue,
+        ORM\Column(type: Types::INTEGER),
+        JMS\Groups(array("read"))
+    ]
+    public int $id;
 
     /**
-     * Parent
-     *
-     * @var ListResource
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\ListResource", inversedBy="items")
+     * Parent Object
      */
-    public $parent;
+    #[
+        ORM\ManyToOne(targetEntity: ListResource::class, inversedBy: "items"),
+    ]
+    public ListResource $parent;
 
     /**
      * Name.
-     *
-     * @var string
-     *
-     * @Assert\NotNull()
-     *
-     * @Assert\Type("string")
-     *
-     * @ORM\Column
      */
-    public $name;
+    #[
+        Assert\NotNull,
+        Assert\Type("string"),
+        ORM\Column(),
+    ]
+    public string $name;
 
     /**
-     * @var null|bool
-     *
-     * @Assert\Type("bool")
-     *
-     * @ORM\Column(type="boolean", nullable=true)
+     * Boolean Flag
      */
-    public $bool;
+    #[
+        Assert\Type("bool"),
+        ORM\Column(type: Types::BOOLEAN, nullable: true),
+    ]
+    public ?bool $bool = null;
 
     /**
-     * @var null|int
-     *
-     * @Assert\Type("int")
-     *
-     * @ORM\Column(type="integer", nullable=true)
+     * Integer Value
      */
-    public $int;
+    #[
+        Assert\Type("int"),
+        ORM\Column(type: Types::INTEGER, nullable: true),
+    ]
+    public ?int $int = null;
 
     /**
-     * @var null|Datetime
-     *
-     * @ORM\Column(type="datetime", nullable=true)
+     * DateTime Value
      */
-    public $datetime;
+    #[
+        Assert\Type("datetime"),
+        ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true),
+    ]
+    public ?Datetime $datetime = null;
 
     /**
-     * @var null|array
-     *
-     * @ORM\Column(type="array", nullable=true)
+     * Item Price
      */
-    protected $price;
+    #[
+        Assert\Type("array"),
+        ORM\Column(type: Types::JSON, nullable: true),
+    ]
+    protected ?array $price = null;
 
     /**
-     * @param null|array $price
-     *
-     * @return self
+     * Set Item Price
      */
     public function setPrice(?array $price): self
     {
@@ -116,7 +109,7 @@ class ListItem
     }
 
     /**
-     * @return array
+     * Get Item Price
      */
     public function getPrice(): array
     {

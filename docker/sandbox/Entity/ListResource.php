@@ -15,57 +15,53 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation as API;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Basic Object Model with List Resource Fields.
- *
- * @ApiResource()
- *
- * @ORM\Entity
  */
+#[
+    API\ApiResource,
+    ORM\Entity()
+]
 class ListResource
 {
     /**
-     * Unique identifier .
-     *
-     * @var int
-     *
-     * @ORM\Id
-     *
-     * @ORM\GeneratedValue
-     *
-     * @ORM\Column(type="integer")
-     *
-     * @Assert\Type("integer")
+     * Unique Identifier.
      */
-    public $id;
+    #[
+        Assert\Type("integer"),
+        ORM\Id,
+        ORM\GeneratedValue,
+        ORM\Column(type: Types::INTEGER),
+    ]
+    public int $id;
 
     /**
-     * Object Name.
-     *
-     * @var string
-     *
-     * @Assert\NotNull()
-     *
-     * @Assert\Type("string")
-     *
-     * @ORM\Column
+     * Name.
      */
-    public $name;
+    #[
+        Assert\NotNull,
+        Assert\Type("string"),
+        ORM\Column(),
+    ]
+    public string $name;
 
     /**
-     * Just a Item Object.
-     *
-     * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\ListItem", mappedBy="parent", cascade={"all"}, orphanRemoval=true)
+     * Object Linked Items.
      */
-    protected $items;
+    #[ORM\OneToMany(
+        mappedBy: "parent",
+        targetEntity: ListItem::class,
+        cascade: array("all"),
+        orphanRemoval: true
+    )]
+    protected Collection $items;
 
     public function __construct()
     {
@@ -87,16 +83,16 @@ class ListResource
      */
     public function setItems(?array $items): self
     {
+        $items ??= array();
+        // Remove All Items
         foreach ($this->items as $item) {
             $this->items->removeElement($item);
         }
-
-        if (is_array($items)) {
-            foreach ($items as &$item) {
-                $item->parent = $this;
-            }
+        // Insert All New Items
+        foreach ($items as $item) {
+            $item->parent = $this;
+            $this->items->add($item);
         }
-        $this->items = $items;
 
         return $this;
     }

@@ -13,15 +13,21 @@
  *  file that was distributed with this source code.
  */
 
-namespace Splash\OpenApi\Bundle\Models\Api;
+namespace Splash\OpenApi\Bundle\Models\Metadata;
 
 use JMS\Serializer\Annotation as JMS;
-use Splash\OpenApi\Bundle\Models\Metadata\Item;
+use Splash\Metadata\Attributes as SPL;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Basic Object Model with Sub-Resource Fields.
+ * Basic Object Api Metadata Model with Sub-Resource Fields.
  */
+#[SPL\SplashObject(
+    type: "SubResourceWithMeta",
+    name: "SubResource with Metadata",
+    description: "SubResource Open API Object by Attributes",
+    ico: "fa fa-list"
+)]
 class SubResource
 {
     /**
@@ -45,6 +51,8 @@ class SubResource
         JMS\SerializedName("name"),
         JMS\Type("string"),
         JMS\Groups(array("Read", "Write", "List", "Required")),
+        SPL\Flags(listed: true),
+        SPL\IsRequired,
     ]
     public string $name;
 
@@ -55,6 +63,18 @@ class SubResource
         Assert\Type(Item::class),
         JMS\SerializedName("item"),
         JMS\Type(Item::class),
+        SPL\SubResource(),
+        SPL\Accessor(factory: "createItem"),
     ]
     public ?Item $item = null;
+
+    /**
+     * Item Factory for Field Accessor
+     */
+    public function createItem(): ?Item
+    {
+        $this->item = new Item();
+
+        return $this->item;
+    }
 }

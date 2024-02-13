@@ -13,16 +13,22 @@
  *  file that was distributed with this source code.
  */
 
-namespace Splash\OpenApi\Bundle\Models\Api;
+namespace Splash\OpenApi\Bundle\Models\Metadata;
 
 use JMS\Serializer\Annotation as JMS;
-use Splash\OpenApi\Bundle\Models\Metadata\Item;
+use Splash\Metadata\Attributes as SPL;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Basic Object Model with Sub-Resource Fields.
+ * Basic Object Model with List-Resource Fields.
  */
-class SubResource
+#[SPL\SplashObject(
+    type: "ListResourceWithMeta",
+    name: "List Resource with Metadata",
+    description: "List Resource Open API Object by Attributes",
+    ico: "fa fa-list"
+)]
+class ListResource
 {
     /**
      * Unique Identifier.
@@ -45,16 +51,28 @@ class SubResource
         JMS\SerializedName("name"),
         JMS\Type("string"),
         JMS\Groups(array("Read", "Write", "List", "Required")),
+        SPL\Flags(listed: true),
+        SPL\IsRequired,
     ]
     public string $name;
 
     /**
-     * Just an Item Object.
+     * Just a List of Item Objects.
      */
     #[
-        Assert\Type(Item::class),
-        JMS\SerializedName("item"),
-        JMS\Type(Item::class),
+        Assert\Type("array<".ListItem::class.">"),
+        JMS\SerializedName("items"),
+        JMS\Type("iterable<".ListItem::class.">"),
+        SPL\ListResource(targetClass: ListItem::class),
+        SPL\Accessor(factory: "createItem")
     ]
-    public ?Item $item = null;
+    public array $items = array();
+
+    /**
+     * ListItem Factory for Field Accessor
+     */
+    public function createItem(): ?ListItem
+    {
+        return new ListItem();
+    }
 }
