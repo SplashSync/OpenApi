@@ -13,14 +13,14 @@
  *  file that was distributed with this source code.
  */
 
-namespace Splash\OpenApi\Models\Objects;
+namespace Splash\OpenApi\Models\Metadata;
 
 use Exception;
 use Splash\Core\SplashCore      as Splash;
-use Splash\OpenApi\Fields as ApiFields;
+use Splash\OpenApi\Models\Objects\CRUDCoreTrait;
 
 /**
- * Splash Open Api Object CRUD Functions
+ * Splash Open Api with Metadata Object CRUD Functions
  */
 trait CRUDTrait
 {
@@ -39,11 +39,16 @@ trait CRUDTrait
         // Stack Trace
         Splash::log()->trace();
         //====================================================================//
-        // Collect Required Fields
-        $newObject = ApiFields\Getter::getRequiredFields($this->visitor, (object) $this->in);
-        if (!$newObject) {
-            return null;
+        // Collect Required Fields from Inputs
+        $newObjectArray = array();
+        $model = $this->visitor->getModel();
+        $requiredFields = $this->metadataAdapter->getRequiredFields($model);
+        foreach ($requiredFields as $requiredField) {
+            $newObjectArray[$requiredField->id] = $this->metadataAdapter->getData($requiredField, (object) $this->in);
         }
+        //====================================================================//
+        // Hydrate Object with Required Data
+        $newObject = $this->visitor->getHydrator()->hydrate($newObjectArray, $model);
         //====================================================================//
         // Create Remote Object
         $createResponse = $this->visitor->create($newObject);
@@ -54,7 +59,6 @@ trait CRUDTrait
         }
         //====================================================================//
         // Verify Returned Object Type
-        $model = $this->visitor->getModel();
         $object = $createResponse->getResults();
 
         return ($object instanceof $model) ? $object : null;

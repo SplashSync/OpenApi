@@ -15,59 +15,50 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation as API;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Basic Object Model with Sub-Resource Fields.
- *
- * @ApiResource()
- *
- * @ORM\Entity
  */
+#[
+    API\ApiResource,
+    ORM\Entity()
+]
 class SubResource
 {
     /**
-     * Unique identifier .
-     *
-     * @var int
-     *
-     * @ORM\Id
-     *
-     * @ORM\GeneratedValue
-     *
-     * @ORM\Column(type="integer")
-     *
-     * @Assert\Type("integer")
+     * Unique Identifier.
      */
-    public $id;
+    #[
+        Assert\Type("integer"),
+        ORM\Id,
+        ORM\GeneratedValue,
+        ORM\Column(type: Types::INTEGER),
+    ]
+    public int $id;
 
     /**
      * Object Name.
-     *
-     * @var string
-     *
-     * @Assert\NotNull()
-     *
-     * @Assert\Type("string")
-     *
-     * @ORM\Column
      */
-    public $name;
+    #[
+        Assert\NotNull,
+        Assert\Type("string"),
+        ORM\Column(),
+    ]
+    public string $name;
 
     /**
-     * Just a Item Object.
-     *
-     * @var null|Item
-     *
-     * @Assert\Type("App\Entity\Item")
-     *
-     * @ORM\OneToOne(targetEntity="App\Entity\Item", cascade={"all"})
-     *
-     * @ORM\JoinColumn(referencedColumnName="id", unique=true, nullable=true)
+     * Just an Item Object.
      */
-    protected $item;
+    #[
+        Assert\Type(Item::class),
+        ORM\OneToOne(targetEntity: Item::class, cascade: array("all")),
+        ORM\JoinColumn(referencedColumnName:"id", unique:true, nullable:true),
+    ]
+    protected ?Item $item;
 
     /**
      * @return null|Item
@@ -83,7 +74,7 @@ class SubResource
     /**
      * @param Item $item
      */
-    public function setItem(Item $item)
+    public function setItem(Item $item): void
     {
         $item->parent = $this;
         $this->item = $item;

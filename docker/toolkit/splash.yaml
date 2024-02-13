@@ -19,5 +19,5 @@ splash:
             # FAKE CREDENTIALS : ASK YOURS TO YOUR MAIN RECOMMERCE CONTACT
             ########################################################################
             config:
-                WsHost:         http://openapi
+                WsHost:         http://sandbox.open-api.local
                 ApiKey:         ThisIsSecretApiKey

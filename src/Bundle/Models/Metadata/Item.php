@@ -13,14 +13,15 @@
  *  file that was distributed with this source code.
  */
 
-namespace Splash\OpenApi\Bundle\Models\Api;
+namespace Splash\OpenApi\Bundle\Models\Metadata;
 
 use DateTime;
 use JMS\Serializer\Annotation as JMS;
+use Splash\Metadata\Attributes as SPL;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Item Object Model with minimal Fields.
+ * Item Object Api Metadata Model with minimal Fields.
  */
 class Item
 {
@@ -33,6 +34,8 @@ class Item
         JMS\SerializedName("name"),
         JMS\Type("string"),
         JMS\Groups(array("Read", "Write", "Required")),
+        SPL\Field(desc: "Item Name"),
+        SPL\IsRequired,
     ]
     public string $name;
 
@@ -43,8 +46,9 @@ class Item
         Assert\Type("bool"),
         JMS\SerializedName("bool"),
         JMS\Type("bool"),
+        SPL\Field(desc: "Item Bool Field"),
     ]
-    public ?bool $bool = false;
+    public ?bool $bool = null;
 
     /**
      * Item Integer Field
@@ -53,6 +57,7 @@ class Item
         Assert\Type("int"),
         JMS\SerializedName("int"),
         JMS\Type("int"),
+        SPL\Field(desc: "Item Integer Field"),
     ]
     public ?int $int = null;
 
@@ -63,6 +68,7 @@ class Item
         Assert\Type(DateTime::class),
         JMS\SerializedName("datetime"),
         JMS\Type(DateTime::class),
+        SPL\Field(desc: "Item Datetime Field"),
     ]
     public ?DateTime $datetime = null;
 }

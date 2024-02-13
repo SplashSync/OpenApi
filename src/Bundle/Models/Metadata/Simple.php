@@ -13,18 +13,24 @@
  *  file that was distributed with this source code.
  */
 
-namespace Splash\OpenApi\Bundle\Models\Api;
+namespace Splash\OpenApi\Bundle\Models\Metadata;
 
 use DateTime;
 use JMS\Serializer\Annotation as JMS;
-use Splash\OpenApi\Validator as SPL;
+use Splash\Metadata\Attributes as SPL;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Api Model for Simple Object: Basic Fields.
+ * Api Metadata Model for Simple Object: Basic Fields.
  *
  * @SuppressWarnings(PHPMD.TooManyFields)
  */
+#[SPL\SplashObject(
+    type: "SimpleWithMeta",
+    name: "Simple with Metadata",
+    description: "Simple Open API Object by Attributes",
+    ico: "fa fa-cube"
+)]
 class Simple
 {
     /**
@@ -41,8 +47,6 @@ class Simple
 
     /**
      * Client's firstname.
-     *
-     * @SPL\Description("This is First Name")
      */
     #[
         Assert\NotNull(),
@@ -50,13 +54,14 @@ class Simple
         JMS\SerializedName("firstname"),
         JMS\Type("string"),
         JMS\Groups(array("Read", "Write", "List", "Required")),
+        SPL\Field(desc: "This is First Name"),
+        SPL\Flags(listed: true),
+        SPL\IsRequired,
     ]
     public string $firstname;
 
     /**
      * Client's lastname.
-     *
-     * @SPL\Description("This is Last Name")
      */
     #[
         Assert\NotNull(),
@@ -64,30 +69,31 @@ class Simple
         JMS\SerializedName("lastname"),
         JMS\Type("string"),
         JMS\Groups(array("Read", "Write", "List", "Required")),
+        SPL\Field(desc: "This is Last Name"),
+        SPL\Flags(listed: true),
+        SPL\IsRequired,
     ]
     public string $lastname;
 
     /**
      * Client's email.
-     *
-     * @SPL\Type("email")
      */
     #[
         Assert\Type("string"),
         JMS\SerializedName("email"),
         JMS\Type("string"),
+        SPL\Field(type: SPL_T_EMAIL, desc: "This is User Email"),
     ]
     public ?string $email = null;
 
     /**
      * Client's phone.
-     *
-     * @SPL\Type("phone")
      */
     #[
         Assert\Type("string"),
         JMS\SerializedName("phone"),
         JMS\Type("string"),
+        SPL\Field(type: SPL_T_PHONE, desc: "This is User Phone"),
     ]
     public ?string $phone = null;
 
@@ -98,8 +104,9 @@ class Simple
         Assert\Type("bool"),
         JMS\SerializedName("bool"),
         JMS\Type("bool"),
+        SPL\Field(),
     ]
-    public ?bool $bool = false;
+    public ?bool $bool = null;
 
     /**
      * Just an integer.
@@ -108,116 +115,108 @@ class Simple
         Assert\Type("int"),
         JMS\SerializedName("int"),
         JMS\Type("int"),
+        SPL\Field(),
     ]
     public ?int $int = null;
 
     /**
      * Client's website Url.
-     *
-     * @SPL\Type("url")
      */
     #[
         Assert\Type("string"),
         JMS\SerializedName("website"),
         JMS\Type("string"),
+        SPL\Field(type: SPL_T_URL)
     ]
     public ?string $website = null;
 
     /**
      * ISO Language
-     *
-     * @SPL\Type("lang")
      */
     #[
         Assert\Type("string"),
         JMS\SerializedName("language"),
         JMS\Type("string"),
+        SPL\Field(type: SPL_T_LANG)
     ]
     public ?string $language = null;
 
     /**
      * ISO Currency
-     *
-     * @SPL\Type("currency")
      */
     #[
         Assert\Type("string"),
         JMS\SerializedName("currency"),
         JMS\Type("string"),
+        SPL\Field(type: SPL_T_CURRENCY)
     ]
     public ?string $currency = null;
 
     /**
      * Address country as ISO_3166-1 alpha-3.
-     *
-     * @SPL\Type("country")
      */
     #[
         Assert\Type("string"),
         JMS\SerializedName("countryId"),
         JMS\Type("string"),
+        SPL\Field(type: SPL_T_COUNTRY)
     ]
     public ?string $countryId = null;
 
     /**
      * Date Field
-     *
-     * @SPL\Type("date")
      */
     #[
         Assert\Type("datetime"),
         JMS\SerializedName("date"),
         JMS\Type("DateTime"),
+        SPL\Field(type: SPL_T_DATE)
     ]
     public ?DateTime $date = null;
 
     /**
      * Datetime Field
-     *
-     * @SPL\Type("datetime")
      */
     #[
         Assert\Type("datetime"),
         JMS\SerializedName("datetime"),
         JMS\Type("DateTime"),
+        SPL\Field(type: SPL_T_DATETIME)
     ]
     public ?DateTime $datetime = null;
 
     /**
      * Splash Price Field
-     *
-     * @SPL\Type("price")
      */
     #[
         Assert\Type("array"),
         JMS\SerializedName("price"),
         JMS\Type("array"),
+        SPL\Field(type: SPL_T_PRICE)
     ]
     public ?array $price = null;
 
     /**
      * Splash Image Field
-     *
-     * @SPL\Type("image")
      */
     #[
         Assert\Type("array"),
         JMS\SerializedName("image"),
         JMS\Type("array"),
-        JMS\Groups(array("Read")),
+        SPL\Field(type: SPL_T_IMG),
+        SPL\IsReadOnly,
     ]
     public ?array $image = null;
 
     /**
      * Splash File Field
-     *
-     * @SPL\Type("file")
      */
     #[
         Assert\Type("array"),
         JMS\SerializedName("file"),
         JMS\Type("array"),
-        JMS\Groups(array("Read")),
+        SPL\Field(type: SPL_T_FILE),
+        SPL\IsReadOnly,
     ]
     public ?array $file = null;
 }

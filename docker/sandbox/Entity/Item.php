@@ -16,119 +16,73 @@
 namespace App\Entity;
 
 use Datetime;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Splash\Client\Splash;
-use Splash\Models\Helpers\PricesHelper;
-use Splash\Templates\Local\Local;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Item Object Model with minimal Fields.
- *
- * @ORM\Entity
  */
+#[
+    ORM\Entity()
+]
 class Item
 {
     /**
-     * Unique identifier.
-     *
-     * @var int
-     *
-     * @ORM\Id
-     *
-     * @ORM\GeneratedValue
-     *
-     * @ORM\Column(type="integer")
-     *
-     * @Assert\NotNull()
-     *
-     * @Assert\Type("integer")
-     *
-     * @Groups ({"read"})
+     * Unique Identifier.
      */
-    public $id;
+    #[
+        Assert\Type("integer"),
+        ORM\Id,
+        ORM\GeneratedValue,
+        ORM\Column(type: Types::INTEGER),
+        JMS\Groups(array("read"))
+    ]
+    public int $id;
 
     /**
-     * Parent
-     *
-     * @var SubResource
-     *
-     * @ORM\OneToOne(targetEntity="App\Entity\SubResource", inversedBy="item")
+     * Parent Object
      */
-    public $parent;
+    #[
+        ORM\OneToOne(inversedBy: "item", targetEntity: SubResource::class),
+    ]
+    public SubResource $parent;
 
     /**
      * Name.
-     *
-     * @var string
-     *
-     * @Assert\NotNull()
-     *
-     * @Assert\Type("string")
-     *
-     * @ORM\Column
      */
-    public $name;
+    #[
+        Assert\NotNull,
+        Assert\Type("string"),
+        ORM\Column(),
+    ]
+    public string $name;
 
     /**
-     * @var null|bool
-     *
-     * @Assert\Type("bool")
-     *
-     * @ORM\Column(type="boolean", nullable=true)
+     * Boolean Flag
      */
-    public $bool;
+    #[
+        Assert\Type("bool"),
+        ORM\Column(type: Types::BOOLEAN, nullable: true),
+    ]
+    public ?bool $bool = null;
 
     /**
-     * @var null|int
-     *
-     * @Assert\Type("int")
-     *
-     * @ORM\Column(type="integer", nullable=true)
+     * Integer Value
      */
-    public $int;
+    #[
+        Assert\Type("int"),
+        ORM\Column(type: Types::INTEGER, nullable: true),
+    ]
+    public ?int $int = null;
 
     /**
-     * @var null|Datetime
-     *
-     * @ORM\Column(type="datetime", nullable=true)
+     * DateTime Value
      */
-    public $datetime;
-
-    //    /**
-    //     * @var null|array
-    //     *
-    //     * @ORM\Column(type="array", nullable=true)
-    //     */
-    //    protected $price;
-    //
-    //    /**
-    //     * @param array|null $price
-    //     *
-    //     * @return self
-    //     */
-    //    public function setPrice(?array $price): self
-    //    {
-    //        $this->price = $price;
-    //
-    //        return $this;
-    //    }
-    //
-    //    /**
-    //     * @return array
-    //     */
-    //    public function getPrice(): array
-    //    {
-    //        if (empty($this->price)) {
-    //            //====================================================================//
-    //            // Init Splash Framework
-    //            Splash::setLocalClass(new Local());
-    //            //====================================================================//
-    //            // Encode Splash Price Array
-    //            $this->price = PricesHelper::encode((float) rand(10, 100), 20.0, null, "EUR");
-    //        }
-    //
-    //        return $this->price;
-    //    }
+    #[
+        Assert\Type("datetime"),
+        ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true),
+    ]
+    public ?Datetime $datetime = null;
 }
