@@ -15,7 +15,7 @@
 
 namespace Splash\OpenApi\Models\Objects;
 
-use Splash\Core\SplashCore      as Splash;
+use Splash\Core\SplashCore as Splash;
 
 /**
  * Splash Open Api Object Core CRUD Functions

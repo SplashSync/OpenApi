@@ -16,7 +16,7 @@
 namespace Splash\OpenApi\Models\Metadata;
 
 use Exception;
-use Splash\Core\SplashCore      as Splash;
+use Splash\Core\SplashCore as Splash;
 use Splash\OpenApi\Models\Objects\CRUDCoreTrait;
 
 /**

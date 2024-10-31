@@ -16,7 +16,7 @@
 namespace Splash\OpenApi\Bundle\Widgets;
 
 use Splash\Bundle\Models\AbstractStandaloneWidget;
-use Splash\Core\SplashCore      as Splash;
+use Splash\Core\SplashCore as Splash;
 use Splash\OpenApi\Bundle\Services\OpenApiConnector;
 
 /**

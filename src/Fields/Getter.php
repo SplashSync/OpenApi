@@ -17,7 +17,7 @@ namespace Splash\OpenApi\Fields;
 
 use DateTime;
 use Exception;
-use Splash\Core\SplashCore      as Splash;
+use Splash\Core\SplashCore as Splash;
 use Splash\Models\Fields\FieldsManagerTrait;
 use Splash\Models\Helpers;
 use Splash\OpenApi\Visitor\AbstractVisitor;

@@ -16,7 +16,7 @@
 namespace Splash\OpenApi\Models\Objects;
 
 use Exception;
-use Splash\Core\SplashCore      as Splash;
+use Splash\Core\SplashCore as Splash;
 use Splash\OpenApi\Fields as ApiFields;
 
 /**
