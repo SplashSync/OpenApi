@@ -40,15 +40,19 @@ trait CRUDTrait
         Splash::log()->trace();
         //====================================================================//
         // Collect Required Fields from Inputs
-        $newObjectArray = array();
         $model = $this->visitor->getModel();
         $requiredFields = $this->metadataAdapter->getRequiredFields($model);
-        foreach ($requiredFields as $requiredField) {
-            $newObjectArray[$requiredField->id] = $this->metadataAdapter->getData($requiredField, (object) $this->in);
-        }
         //====================================================================//
-        // Hydrate Object with Required Data
-        $newObject = $this->visitor->getHydrator()->hydrate($newObjectArray, $model);
+        // Hydrate Object with Required Data Only
+        $newObject = $this->visitor->getHydrator()->hydrate(
+            array_intersect_key($this->in, $requiredFields),
+            $model
+        );
+        foreach ($requiredFields as $fieldId => $requiredField) {
+            if ($value = $this->in[$fieldId] ?? null) {
+                $this->metadataAdapter->setData($requiredField, $newObject, $value);
+            }
+        }
         //====================================================================//
         // Create Remote Object
         $createResponse = $this->visitor->create($newObject);
