@@ -132,7 +132,7 @@ abstract class AbstractConnexion implements ConnexionInterface
         //====================================================================//
         // Perform Request
         try {
-            $this->lastResponse = Request::get($uri)->sendsPlain()->send();
+            $this->lastResponse = Request::get($uri)->send();
         } catch (ConnectionErrorException $ex) {
             Splash::log()->err($ex->getMessage());
 
