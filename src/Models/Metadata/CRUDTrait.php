@@ -41,7 +41,10 @@ trait CRUDTrait
         //====================================================================//
         // Collect Required Fields from Inputs
         $model = $this->visitor->getModel();
-        $requiredFields = $this->metadataAdapter->getRequiredFields($model);
+        $requiredFields = array_replace_recursive(
+            $this->metadataAdapter->getRequiredFields($model),
+            $this->metadataAdapter->getOnCreateFields($model),
+        );
         //====================================================================//
         // Hydrate Object with Required Data Only
         $newObject = $this->visitor->getHydrator()->hydrate(
