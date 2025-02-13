@@ -110,6 +110,14 @@ abstract class AbstractConnexion implements ConnexionInterface
         Request::ini($this->template);
     }
 
+    /**
+     * Clone Connexion also Clone Request Template
+     */
+    public function __clone(): void
+    {
+        $this->template = clone $this->template;
+    }
+
     //====================================================================//
     // API Requests
     //====================================================================//
